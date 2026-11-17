@@ -30,7 +30,8 @@ struct Storage {QString id,name;int capacity=8;QMap<QString,int> contents;};
 struct GameScript {QString id,name,source;};
 struct Timer {QString id,name,source;int interval=60;bool repeat=false,autostart=false,pauseDialogue=true;};
 struct NpcTemplate {QString id,name;Actor actor;};
-struct Scene {QString id,name;};
+struct ScreenElement {QString id,name,type="text",text,image,condition,actions;QRect rect{2,2,16,2};int align=0;};
+struct Scene {QString id,name;QString kind="screen",startArea,onSceneEnter,onBack;QVector<ScreenElement> elements;quint16 background=quint16(29|(29<<5)|(25<<10));};
 struct MapGroup {QString id,name,scene;};
 struct WorldObject {QString id,name,kind="storage",storage,onInteract,onHit;int x=4,y=4,tile=0;bool solid=true;};
 struct TerrainEvent {int tile=0,every=1,chance=25;QString script;};
@@ -77,12 +78,18 @@ struct Project {
     int variableIndex(QString id) const;
     int itemIndex(const QString &) const;
     int storageIndex(const QString &) const;
+    QString defaultScene="scene_main";int splashTicks=120;
     QString entry;
     QVector<Prompt> prompts;
     QVector<RasterAsset> assets;
     World world;
     QVector<World> areas; // additional areas; world is the starting area
     QVector<World> allAreas() const;
+    QVector<World> runtimeAreas() const;
+    QString areaScene(const QString &) const;
+    int sceneIndex(const QString &) const;
+    bool hasWorldScenes() const;
+    void migrateScenes();
     Project isolatedArea(int index) const;
     Project isolatedPrompt(const QString &id) const;
     const RasterAsset *asset(const QString &id) const;
@@ -92,6 +99,7 @@ struct Project {
     bool save(const QString &, QString &error) const;
     QStringList validate() const;
     int indexOf(const QString &) const;
+    static Project blank();
     static Project example();
     static Project overworldExample();
     static Project pokemonExample();

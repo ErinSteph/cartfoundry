@@ -19,6 +19,8 @@ cf_project_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
   /Users/erin/Dev/CartFoundry/editor/src/pokemon_example.cpp \
   /Users/erin/Dev/CartFoundry/editor/src/project.cpp \
   /Users/erin/Dev/CartFoundry/editor/src/project.h \
+  /Users/erin/Dev/CartFoundry/editor/src/screen_model.cpp \
+  /Users/erin/Dev/CartFoundry/editor/src/screen_model.h \
   /Users/erin/Dev/CartFoundry/editor/src/world_model.cpp \
   /Users/erin/Dev/CartFoundry/runtime/cf_animation.c \
   /Users/erin/Dev/CartFoundry/runtime/cf_animation.h \
@@ -529,13 +531,11 @@ cf_project_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QICOPluginConfig.cmake:
 
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QWebpPluginConfig.cmake:
+/opt/homebrew/opt/qt/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets.cmake:
 
-/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6CoreTargetsPrecheck.cmake:
+/opt/homebrew/opt/qt/lib/cmake/Qt6Widgets/Qt6QMacStylePluginTargetsPrecheck.cmake:
 
-/opt/homebrew/opt/qt/lib/cmake/Qt6DBusTools/Qt6DBusToolsConfigVersion.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QICNSPluginTargets.cmake:
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QICNSPluginTargetsPrecheck.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QICNSPluginAdditionalTargetInfo.cmake:
 
@@ -557,6 +557,8 @@ cf_project_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6GuiConfigVersionImpl.cmake:
 
+/Users/erin/Dev/CartFoundry/editor/src/screen_model.cpp:
+
 /opt/homebrew/lib/cmake/Qt6/QtPublicPluginHelpers_v2.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6DBusTools/Qt6DBusToolsTargets.cmake:
@@ -574,6 +576,14 @@ cf_project_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QMacHeifPluginTargets-release.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6DBusTools/Qt6DBusToolsConfigVersionImpl.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QWebpPluginConfig.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QICNSPluginTargets.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6CoreTargetsPrecheck.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6DBusTools/Qt6DBusToolsConfigVersion.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6GuiTargetsPrecheck.cmake:
 
@@ -639,9 +649,9 @@ cf_project_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinLocationPermissionPluginDependencies.cmake:
 
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QCocoaIntegrationPluginAdditionalTargetInfo.cmake:
-
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6CoreConfigVersionImpl.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QCocoaIntegrationPluginAdditionalTargetInfo.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6DBusTools/Qt6DBusToolsVersionlessTargets.cmake:
 
@@ -783,45 +793,11 @@ cf_project_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6/Qt6TargetsPrecheck.cmake:
 
-/opt/homebrew/opt/qt/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersion.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6/QtPublicCMakeIncludeGuardHelpers.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6/QtPublicCMakeHelpers.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginConfig.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6/Qt6ConfigVersion.cmake:
-
 /opt/homebrew/share/cmake/Modules/CheckLibraryExists.cmake:
 
 /opt/homebrew/lib/cmake/Qt6/QtPublicWindowsHelpers.cmake:
 
 /opt/homebrew/lib/cmake/Qt6/QtPublicWalkLibsHelpers.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Widgets/Qt6WidgetsMacros.cmake:
-
-/opt/homebrew/lib/cmake/Qt6/QtPublicToolHelpers.cmake:
-
-/Users/erin/Dev/CartFoundry/editor/src/behavior.cpp:
-
-/Users/erin/Dev/CartFoundry/editor/src/pokemon_example.cpp:
-
-/opt/homebrew/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Concurrent/Qt6ConcurrentTargetsPrecheck.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QTiffPluginConfig.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6/Qt6Dependencies.cmake:
-
-/opt/homebrew/lib/cmake/Qt6/QtPublicSbomDepHelpers.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6GuiTools/Qt6GuiToolsTargetsPrecheck.cmake:
-
-CMakeFiles/4.4.5/CMakeCXXCompiler.cmake:
-
-/opt/homebrew/lib/cmake/Qt6/QtPublicTestHelpers.cmake:
 
 /Users/erin/Dev/CartFoundry/editor/src/world_model.cpp:
 
@@ -951,10 +927,6 @@ CMakeFiles/4.4.5/CMakeCXXCompiler.cmake:
 
 /opt/homebrew/lib/cmake/Qt6/QtPublicPluginHelpers.cmake:
 
-/opt/homebrew/lib/cmake/Qt6/QtPublicJsonHelpers.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6/QtPublicCMakeEarlyPolicyHelpers.cmake:
-
 /opt/homebrew/opt/qt/lib/cmake/Qt6Concurrent/Qt6ConcurrentAdditionalTargetInfo.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6GuiTools/Qt6GuiToolsAdditionalTargetInfo.cmake:
@@ -973,6 +945,8 @@ CMakeFiles/4.4.5/CMakeCXXCompiler.cmake:
 
 /opt/homebrew/lib/cmake/Qt6/QtPublicGitHelpers.cmake:
 
+/opt/homebrew/opt/qt/lib/cmake/Qt6/QtPublicCMakeEarlyPolicyHelpers.cmake:
+
 /Users/erin/Dev/CartFoundry/runtime/cf_behavior.c:
 
 /opt/homebrew/lib/cmake/Qt6/QtPublicFinalizerHelpers.cmake:
@@ -980,6 +954,18 @@ CMakeFiles/4.4.5/CMakeCXXCompiler.cmake:
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QMinimalIntegrationPluginConfig.cmake:
 
 /opt/homebrew/lib/cmake/Qt6/QtPublicSbomRelationshipHelpers.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6GuiTools/Qt6GuiToolsTargetsPrecheck.cmake:
+
+CMakeFiles/4.4.5/CMakeCXXCompiler.cmake:
+
+/opt/homebrew/lib/cmake/Qt6/QtPublicTestHelpers.cmake:
+
+/opt/homebrew/lib/cmake/Qt6/QtPublicSbomDepHelpers.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Concurrent/Qt6ConcurrentTargetsPrecheck.cmake:
+
+/opt/homebrew/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:
 
 /opt/homebrew/lib/cmake/Qt6/QtPublicExternalProjectHelpers.cmake:
 
@@ -994,26 +980,6 @@ CMakeFiles/4.4.5/CMakeCXXCompiler.cmake:
 /opt/homebrew/lib/cmake/Qt6/FindWrapAtomic.cmake:
 
 /Users/erin/Dev/CartFoundry/runtime/cf_world.h:
-
-/opt/homebrew/share/cmake/Modules/Platform/Apple-Clang.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6/Qt6ConfigVersionImpl.cmake:
-
-/Users/erin/Dev/CartFoundry/editor/src/project.cpp:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QOffscreenIntegrationPluginTargetsPrecheck.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinMicrophonePermissionPluginTargets-release.cmake:
-
-/opt/homebrew/share/cmake/Modules/CheckCSourceCompiles.cmake:
-
-/opt/homebrew/bin/cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Widgets/Qt6QMacStylePluginTargetsPrecheck.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QICNSPluginTargetsPrecheck.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QMacJp2PluginConfig.cmake:
 
@@ -1037,9 +1003,33 @@ CMakeFiles/4.4.5/CMakeCXXCompiler.cmake:
 
 /opt/homebrew/lib/cmake/Qt6/FindWrapVulkanHeaders.cmake:
 
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QGifPluginTargetsPrecheck.cmake:
+/Users/erin/Dev/CartFoundry/runtime/cf_behavior.h:
 
-CMakeFiles/4.4.5/CMakeSystem.cmake:
+/Users/erin/Dev/CartFoundry/runtime/cf_animation.c:
+
+/Users/erin/Dev/CartFoundry/editor/src/assets.h:
+
+/Users/erin/Dev/CartFoundry/editor/src/pokemon_example.cpp:
+
+/Users/erin/Dev/CartFoundry/editor/src/behavior.cpp:
+
+CMakeFiles/4.4.5/CMakeCCompiler.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QOffscreenIntegrationPluginTargetsPrecheck.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinMicrophonePermissionPluginTargets-release.cmake:
+
+/opt/homebrew/share/cmake/Modules/CheckCSourceCompiles.cmake:
+
+/opt/homebrew/bin/cmake:
+
+/Users/erin/Dev/CartFoundry/editor/src/project.cpp:
+
+/Users/erin/Dev/CartFoundry/editor/src/game_model.cpp:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6DBus/Qt6DBusTargets.cmake:
+
+/Users/erin/Dev/CartFoundry/editor/src/project.h:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsAdditionalTargetInfo.cmake:
 
@@ -1049,27 +1039,17 @@ CMakeFiles/4.4.5/CMakeSystem.cmake:
 
 /Users/erin/Dev/CartFoundry/runtime/cf_animation.h:
 
-/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinContactsPermissionPluginConfig.cmake:
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QGifPluginTargetsPrecheck.cmake:
 
-/opt/homebrew/lib/cmake/Qt6/QtPublicSbomPurlHelpers.cmake:
-
-/Users/erin/Dev/CartFoundry/runtime/cf_animation.c:
-
-/Users/erin/Dev/CartFoundry/editor/src/assets.h:
-
-CMakeFiles/4.4.5/CMakeCCompiler.cmake:
-
-/Users/erin/Dev/CartFoundry/runtime/cf_behavior.h:
-
-/Users/erin/Dev/CartFoundry/editor/src/game_model.cpp:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6DBus/Qt6DBusTargets.cmake:
-
-/Users/erin/Dev/CartFoundry/editor/src/project.h:
+CMakeFiles/4.4.5/CMakeSystem.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6CoreTargets-release.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QCocoaIntegrationPluginTargets-release.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Widgets/Qt6WidgetsMacros.cmake:
+
+/opt/homebrew/lib/cmake/Qt6/QtPublicToolHelpers.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QPdfPluginTargets.cmake:
 
@@ -1077,15 +1057,41 @@ CMakeFiles/4.4.5/CMakeCCompiler.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinContactsPermissionPluginTargets.cmake:
 
+/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinContactsPermissionPluginConfig.cmake:
+
+/opt/homebrew/lib/cmake/Qt6/QtPublicSbomPurlHelpers.cmake:
+
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QSvgIconPluginTargetsPrecheck.cmake:
 
 /Users/erin/Dev/CartFoundry/editor/src/builder.cpp:
 
 /Users/erin/Dev/CartFoundry/editor/src/game_session.h:
 
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QTiffPluginConfig.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6/Qt6Dependencies.cmake:
+
+/opt/homebrew/share/cmake/Modules/Platform/Apple-Clang.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6/Qt6ConfigVersionImpl.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersion.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6/QtPublicCMakeIncludeGuardHelpers.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6/QtPublicCMakeHelpers.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginConfig.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6/Qt6ConfigVersion.cmake:
+
+/Users/erin/Dev/CartFoundry/editor/src/screen_model.h:
+
 /opt/homebrew/opt/qt/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersionImpl.cmake:
 
 /Users/erin/Dev/CartFoundry/editor/src/game_session.cpp:
+
+/opt/homebrew/lib/cmake/Qt6/QtPublicJsonHelpers.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QPdfPluginConfig.cmake:
 

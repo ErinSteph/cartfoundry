@@ -11,6 +11,7 @@
 /Users/erin/Dev/CartFoundry/build/CMakeFiles/cf-systems-tests.dir
 /Users/erin/Dev/CartFoundry/build/CMakeFiles/cf-pokemon-tests.dir
 /Users/erin/Dev/CartFoundry/build/CMakeFiles/cf-versatility-tests.dir
+/Users/erin/Dev/CartFoundry/build/CMakeFiles/cf-scene-tests.dir
 /Users/erin/Dev/CartFoundry/build/CMakeFiles/package.dir
 /Users/erin/Dev/CartFoundry/build/CMakeFiles/package_source.dir
 /Users/erin/Dev/CartFoundry/build/CMakeFiles/test.dir
@@ -46,6 +47,8 @@
 /Users/erin/Dev/CartFoundry/build/CMakeFiles/cf-pokemon-tests_autogen.dir
 /Users/erin/Dev/CartFoundry/build/CMakeFiles/cf-versatility-tests_autogen_timestamp_deps.dir
 /Users/erin/Dev/CartFoundry/build/CMakeFiles/cf-versatility-tests_autogen.dir
+/Users/erin/Dev/CartFoundry/build/CMakeFiles/cf-scene-tests_autogen_timestamp_deps.dir
+/Users/erin/Dev/CartFoundry/build/CMakeFiles/cf-scene-tests_autogen.dir
 /Users/erin/Dev/CartFoundry/build/third_party/mgba/CMakeFiles/mgba-version-info.dir
 /Users/erin/Dev/CartFoundry/build/third_party/mgba/CMakeFiles/mgba.dir
 /Users/erin/Dev/CartFoundry/build/third_party/mgba/CMakeFiles/package.dir

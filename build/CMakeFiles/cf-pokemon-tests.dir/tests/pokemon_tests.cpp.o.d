@@ -1015,6 +1015,7 @@ CMakeFiles/cf-pokemon-tests.dir/tests/pokemon_tests.cpp.o: \
   /Users/erin/Dev/CartFoundry/editor/src/game_script.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_game.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_flow.h \
+  /Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h \
   /Users/erin/Dev/CartFoundry/editor/src/builder.h \
   /Users/erin/Dev/CartFoundry/editor/src/emulator_core.h \
   /opt/homebrew/opt/qt/include/QtTest/QtTest \

@@ -1,4 +1,4 @@
-#include "builder.h"
+#include "rom_test_helpers.h"
 #include <QtTest>
 #include <QTemporaryDir>
 #include <QJsonArray>
@@ -75,9 +75,9 @@ private slots:
         QVERIFY(cf::Project::fromJson(p.toJson(),loaded,error));QCOMPARE(p.toJson(),loaded.toJson());
         auto old=p.world;p.world.resize(48,40);QCOMPARE(p.world.tiles[7*48+6],old.tiles[7*40+6]);QCOMPARE(p.world.interactions.value(7*48+6),QString("welcome"));
         p.world.resize(40,32);QCOMPARE(p.world.toJson(),old.toJson());
-        QTemporaryDir temp;auto color=cf::buildRom(p,temp.filePath("world.gbc"));QVERIFY2(color.success,qPrintable(color.log));
+        QTemporaryDir temp;auto color=fastTestRom(p,temp.filePath("world.gbc"));QVERIFY2(color.success,qPrintable(color.log));
         QFile f(color.romPath);QVERIFY(f.open(QIODevice::ReadOnly));auto c=f.readAll();QCOMPARE(quint8(c[0x143]),quint8(0xc0));
-        p.target="gb";auto mono=cf::buildRom(p,temp.filePath("world.gb"));QVERIFY2(mono.success,qPrintable(mono.log));
+        p.target="gb";auto mono=fastTestRom(p,temp.filePath("world.gb"));QVERIFY2(mono.success,qPrintable(mono.log));
         QFile g(mono.romPath);QVERIFY(g.open(QIODevice::ReadOnly));auto m=g.readAll();QCOMPARE(quint8(m[0x143]),quint8(0));QVERIFY(c!=m);
         QCOMPARE(p.assets[0].toJson(),loaded.assets[0].toJson()); // mode changes retain source colour assets
         p.world.collision[p.world.spawnY*p.world.width+p.world.spawnX]=1;QVERIFY(!p.validate().isEmpty());
@@ -91,21 +91,21 @@ private slots:
     }
     void buildAndRewire() {
         QTemporaryDir temp; QVERIFY(temp.isValid()); auto p = cf::Project::example();
-        auto first = cf::buildRom(p, temp.filePath("original with spaces.gbc"));
+        auto first = fastTestRom(p, temp.filePath("original with spaces.gbc"));
         QVERIFY2(first.success, qPrintable(first.log));
         QFile f(first.romPath); QVERIFY(f.open(QIODevice::ReadOnly)); auto a = f.readAll();
-        QCOMPARE(a.size(), 32768); QCOMPARE(quint8(a[0x143]), quint8(0xc0)); QCOMPARE(quint8(a[0x147]), quint8(0));
+        QCOMPARE(a.size(), 131072); QCOMPARE(quint8(a[0x143]), quint8(0xc0)); QCOMPARE(quint8(a[0x147]), quint8(0x19));
         quint8 checksum = 0; for (int i = 0x134; i <= 0x14c; ++i) checksum = checksum - quint8(a[i]) - 1;
         QCOMPARE(checksum, quint8(a[0x14d]));
         quint16 global = 0; for (int i = 0; i < a.size(); ++i) if (i != 0x14e && i != 0x14f) global += quint8(a[i]);
         QCOMPARE(global, quint16((quint8(a[0x14e]) << 8) | quint8(a[0x14f])));
         QVERIFY(a.contains("THE WORKSHOP"));
         p.prompts[0].choices[0].target = "quest";
-        auto second = cf::buildRom(p, temp.filePath("rewired.gbc")); QVERIFY2(second.success, qPrintable(second.log));
+        auto second = fastTestRom(p, temp.filePath("rewired.gbc")); QVERIFY2(second.success, qPrintable(second.log));
         QFile g(second.romPath); QVERIFY(g.open(QIODevice::ReadOnly)); QVERIFY(a != g.readAll());
         // Failed validation leaves an existing ROM untouched.
         p.prompts[0].choices[0].target = "missing";
-        auto rejected = cf::buildRom(p, first.romPath); QVERIFY(!rejected.success); f.seek(0); QCOMPARE(f.readAll(), a);
+        auto rejected = fastTestRom(p, first.romPath); QVERIFY(!rejected.success); f.seek(0); QCOMPARE(f.readAll(), a);
     }
 };
 QTEST_GUILESS_MAIN(ProjectTests)

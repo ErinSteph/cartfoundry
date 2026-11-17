@@ -926,6 +926,7 @@
   /Users/erin/Dev/CartFoundry/runtime/cf_animation.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_behavior.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_world.h \
+  /Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h \
   /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QCryptographicHash \
   /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QFile \
   /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QJsonArray \

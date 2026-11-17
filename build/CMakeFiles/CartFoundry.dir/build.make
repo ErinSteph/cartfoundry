@@ -114,10 +114,38 @@ CMakeFiles/CartFoundry.dir/editor/src/window.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/CartFoundry.dir/editor/src/window.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/erin/Dev/CartFoundry/editor/src/window.cpp -o CMakeFiles/CartFoundry.dir/editor/src/window.cpp.s
 
+CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o: CMakeFiles/CartFoundry.dir/flags.make
+CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/screen_builder.cpp
+CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o: CMakeFiles/CartFoundry.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o -MF CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o.d -o CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/screen_builder.cpp
+
+CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/erin/Dev/CartFoundry/editor/src/screen_builder.cpp > CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.i
+
+CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/erin/Dev/CartFoundry/editor/src/screen_builder.cpp -o CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.s
+
+CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.o: CMakeFiles/CartFoundry.dir/flags.make
+CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/script_workspace.cpp
+CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.o: CMakeFiles/CartFoundry.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.o -MF CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.o.d -o CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/script_workspace.cpp
+
+CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/erin/Dev/CartFoundry/editor/src/script_workspace.cpp > CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.i
+
+CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/erin/Dev/CartFoundry/editor/src/script_workspace.cpp -o CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.s
+
 CMakeFiles/CartFoundry.dir/editor/src/graph.cpp.o: CMakeFiles/CartFoundry.dir/flags.make
 CMakeFiles/CartFoundry.dir/editor/src/graph.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/graph.cpp
 CMakeFiles/CartFoundry.dir/editor/src/graph.cpp.o: CMakeFiles/CartFoundry.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/graph.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/graph.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CartFoundry.dir/editor/src/graph.cpp.o -MF CMakeFiles/CartFoundry.dir/editor/src/graph.cpp.o.d -o CMakeFiles/CartFoundry.dir/editor/src/graph.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/graph.cpp
 
 CMakeFiles/CartFoundry.dir/editor/src/graph.cpp.i: cmake_force
@@ -131,7 +159,7 @@ CMakeFiles/CartFoundry.dir/editor/src/graph.cpp.s: cmake_force
 CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o: CMakeFiles/CartFoundry.dir/flags.make
 CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/world_editor.cpp
 CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o: CMakeFiles/CartFoundry.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o -MF CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o.d -o CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/world_editor.cpp
 
 CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.i: cmake_force
@@ -145,7 +173,7 @@ CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.s: cmake_force
 CMakeFiles/CartFoundry.dir/editor/src/importer.cpp.o: CMakeFiles/CartFoundry.dir/flags.make
 CMakeFiles/CartFoundry.dir/editor/src/importer.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/importer.cpp
 CMakeFiles/CartFoundry.dir/editor/src/importer.cpp.o: CMakeFiles/CartFoundry.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/importer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/importer.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CartFoundry.dir/editor/src/importer.cpp.o -MF CMakeFiles/CartFoundry.dir/editor/src/importer.cpp.o.d -o CMakeFiles/CartFoundry.dir/editor/src/importer.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/importer.cpp
 
 CMakeFiles/CartFoundry.dir/editor/src/importer.cpp.i: cmake_force
@@ -159,7 +187,7 @@ CMakeFiles/CartFoundry.dir/editor/src/importer.cpp.s: cmake_force
 CMakeFiles/CartFoundry.dir/editor/src/emulator_widget.cpp.o: CMakeFiles/CartFoundry.dir/flags.make
 CMakeFiles/CartFoundry.dir/editor/src/emulator_widget.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/emulator_widget.cpp
 CMakeFiles/CartFoundry.dir/editor/src/emulator_widget.cpp.o: CMakeFiles/CartFoundry.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/emulator_widget.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/emulator_widget.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CartFoundry.dir/editor/src/emulator_widget.cpp.o -MF CMakeFiles/CartFoundry.dir/editor/src/emulator_widget.cpp.o.d -o CMakeFiles/CartFoundry.dir/editor/src/emulator_widget.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/emulator_widget.cpp
 
 CMakeFiles/CartFoundry.dir/editor/src/emulator_widget.cpp.i: cmake_force
@@ -173,7 +201,7 @@ CMakeFiles/CartFoundry.dir/editor/src/emulator_widget.cpp.s: cmake_force
 CMakeFiles/CartFoundry.dir/editor/src/script_editor.cpp.o: CMakeFiles/CartFoundry.dir/flags.make
 CMakeFiles/CartFoundry.dir/editor/src/script_editor.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/script_editor.cpp
 CMakeFiles/CartFoundry.dir/editor/src/script_editor.cpp.o: CMakeFiles/CartFoundry.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/script_editor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/script_editor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CartFoundry.dir/editor/src/script_editor.cpp.o -MF CMakeFiles/CartFoundry.dir/editor/src/script_editor.cpp.o.d -o CMakeFiles/CartFoundry.dir/editor/src/script_editor.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/script_editor.cpp
 
 CMakeFiles/CartFoundry.dir/editor/src/script_editor.cpp.i: cmake_force
@@ -187,7 +215,7 @@ CMakeFiles/CartFoundry.dir/editor/src/script_editor.cpp.s: cmake_force
 CMakeFiles/CartFoundry.dir/editor/src/animation_editor.cpp.o: CMakeFiles/CartFoundry.dir/flags.make
 CMakeFiles/CartFoundry.dir/editor/src/animation_editor.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/animation_editor.cpp
 CMakeFiles/CartFoundry.dir/editor/src/animation_editor.cpp.o: CMakeFiles/CartFoundry.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/animation_editor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/animation_editor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CartFoundry.dir/editor/src/animation_editor.cpp.o -MF CMakeFiles/CartFoundry.dir/editor/src/animation_editor.cpp.o.d -o CMakeFiles/CartFoundry.dir/editor/src/animation_editor.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/animation_editor.cpp
 
 CMakeFiles/CartFoundry.dir/editor/src/animation_editor.cpp.i: cmake_force
@@ -201,7 +229,7 @@ CMakeFiles/CartFoundry.dir/editor/src/animation_editor.cpp.s: cmake_force
 CMakeFiles/CartFoundry.dir/editor/src/data_editor.cpp.o: CMakeFiles/CartFoundry.dir/flags.make
 CMakeFiles/CartFoundry.dir/editor/src/data_editor.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/data_editor.cpp
 CMakeFiles/CartFoundry.dir/editor/src/data_editor.cpp.o: CMakeFiles/CartFoundry.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/data_editor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/data_editor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CartFoundry.dir/editor/src/data_editor.cpp.o -MF CMakeFiles/CartFoundry.dir/editor/src/data_editor.cpp.o.d -o CMakeFiles/CartFoundry.dir/editor/src/data_editor.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/data_editor.cpp
 
 CMakeFiles/CartFoundry.dir/editor/src/data_editor.cpp.i: cmake_force
@@ -215,7 +243,7 @@ CMakeFiles/CartFoundry.dir/editor/src/data_editor.cpp.s: cmake_force
 CMakeFiles/CartFoundry.dir/editor/src/pixel_editor.cpp.o: CMakeFiles/CartFoundry.dir/flags.make
 CMakeFiles/CartFoundry.dir/editor/src/pixel_editor.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/pixel_editor.cpp
 CMakeFiles/CartFoundry.dir/editor/src/pixel_editor.cpp.o: CMakeFiles/CartFoundry.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/pixel_editor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/pixel_editor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CartFoundry.dir/editor/src/pixel_editor.cpp.o -MF CMakeFiles/CartFoundry.dir/editor/src/pixel_editor.cpp.o.d -o CMakeFiles/CartFoundry.dir/editor/src/pixel_editor.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/pixel_editor.cpp
 
 CMakeFiles/CartFoundry.dir/editor/src/pixel_editor.cpp.i: cmake_force
@@ -229,7 +257,7 @@ CMakeFiles/CartFoundry.dir/editor/src/pixel_editor.cpp.s: cmake_force
 CMakeFiles/CartFoundry.dir/editor/src/event_tools.cpp.o: CMakeFiles/CartFoundry.dir/flags.make
 CMakeFiles/CartFoundry.dir/editor/src/event_tools.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/event_tools.cpp
 CMakeFiles/CartFoundry.dir/editor/src/event_tools.cpp.o: CMakeFiles/CartFoundry.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/event_tools.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/CartFoundry.dir/editor/src/event_tools.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CartFoundry.dir/editor/src/event_tools.cpp.o -MF CMakeFiles/CartFoundry.dir/editor/src/event_tools.cpp.o.d -o CMakeFiles/CartFoundry.dir/editor/src/event_tools.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/event_tools.cpp
 
 CMakeFiles/CartFoundry.dir/editor/src/event_tools.cpp.i: cmake_force
@@ -245,6 +273,8 @@ CartFoundry_OBJECTS = \
 "CMakeFiles/CartFoundry.dir/CartFoundry_autogen/mocs_compilation.cpp.o" \
 "CMakeFiles/CartFoundry.dir/editor/src/main.cpp.o" \
 "CMakeFiles/CartFoundry.dir/editor/src/window.cpp.o" \
+"CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o" \
+"CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.o" \
 "CMakeFiles/CartFoundry.dir/editor/src/graph.cpp.o" \
 "CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o" \
 "CMakeFiles/CartFoundry.dir/editor/src/importer.cpp.o" \
@@ -261,6 +291,8 @@ CartFoundry_EXTERNAL_OBJECTS =
 CartFoundry.app/Contents/MacOS/CartFoundry: CMakeFiles/CartFoundry.dir/CartFoundry_autogen/mocs_compilation.cpp.o
 CartFoundry.app/Contents/MacOS/CartFoundry: CMakeFiles/CartFoundry.dir/editor/src/main.cpp.o
 CartFoundry.app/Contents/MacOS/CartFoundry: CMakeFiles/CartFoundry.dir/editor/src/window.cpp.o
+CartFoundry.app/Contents/MacOS/CartFoundry: CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o
+CartFoundry.app/Contents/MacOS/CartFoundry: CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.o
 CartFoundry.app/Contents/MacOS/CartFoundry: CMakeFiles/CartFoundry.dir/editor/src/graph.cpp.o
 CartFoundry.app/Contents/MacOS/CartFoundry: CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o
 CartFoundry.app/Contents/MacOS/CartFoundry: CMakeFiles/CartFoundry.dir/editor/src/importer.cpp.o
@@ -279,7 +311,7 @@ CartFoundry.app/Contents/MacOS/CartFoundry: third_party/mgba/libmgba.a
 CartFoundry.app/Contents/MacOS/CartFoundry: /opt/homebrew/opt/qt/lib/QtGui.framework/Versions/A/QtGui
 CartFoundry.app/Contents/MacOS/CartFoundry: /opt/homebrew/opt/qt/lib/QtCore.framework/Versions/A/QtCore
 CartFoundry.app/Contents/MacOS/CartFoundry: CMakeFiles/CartFoundry.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable CartFoundry.app/Contents/MacOS/CartFoundry"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX executable CartFoundry.app/Contents/MacOS/CartFoundry"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/CartFoundry.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

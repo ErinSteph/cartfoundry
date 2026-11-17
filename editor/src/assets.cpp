@@ -30,13 +30,13 @@ QJsonObject RasterAsset::toJson() const {
 bool RasterAsset::fromJson(const QJsonObject &o, RasterAsset &a, QString &error) {
     auto fail = [&] { error = "Invalid embedded raster asset (8-pixel dimensions, four RGB555 colours and indexed pixels required)."; return false; };
     if (!o["id"].isString() || o["id"].toString().isEmpty() || !o["name"].isString() || !o["kind"].isString()) return fail();
-    const auto kind = o["kind"].toString(); if (kind != "sprite" && kind != "tileset") return fail();
-    int w = o["width"].toInt(-1), h = o["height"].toInt(-1), limit = kind == "sprite" ? 256 : 128;
-    if (o["width"].toDouble() != w || o["height"].toDouble() != h || w < 8 || h < 8 || w > limit || h > limit || w % 8 || h % 8) return fail();
+    const auto kind = o["kind"].toString(); if (kind != "sprite" && kind != "tileset" && kind != "screen") return fail();
+    int w = o["width"].toInt(-1), h = o["height"].toInt(-1), limit = kind == "screen"?160:kind == "sprite" ? 256 : 128;
+    if (o["width"].toDouble() != w || o["height"].toDouble() != h || w < 8 || h < 8 || w > limit || h > (kind=="screen"?144:limit) || w % 8 || h % 8) return fail();
     int columns=o.contains("columns")?o["columns"].toInt(-1):1,rows=o.contains("rows")?o["rows"].toInt(-1):1;
     if(columns<1||rows<1||columns>8||rows>8||columns*rows>64||w%columns||h%rows||w/columns%8||h/rows%8)return fail();
     if(kind=="sprite" && (w/columns>32||h/rows>32))return fail();
-    if(kind=="tileset" && (columns!=1||rows!=1))return fail();
+    if(kind!="sprite" && (columns!=1||rows!=1))return fail();
     if((o.contains("columns") && o["columns"].toDouble()!=columns)||(o.contains("rows") && o["rows"].toDouble()!=rows))return fail();
     QVector<SpriteAnimation> animations;QSet<QString> names;
     if(o.contains("animations")){
@@ -89,9 +89,10 @@ QByteArray RasterAsset::tileData(bool dmg) const {
     return bytes;
 }
 struct Sample { QColor color; int count; };
-RasterAsset convertImage(const QImage &source, const ImportOptions &opts) {
-    RasterAsset a; a.columns=opts.columns;a.rows=opts.rows;a.width = opts.width*opts.columns; a.height = opts.height*opts.rows; a.kind = opts.transparent ? "sprite" : "tileset";
-    if (source.isNull() || a.width < 8 || a.height < 8 || a.width > (opts.transparent?256:128) || a.height > (opts.transparent?256:128) || opts.columns<1 || opts.rows<1 || opts.columns>8 || opts.rows>8 || opts.columns*opts.rows>64 || source.width()%opts.columns || source.height()%opts.rows || (opts.transparent&&(opts.width>32||opts.height>32)) || a.width % 8 || a.height % 8) return a;
+RasterAsset convertImage(const QImage &source, const ImportOptions &requested) {
+    ImportOptions opts=requested;if(opts.screen){opts.transparent=false;opts.columns=opts.rows=1;}
+    RasterAsset a; a.columns=opts.columns;a.rows=opts.rows;a.width = opts.width*opts.columns; a.height = opts.height*opts.rows; a.kind = opts.screen?"screen":opts.transparent ? "sprite" : "tileset";
+    if (source.isNull() || a.width < 8 || a.height < 8 || a.width > (opts.screen?160:opts.transparent?256:128) || a.height > (opts.screen?144:opts.transparent?256:128) || opts.columns<1 || opts.rows<1 || opts.columns>8 || opts.rows>8 || opts.columns*opts.rows>64 || source.width()%opts.columns || source.height()%opts.rows || (opts.transparent&&(opts.width>32||opts.height>32)) || a.width % 8 || a.height % 8) return a;
     QImage prepared = source.convertToFormat(QImage::Format_ARGB32);
     if (opts.removeBackground) for (int y = 0; y < prepared.height(); ++y) for (int x = 0; x < prepared.width(); ++x) {
         auto c = prepared.pixelColor(x, y); auto bg = opts.background;

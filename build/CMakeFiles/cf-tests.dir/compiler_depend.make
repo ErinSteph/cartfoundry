@@ -940,6 +940,7 @@ CMakeFiles/cf-tests.dir/tests/project_tests.cpp.o: /Users/erin/Dev/CartFoundry/t
   /Users/erin/Dev/CartFoundry/runtime/cf_animation.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_behavior.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_world.h \
+  /Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h \
   /opt/homebrew/opt/qt/include/QtCore/QCryptographicHash \
   /opt/homebrew/opt/qt/include/QtCore/QFile \
   /opt/homebrew/opt/qt/include/QtCore/QJsonArray \
@@ -2153,6 +2154,8 @@ cf-tests_autogen/include/project_tests.moc:
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/wctype.h:
 
 /opt/homebrew/opt/qt/lib/QtCore.framework/Headers/qtmetamacros.h:
+
+/Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__utility/default_three_way_comparator.h:
 

@@ -1,6 +1,12 @@
 #ifndef CF_FLOW_H
 #define CF_FLOW_H
 #include <stdint.h>
+#ifdef __TARGET_gb
+#include <gb/gb.h>
+#define CF_FLOW_CALL NONBANKED
+#else
+#define CF_FLOW_CALL
+#endif
 #define CF_MAX_CHOICES 3
 #define CF_NO_TARGET 255
 #define CF_KEY_UP 1
@@ -23,10 +29,10 @@ typedef struct {uint8_t columns,body_rows,body_row,choice_row,footer_row;} CFTex
 #ifdef __cplusplus
 extern "C"
 #endif
-void cf_text_layout(const CFPrompt *,CFTextLayout *);
+void cf_text_layout(const CFPrompt *,CFTextLayout *) CF_FLOW_CALL;
 /* Returns 1 when the screen should be redrawn. Uses newly pressed keys. */
 #ifdef __cplusplus
 extern "C"
 #endif
-uint8_t cf_step(CFState *state, const CFPrompt *prompts, uint8_t count, uint8_t entry, uint8_t keys);
+uint8_t cf_step(CFState *state, const CFPrompt *prompts, uint8_t count, uint8_t entry, uint8_t keys) CF_FLOW_CALL;
 #endif

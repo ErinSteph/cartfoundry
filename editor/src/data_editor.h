@@ -9,7 +9,7 @@ public:
  explicit DataEditor(QWidget *parent=nullptr);
  void setProject(const Project &);
  std::function<void(const Project &)> onEdit;
- std::function<void(int)> onOpenArea;
+ std::function<void(int)> onOpenArea,onOpenScene;
 private:
  Project project;QTreeWidget *tree;QWidget *properties;QFormLayout *form;QLabel *errors;QString selected;bool editing=false;
  void populate();void inspect();void edit(const std::function<void(Project &)> &);

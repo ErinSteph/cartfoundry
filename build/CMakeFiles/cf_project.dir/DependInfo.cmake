@@ -23,6 +23,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/erin/Dev/CartFoundry/editor/src/game_session.cpp" "CMakeFiles/cf_project.dir/editor/src/game_session.cpp.o" "gcc" "CMakeFiles/cf_project.dir/editor/src/game_session.cpp.o.d"
   "/Users/erin/Dev/CartFoundry/editor/src/pokemon_example.cpp" "CMakeFiles/cf_project.dir/editor/src/pokemon_example.cpp.o" "gcc" "CMakeFiles/cf_project.dir/editor/src/pokemon_example.cpp.o.d"
   "/Users/erin/Dev/CartFoundry/editor/src/project.cpp" "CMakeFiles/cf_project.dir/editor/src/project.cpp.o" "gcc" "CMakeFiles/cf_project.dir/editor/src/project.cpp.o.d"
+  "/Users/erin/Dev/CartFoundry/editor/src/screen_model.cpp" "CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.o" "gcc" "CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.o.d"
   "/Users/erin/Dev/CartFoundry/editor/src/world_model.cpp" "CMakeFiles/cf_project.dir/editor/src/world_model.cpp.o" "gcc" "CMakeFiles/cf_project.dir/editor/src/world_model.cpp.o.d"
   )
 

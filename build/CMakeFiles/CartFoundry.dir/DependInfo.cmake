@@ -17,7 +17,9 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/erin/Dev/CartFoundry/editor/src/importer.cpp" "CMakeFiles/CartFoundry.dir/editor/src/importer.cpp.o" "gcc" "CMakeFiles/CartFoundry.dir/editor/src/importer.cpp.o.d"
   "/Users/erin/Dev/CartFoundry/editor/src/main.cpp" "CMakeFiles/CartFoundry.dir/editor/src/main.cpp.o" "gcc" "CMakeFiles/CartFoundry.dir/editor/src/main.cpp.o.d"
   "/Users/erin/Dev/CartFoundry/editor/src/pixel_editor.cpp" "CMakeFiles/CartFoundry.dir/editor/src/pixel_editor.cpp.o" "gcc" "CMakeFiles/CartFoundry.dir/editor/src/pixel_editor.cpp.o.d"
+  "/Users/erin/Dev/CartFoundry/editor/src/screen_builder.cpp" "CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o" "gcc" "CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o.d"
   "/Users/erin/Dev/CartFoundry/editor/src/script_editor.cpp" "CMakeFiles/CartFoundry.dir/editor/src/script_editor.cpp.o" "gcc" "CMakeFiles/CartFoundry.dir/editor/src/script_editor.cpp.o.d"
+  "/Users/erin/Dev/CartFoundry/editor/src/script_workspace.cpp" "CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.o" "gcc" "CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.o.d"
   "/Users/erin/Dev/CartFoundry/editor/src/window.cpp" "CMakeFiles/CartFoundry.dir/editor/src/window.cpp.o" "gcc" "CMakeFiles/CartFoundry.dir/editor/src/window.cpp.o.d"
   "/Users/erin/Dev/CartFoundry/editor/src/world_editor.cpp" "CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o" "gcc" "CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o.d"
   )

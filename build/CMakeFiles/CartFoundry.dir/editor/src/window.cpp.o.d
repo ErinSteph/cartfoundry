@@ -1096,6 +1096,8 @@ CMakeFiles/CartFoundry.dir/editor/src/window.cpp.o: \
   /Users/erin/Dev/CartFoundry/editor/src/data_editor.h \
   /Users/erin/Dev/CartFoundry/editor/src/pixel_editor.h \
   /Users/erin/Dev/CartFoundry/editor/src/event_tools.h \
+  /Users/erin/Dev/CartFoundry/editor/src/screen_builder.h \
+  /Users/erin/Dev/CartFoundry/editor/src/script_workspace.h \
   /opt/homebrew/opt/qt/include/QtWidgets/QtWidgets \
   /opt/homebrew/opt/qt/lib/QtWidgets.framework/Headers/QtWidgetsDepends \
   /opt/homebrew/opt/qt/lib/QtCore.framework/Headers/QtCore \

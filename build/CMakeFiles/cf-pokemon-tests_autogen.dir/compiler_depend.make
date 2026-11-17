@@ -938,6 +938,7 @@ cf-pokemon-tests_autogen/timestamp: /Library/Developer/CommandLineTools/SDKs/Mac
   /Users/erin/Dev/CartFoundry/runtime/cf_game.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_world.h \
   /Users/erin/Dev/CartFoundry/tests/pokemon_tests.cpp \
+  /Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h \
   /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QJsonObject \
   /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QMap \
   /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QPointF \
@@ -1716,6 +1717,8 @@ cf-pokemon-tests_autogen/timestamp: /Library/Developer/CommandLineTools/SDKs/Mac
 /opt/homebrew/opt/qt/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsVersionlessTargets.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets-release.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersion.cmake:
 
@@ -2527,8 +2530,6 @@ cf-pokemon-tests_autogen/timestamp: /Library/Developer/CommandLineTools/SDKs/Mac
 
 /opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qcontainertools_impl.h:
 
-/opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qforeach.h:
-
 /opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qcompilerdetection.h:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6DBus/Qt6DBusTargets.cmake:
@@ -2714,6 +2715,12 @@ cf-pokemon-tests_autogen/timestamp: /Library/Developer/CommandLineTools/SDKs/Mac
 /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/c++/v1/stddef.h:
 
 /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QJsonObject:
+
+/opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qforeach.h:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/sys/_symbol_aliasing.h:
+
+/Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h:
 
 /opt/homebrew/lib/cmake/Qt6/QtPublicSbomDepHelpers.cmake:
 
@@ -2921,8 +2928,6 @@ CMakeFiles/4.4.5/CMakeSystem.cmake:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/sys/_types/_int8_t.h:
 
-/opt/homebrew/opt/qt/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets-release.cmake:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/sys/_types/_int64_t.h:
 
 /Library/Developer/CommandLineTools/usr/lib/clang/21/include/__stddef_max_align_t.h:
@@ -2960,8 +2965,6 @@ CMakeFiles/4.4.5/CMakeSystem.cmake:
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinBluetoothPermissionPluginConfig.cmake:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/sys/_types/_blkcnt_t.h:
-
-/Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/sys/_symbol_aliasing.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/sys/_pthread/_pthread_types.h:
 

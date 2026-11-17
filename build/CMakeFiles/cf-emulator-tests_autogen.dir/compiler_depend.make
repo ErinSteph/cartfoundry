@@ -934,6 +934,7 @@ cf-emulator-tests_autogen/timestamp: /Library/Developer/CommandLineTools/SDKs/Ma
   /Users/erin/Dev/CartFoundry/runtime/cf_behavior.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_world.h \
   /Users/erin/Dev/CartFoundry/tests/emulator_tests.cpp \
+  /Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h \
   /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QJsonObject \
   /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QMap \
   /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QPointF \
@@ -2295,10 +2296,6 @@ cf-emulator-tests_autogen/timestamp: /Library/Developer/CommandLineTools/SDKs/Ma
 
 /opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qtcoreexports.h:
 
-/Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/c++/v1/__random/uniform_int_distribution.h:
-
-/opt/homebrew/share/cmake/Modules/CMakeCInformation.cmake:
-
 /opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qtclasshelpermacros.h:
 
 /opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qregularexpression.h:
@@ -2529,8 +2526,6 @@ cf-emulator-tests_autogen/timestamp: /Library/Developer/CommandLineTools/SDKs/Ma
 
 /opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qcontainertools_impl.h:
 
-/opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qforeach.h:
-
 /opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qcompilerdetection.h:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6DBus/Qt6DBusTargets.cmake:
@@ -2720,6 +2715,12 @@ cf-emulator-tests_autogen/timestamp: /Library/Developer/CommandLineTools/SDKs/Ma
 /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/c++/v1/stddef.h:
 
 /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QJsonObject:
+
+/opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qforeach.h:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/sys/_symbol_aliasing.h:
+
+/Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h:
 
 /Users/erin/Dev/CartFoundry/runtime/cf_world.h:
 
@@ -2952,8 +2953,6 @@ CMakeFiles/4.4.5/CMakeSystem.cmake:
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinBluetoothPermissionPluginConfig.cmake:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/sys/_types/_blkcnt_t.h:
-
-/Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/sys/_symbol_aliasing.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/sys/_pthread/_pthread_types.h:
 
@@ -3644,6 +3643,10 @@ cf-emulator-tests_autogen/moc_predefs.h:
 /opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qbasictimer.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/c++/v1/__random/uniform_real_distribution.h:
+
+/opt/homebrew/share/cmake/Modules/CMakeCInformation.cmake:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/c++/v1/__random/uniform_int_distribution.h:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Test/Qt6TestTargets.cmake:
 

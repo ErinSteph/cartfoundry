@@ -20,8 +20,12 @@ CartFoundry_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
   /Users/erin/Dev/CartFoundry/editor/src/main.cpp \
   /Users/erin/Dev/CartFoundry/editor/src/pixel_editor.cpp \
   /Users/erin/Dev/CartFoundry/editor/src/pixel_editor.h \
+  /Users/erin/Dev/CartFoundry/editor/src/screen_builder.cpp \
+  /Users/erin/Dev/CartFoundry/editor/src/screen_builder.h \
   /Users/erin/Dev/CartFoundry/editor/src/script_editor.cpp \
   /Users/erin/Dev/CartFoundry/editor/src/script_editor.h \
+  /Users/erin/Dev/CartFoundry/editor/src/script_workspace.cpp \
+  /Users/erin/Dev/CartFoundry/editor/src/script_workspace.h \
   /Users/erin/Dev/CartFoundry/editor/src/window.cpp \
   /Users/erin/Dev/CartFoundry/editor/src/window.h \
   /Users/erin/Dev/CartFoundry/editor/src/world_editor.cpp \
@@ -517,9 +521,7 @@ CartFoundry_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QJpegPluginConfig.cmake:
 
-/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinCalendarPermissionPluginAdditionalTargetInfo.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QICOPluginTargetsPrecheck.cmake:
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QJpegPluginAdditionalTargetInfo.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QWebpPluginConfig.cmake:
 
@@ -553,6 +555,8 @@ CartFoundry_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Test/Qt6TestTargetsPrecheck.cmake:
 
+/Users/erin/Dev/CartFoundry/editor/src/script_workspace.cpp:
+
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6GuiPlugins.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6GuiConfigVersionImpl.cmake:
@@ -562,6 +566,8 @@ CartFoundry_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 /Users/erin/Dev/CartFoundry/editor/src/pixel_editor.h:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6DBusTools/Qt6DBusToolsTargets.cmake:
+
+/Users/erin/Dev/CartFoundry/editor/src/script_workspace.h:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6DBusTools/Qt6DBusToolsDependencies.cmake:
 
@@ -631,14 +637,6 @@ CartFoundry_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinLocationPermissionPluginDependencies.cmake:
 
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QCocoaIntegrationPluginAdditionalTargetInfo.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6CoreConfigVersionImpl.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6DBusTools/Qt6DBusToolsVersionlessTargets.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinContactsPermissionPluginTargetsPrecheck.cmake:
-
 /opt/homebrew/opt/qt/lib/cmake/Qt6Concurrent/Qt6ConcurrentTargets-release.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinContactsPermissionPluginTargets-release.cmake:
@@ -654,12 +652,6 @@ CartFoundry_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinCameraPermissionPluginTargetsPrecheck.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinCameraPermissionPluginDependencies.cmake:
-
-/opt/homebrew/share/cmake/Modules/Platform/Darwin.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Concurrent/Qt6ConcurrentTargets.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QICOPluginTargets.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6CoreTools/Qt6CoreToolsTargetsPrecheck.cmake:
 
@@ -699,6 +691,10 @@ CartFoundry_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6DBus/Qt6DBusMacros.cmake:
 
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QICOPluginTargetsPrecheck.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinCalendarPermissionPluginAdditionalTargetInfo.cmake:
+
 /opt/homebrew/opt/qt/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsAdditionalTargetInfo.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QMacJp2PluginTargets.cmake:
@@ -733,6 +729,14 @@ CartFoundry_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6CoreVersionlessAliasTargets.cmake:
 
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QCocoaIntegrationPluginAdditionalTargetInfo.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinContactsPermissionPluginTargetsPrecheck.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6CoreConfigVersionImpl.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6DBusTools/Qt6DBusToolsVersionlessTargets.cmake:
+
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QICNSPluginConfig.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6CoreTargets.cmake:
@@ -753,6 +757,8 @@ CartFoundry_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6CoreMacros.cmake:
 
+/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6CoreConfigVersion.cmake:
+
 /opt/homebrew/lib/cmake/Qt6/QtFeature.cmake:
 
 /opt/homebrew/lib/cmake/Qt6/QtPublicSbomLicenseHelpers.cmake:
@@ -766,6 +772,12 @@ CartFoundry_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 /opt/homebrew/opt/qt/lib/cmake/Qt6GuiTools/Qt6GuiToolsVersionlessTargets.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6CoreAdditionalTargetInfo.cmake:
+
+/opt/homebrew/share/cmake/Modules/Platform/Darwin.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QICOPluginTargets.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Concurrent/Qt6ConcurrentTargets.cmake:
 
 /opt/homebrew/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake:
 
@@ -792,16 +804,6 @@ CartFoundry_autogen/timestamp: /Users/erin/Dev/CartFoundry/CMakeLists.txt \
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QTgaPluginConfig.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6/Qt6TargetsPrecheck.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersion.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6/QtPublicCMakeIncludeGuardHelpers.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6/QtPublicCMakeHelpers.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginConfig.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6/Qt6ConfigVersion.cmake:
 
 /opt/homebrew/share/cmake/Modules/CheckLibraryExists.cmake:
 
@@ -925,7 +927,9 @@ CMakeFiles/4.4.5/CMakeCXXCompiler.cmake:
 
 /opt/homebrew/lib/cmake/Qt6/QtPublicSbomFileHelpers.cmake:
 
-/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6CoreConfigVersion.cmake:
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QPdfPluginConfig.cmake:
+
+/opt/homebrew/lib/cmake/Qt6/QtPublicSbomCommonGenerationHelpers.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QPdfPluginTargets.cmake:
 
@@ -947,37 +951,21 @@ CMakeFiles/4.4.5/CMakeCXXCompiler.cmake:
 
 /opt/homebrew/lib/cmake/Qt6/QtPublicSbomRelationshipHelpers.cmake:
 
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginConfig.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6/Qt6ConfigVersion.cmake:
+
 /opt/homebrew/lib/cmake/Qt6/QtPublicExternalProjectHelpers.cmake:
 
 /opt/homebrew/lib/cmake/Qt6/QtPublicCMakeVersionHelpers.cmake:
 
 /opt/homebrew/lib/cmake/Qt6/QtPublicCMakeHelpers.cmake:
 
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QJpegPluginAdditionalTargetInfo.cmake:
-
 /opt/homebrew/lib/cmake/Qt6/QtPublicAndroidHelpers.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QWebpPluginTargetsPrecheck.cmake:
 
 /opt/homebrew/lib/cmake/Qt6/FindWrapVulkanHeaders.cmake:
-
-/opt/homebrew/share/cmake/Modules/CMakeSystemSpecificInformation.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6DBusTools/Qt6DBusToolsTargets-release.cmake:
-
-/opt/homebrew/lib/cmake/Qt6/QtPublicSbomCpeHelpers.cmake:
-
-/opt/homebrew/lib/cmake/Qt6/QtFeatureCommon.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6DBus/Qt6DBusDependencies.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinBluetoothPermissionPluginAdditionalTargetInfo.cmake:
-
-/Users/erin/Dev/CartFoundry/editor/src/window.cpp:
-
-/opt/homebrew/lib/cmake/Qt6/QtPublicSbomAttributionHelpers.cmake:
-
-/opt/homebrew/lib/cmake/Qt6/FindWrapAtomic.cmake:
 
 /opt/homebrew/share/cmake/Modules/Platform/Apple-Clang.cmake:
 
@@ -993,9 +981,29 @@ CMakeFiles/4.4.5/CMakeCXXCompiler.cmake:
 
 /opt/homebrew/lib/cmake/Qt6/QtPublicWalkLibsHelpers.cmake:
 
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QGifPluginTargetsPrecheck.cmake:
+/opt/homebrew/share/cmake/Modules/CMakeSystemSpecificInformation.cmake:
 
-CMakeFiles/4.4.5/CMakeSystem.cmake:
+/opt/homebrew/opt/qt/lib/cmake/Qt6DBusTools/Qt6DBusToolsTargets-release.cmake:
+
+/opt/homebrew/lib/cmake/Qt6/QtPublicSbomCpeHelpers.cmake:
+
+/opt/homebrew/lib/cmake/Qt6/QtPublicSbomAttributionHelpers.cmake:
+
+/opt/homebrew/lib/cmake/Qt6/QtFeatureCommon.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6DBus/Qt6DBusDependencies.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinBluetoothPermissionPluginAdditionalTargetInfo.cmake:
+
+/Users/erin/Dev/CartFoundry/editor/src/window.cpp:
+
+/opt/homebrew/lib/cmake/Qt6/FindWrapAtomic.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersion.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6/QtPublicCMakeIncludeGuardHelpers.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6/QtPublicCMakeHelpers.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QICOPluginConfig.cmake:
 
@@ -1009,11 +1017,25 @@ CMakeFiles/4.4.5/CMakeSystem.cmake:
 
 /Users/erin/Dev/CartFoundry/editor/src/script_editor.h:
 
-/Users/erin/Dev/CartFoundry/CMakeLists.txt:
+/Users/erin/Dev/CartFoundry/editor/src/screen_builder.h:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QTgaPluginTargetsPrecheck.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QJpegPluginTargetsPrecheck.cmake:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6/QtPublicCMakeVersionHelpers.cmake:
+
+/Users/erin/Dev/CartFoundry/editor/src/importer.h:
 
 /Users/erin/Dev/CartFoundry/editor/src/event_tools.cpp:
 
-/Users/erin/Dev/CartFoundry/editor/src/importer.h:
+/Users/erin/Dev/CartFoundry/editor/src/screen_builder.cpp:
+
+/Users/erin/Dev/CartFoundry/CMakeLists.txt:
+
+/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QGifPluginTargetsPrecheck.cmake:
+
+CMakeFiles/4.4.5/CMakeSystem.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QMinimalIntegrationPluginTargetsPrecheck.cmake:
 
@@ -1024,10 +1046,6 @@ CMakeFiles/4.4.5/CMakeSystem.cmake:
 /opt/homebrew/share/cmake/Modules/CMakeFindDependencyMacro.cmake:
 
 /Users/erin/Dev/CartFoundry/editor/src/graph.h:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QPdfPluginConfig.cmake:
-
-/opt/homebrew/lib/cmake/Qt6/QtPublicSbomCommonGenerationHelpers.cmake:
 
 /Users/erin/Dev/CartFoundry/editor/src/animation_editor.h:
 
@@ -1059,17 +1077,11 @@ CMakeFiles/4.4.5/CMakeSystem.cmake:
 
 /Users/erin/Dev/CartFoundry/editor/src/emulator_widget.h:
 
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QTgaPluginTargetsPrecheck.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QJpegPluginTargetsPrecheck.cmake:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6/QtPublicCMakeVersionHelpers.cmake:
+/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6CoreDependencies.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6GuiTools/Qt6GuiToolsConfigVersion.cmake:
 
 /Users/erin/Dev/CartFoundry/editor/src/data_editor.h:
-
-/opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6CoreDependencies.cmake:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6Gui/Qt6QTgaPluginTargets-release.cmake:
 

@@ -100,10 +100,24 @@ CMakeFiles/cf_project.dir/editor/src/project.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cf_project.dir/editor/src/project.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/erin/Dev/CartFoundry/editor/src/project.cpp -o CMakeFiles/cf_project.dir/editor/src/project.cpp.s
 
+CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.o: CMakeFiles/cf_project.dir/flags.make
+CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/screen_model.cpp
+CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.o: CMakeFiles/cf_project.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.o -MF CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.o.d -o CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/screen_model.cpp
+
+CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/erin/Dev/CartFoundry/editor/src/screen_model.cpp > CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.i
+
+CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/erin/Dev/CartFoundry/editor/src/screen_model.cpp -o CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.s
+
 CMakeFiles/cf_project.dir/editor/src/builder.cpp.o: CMakeFiles/cf_project.dir/flags.make
 CMakeFiles/cf_project.dir/editor/src/builder.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/builder.cpp
 CMakeFiles/cf_project.dir/editor/src/builder.cpp.o: CMakeFiles/cf_project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cf_project.dir/editor/src/builder.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cf_project.dir/editor/src/builder.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cf_project.dir/editor/src/builder.cpp.o -MF CMakeFiles/cf_project.dir/editor/src/builder.cpp.o.d -o CMakeFiles/cf_project.dir/editor/src/builder.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/builder.cpp
 
 CMakeFiles/cf_project.dir/editor/src/builder.cpp.i: cmake_force
@@ -117,7 +131,7 @@ CMakeFiles/cf_project.dir/editor/src/builder.cpp.s: cmake_force
 CMakeFiles/cf_project.dir/editor/src/assets.cpp.o: CMakeFiles/cf_project.dir/flags.make
 CMakeFiles/cf_project.dir/editor/src/assets.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/assets.cpp
 CMakeFiles/cf_project.dir/editor/src/assets.cpp.o: CMakeFiles/cf_project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cf_project.dir/editor/src/assets.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/cf_project.dir/editor/src/assets.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cf_project.dir/editor/src/assets.cpp.o -MF CMakeFiles/cf_project.dir/editor/src/assets.cpp.o.d -o CMakeFiles/cf_project.dir/editor/src/assets.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/assets.cpp
 
 CMakeFiles/cf_project.dir/editor/src/assets.cpp.i: cmake_force
@@ -131,7 +145,7 @@ CMakeFiles/cf_project.dir/editor/src/assets.cpp.s: cmake_force
 CMakeFiles/cf_project.dir/editor/src/behavior.cpp.o: CMakeFiles/cf_project.dir/flags.make
 CMakeFiles/cf_project.dir/editor/src/behavior.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/behavior.cpp
 CMakeFiles/cf_project.dir/editor/src/behavior.cpp.o: CMakeFiles/cf_project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/cf_project.dir/editor/src/behavior.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/cf_project.dir/editor/src/behavior.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cf_project.dir/editor/src/behavior.cpp.o -MF CMakeFiles/cf_project.dir/editor/src/behavior.cpp.o.d -o CMakeFiles/cf_project.dir/editor/src/behavior.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/behavior.cpp
 
 CMakeFiles/cf_project.dir/editor/src/behavior.cpp.i: cmake_force
@@ -145,7 +159,7 @@ CMakeFiles/cf_project.dir/editor/src/behavior.cpp.s: cmake_force
 CMakeFiles/cf_project.dir/editor/src/world_model.cpp.o: CMakeFiles/cf_project.dir/flags.make
 CMakeFiles/cf_project.dir/editor/src/world_model.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/world_model.cpp
 CMakeFiles/cf_project.dir/editor/src/world_model.cpp.o: CMakeFiles/cf_project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/cf_project.dir/editor/src/world_model.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/cf_project.dir/editor/src/world_model.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cf_project.dir/editor/src/world_model.cpp.o -MF CMakeFiles/cf_project.dir/editor/src/world_model.cpp.o.d -o CMakeFiles/cf_project.dir/editor/src/world_model.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/world_model.cpp
 
 CMakeFiles/cf_project.dir/editor/src/world_model.cpp.i: cmake_force
@@ -159,7 +173,7 @@ CMakeFiles/cf_project.dir/editor/src/world_model.cpp.s: cmake_force
 CMakeFiles/cf_project.dir/editor/src/pokemon_example.cpp.o: CMakeFiles/cf_project.dir/flags.make
 CMakeFiles/cf_project.dir/editor/src/pokemon_example.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/pokemon_example.cpp
 CMakeFiles/cf_project.dir/editor/src/pokemon_example.cpp.o: CMakeFiles/cf_project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/cf_project.dir/editor/src/pokemon_example.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/cf_project.dir/editor/src/pokemon_example.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cf_project.dir/editor/src/pokemon_example.cpp.o -MF CMakeFiles/cf_project.dir/editor/src/pokemon_example.cpp.o.d -o CMakeFiles/cf_project.dir/editor/src/pokemon_example.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/pokemon_example.cpp
 
 CMakeFiles/cf_project.dir/editor/src/pokemon_example.cpp.i: cmake_force
@@ -173,7 +187,7 @@ CMakeFiles/cf_project.dir/editor/src/pokemon_example.cpp.s: cmake_force
 CMakeFiles/cf_project.dir/editor/src/game_model.cpp.o: CMakeFiles/cf_project.dir/flags.make
 CMakeFiles/cf_project.dir/editor/src/game_model.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/game_model.cpp
 CMakeFiles/cf_project.dir/editor/src/game_model.cpp.o: CMakeFiles/cf_project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/cf_project.dir/editor/src/game_model.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/cf_project.dir/editor/src/game_model.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cf_project.dir/editor/src/game_model.cpp.o -MF CMakeFiles/cf_project.dir/editor/src/game_model.cpp.o.d -o CMakeFiles/cf_project.dir/editor/src/game_model.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/game_model.cpp
 
 CMakeFiles/cf_project.dir/editor/src/game_model.cpp.i: cmake_force
@@ -187,7 +201,7 @@ CMakeFiles/cf_project.dir/editor/src/game_model.cpp.s: cmake_force
 CMakeFiles/cf_project.dir/editor/src/game_script.cpp.o: CMakeFiles/cf_project.dir/flags.make
 CMakeFiles/cf_project.dir/editor/src/game_script.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/game_script.cpp
 CMakeFiles/cf_project.dir/editor/src/game_script.cpp.o: CMakeFiles/cf_project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/cf_project.dir/editor/src/game_script.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/cf_project.dir/editor/src/game_script.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cf_project.dir/editor/src/game_script.cpp.o -MF CMakeFiles/cf_project.dir/editor/src/game_script.cpp.o.d -o CMakeFiles/cf_project.dir/editor/src/game_script.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/game_script.cpp
 
 CMakeFiles/cf_project.dir/editor/src/game_script.cpp.i: cmake_force
@@ -201,7 +215,7 @@ CMakeFiles/cf_project.dir/editor/src/game_script.cpp.s: cmake_force
 CMakeFiles/cf_project.dir/editor/src/game_session.cpp.o: CMakeFiles/cf_project.dir/flags.make
 CMakeFiles/cf_project.dir/editor/src/game_session.cpp.o: /Users/erin/Dev/CartFoundry/editor/src/game_session.cpp
 CMakeFiles/cf_project.dir/editor/src/game_session.cpp.o: CMakeFiles/cf_project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/cf_project.dir/editor/src/game_session.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/cf_project.dir/editor/src/game_session.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cf_project.dir/editor/src/game_session.cpp.o -MF CMakeFiles/cf_project.dir/editor/src/game_session.cpp.o.d -o CMakeFiles/cf_project.dir/editor/src/game_session.cpp.o -c /Users/erin/Dev/CartFoundry/editor/src/game_session.cpp
 
 CMakeFiles/cf_project.dir/editor/src/game_session.cpp.i: cmake_force
@@ -215,7 +229,7 @@ CMakeFiles/cf_project.dir/editor/src/game_session.cpp.s: cmake_force
 CMakeFiles/cf_project.dir/runtime/cf_flow.c.o: CMakeFiles/cf_project.dir/flags.make
 CMakeFiles/cf_project.dir/runtime/cf_flow.c.o: /Users/erin/Dev/CartFoundry/runtime/cf_flow.c
 CMakeFiles/cf_project.dir/runtime/cf_flow.c.o: CMakeFiles/cf_project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/cf_project.dir/runtime/cf_flow.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/cf_project.dir/runtime/cf_flow.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cf_project.dir/runtime/cf_flow.c.o -MF CMakeFiles/cf_project.dir/runtime/cf_flow.c.o.d -o CMakeFiles/cf_project.dir/runtime/cf_flow.c.o -c /Users/erin/Dev/CartFoundry/runtime/cf_flow.c
 
 CMakeFiles/cf_project.dir/runtime/cf_flow.c.i: cmake_force
@@ -229,7 +243,7 @@ CMakeFiles/cf_project.dir/runtime/cf_flow.c.s: cmake_force
 CMakeFiles/cf_project.dir/runtime/cf_world.c.o: CMakeFiles/cf_project.dir/flags.make
 CMakeFiles/cf_project.dir/runtime/cf_world.c.o: /Users/erin/Dev/CartFoundry/runtime/cf_world.c
 CMakeFiles/cf_project.dir/runtime/cf_world.c.o: CMakeFiles/cf_project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/cf_project.dir/runtime/cf_world.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/cf_project.dir/runtime/cf_world.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cf_project.dir/runtime/cf_world.c.o -MF CMakeFiles/cf_project.dir/runtime/cf_world.c.o.d -o CMakeFiles/cf_project.dir/runtime/cf_world.c.o -c /Users/erin/Dev/CartFoundry/runtime/cf_world.c
 
 CMakeFiles/cf_project.dir/runtime/cf_world.c.i: cmake_force
@@ -243,7 +257,7 @@ CMakeFiles/cf_project.dir/runtime/cf_world.c.s: cmake_force
 CMakeFiles/cf_project.dir/runtime/cf_behavior.c.o: CMakeFiles/cf_project.dir/flags.make
 CMakeFiles/cf_project.dir/runtime/cf_behavior.c.o: /Users/erin/Dev/CartFoundry/runtime/cf_behavior.c
 CMakeFiles/cf_project.dir/runtime/cf_behavior.c.o: CMakeFiles/cf_project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/cf_project.dir/runtime/cf_behavior.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/cf_project.dir/runtime/cf_behavior.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cf_project.dir/runtime/cf_behavior.c.o -MF CMakeFiles/cf_project.dir/runtime/cf_behavior.c.o.d -o CMakeFiles/cf_project.dir/runtime/cf_behavior.c.o -c /Users/erin/Dev/CartFoundry/runtime/cf_behavior.c
 
 CMakeFiles/cf_project.dir/runtime/cf_behavior.c.i: cmake_force
@@ -257,7 +271,7 @@ CMakeFiles/cf_project.dir/runtime/cf_behavior.c.s: cmake_force
 CMakeFiles/cf_project.dir/runtime/cf_animation.c.o: CMakeFiles/cf_project.dir/flags.make
 CMakeFiles/cf_project.dir/runtime/cf_animation.c.o: /Users/erin/Dev/CartFoundry/runtime/cf_animation.c
 CMakeFiles/cf_project.dir/runtime/cf_animation.c.o: CMakeFiles/cf_project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/cf_project.dir/runtime/cf_animation.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/cf_project.dir/runtime/cf_animation.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cf_project.dir/runtime/cf_animation.c.o -MF CMakeFiles/cf_project.dir/runtime/cf_animation.c.o.d -o CMakeFiles/cf_project.dir/runtime/cf_animation.c.o -c /Users/erin/Dev/CartFoundry/runtime/cf_animation.c
 
 CMakeFiles/cf_project.dir/runtime/cf_animation.c.i: cmake_force
@@ -271,7 +285,7 @@ CMakeFiles/cf_project.dir/runtime/cf_animation.c.s: cmake_force
 CMakeFiles/cf_project.dir/runtime/cf_game.c.o: CMakeFiles/cf_project.dir/flags.make
 CMakeFiles/cf_project.dir/runtime/cf_game.c.o: /Users/erin/Dev/CartFoundry/runtime/cf_game.c
 CMakeFiles/cf_project.dir/runtime/cf_game.c.o: CMakeFiles/cf_project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/cf_project.dir/runtime/cf_game.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/cf_project.dir/runtime/cf_game.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cf_project.dir/runtime/cf_game.c.o -MF CMakeFiles/cf_project.dir/runtime/cf_game.c.o.d -o CMakeFiles/cf_project.dir/runtime/cf_game.c.o -c /Users/erin/Dev/CartFoundry/runtime/cf_game.c
 
 CMakeFiles/cf_project.dir/runtime/cf_game.c.i: cmake_force
@@ -285,7 +299,7 @@ CMakeFiles/cf_project.dir/runtime/cf_game.c.s: cmake_force
 CMakeFiles/cf_project.dir/runtime/cf_raycast.c.o: CMakeFiles/cf_project.dir/flags.make
 CMakeFiles/cf_project.dir/runtime/cf_raycast.c.o: /Users/erin/Dev/CartFoundry/runtime/cf_raycast.c
 CMakeFiles/cf_project.dir/runtime/cf_raycast.c.o: CMakeFiles/cf_project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building C object CMakeFiles/cf_project.dir/runtime/cf_raycast.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building C object CMakeFiles/cf_project.dir/runtime/cf_raycast.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cf_project.dir/runtime/cf_raycast.c.o -MF CMakeFiles/cf_project.dir/runtime/cf_raycast.c.o.d -o CMakeFiles/cf_project.dir/runtime/cf_raycast.c.o -c /Users/erin/Dev/CartFoundry/runtime/cf_raycast.c
 
 CMakeFiles/cf_project.dir/runtime/cf_raycast.c.i: cmake_force
@@ -300,6 +314,7 @@ CMakeFiles/cf_project.dir/runtime/cf_raycast.c.s: cmake_force
 cf_project_OBJECTS = \
 "CMakeFiles/cf_project.dir/cf_project_autogen/mocs_compilation.cpp.o" \
 "CMakeFiles/cf_project.dir/editor/src/project.cpp.o" \
+"CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.o" \
 "CMakeFiles/cf_project.dir/editor/src/builder.cpp.o" \
 "CMakeFiles/cf_project.dir/editor/src/assets.cpp.o" \
 "CMakeFiles/cf_project.dir/editor/src/behavior.cpp.o" \
@@ -320,6 +335,7 @@ cf_project_EXTERNAL_OBJECTS =
 
 libcf_project.a: CMakeFiles/cf_project.dir/cf_project_autogen/mocs_compilation.cpp.o
 libcf_project.a: CMakeFiles/cf_project.dir/editor/src/project.cpp.o
+libcf_project.a: CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.o
 libcf_project.a: CMakeFiles/cf_project.dir/editor/src/builder.cpp.o
 libcf_project.a: CMakeFiles/cf_project.dir/editor/src/assets.cpp.o
 libcf_project.a: CMakeFiles/cf_project.dir/editor/src/behavior.cpp.o
@@ -336,7 +352,7 @@ libcf_project.a: CMakeFiles/cf_project.dir/runtime/cf_game.c.o
 libcf_project.a: CMakeFiles/cf_project.dir/runtime/cf_raycast.c.o
 libcf_project.a: CMakeFiles/cf_project.dir/build.make
 libcf_project.a: CMakeFiles/cf_project.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking CXX static library libcf_project.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/erin/Dev/CartFoundry/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Linking CXX static library libcf_project.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/cf_project.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cf_project.dir/link.txt --verbose=$(VERBOSE)
 

@@ -1,6 +1,7 @@
 CMakeFiles/cf-tests.dir/tests/project_tests.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/SDKSettings.json \
   /Users/erin/Dev/CartFoundry/tests/project_tests.cpp \
+  /Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h \
   /Users/erin/Dev/CartFoundry/editor/src/builder.h \
   /Users/erin/Dev/CartFoundry/editor/src/project.h \
   /opt/homebrew/opt/qt/include/QtCore/QJsonObject \

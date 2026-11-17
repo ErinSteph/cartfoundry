@@ -46,17 +46,17 @@ QJsonObject Project::toJson() const {
     }
     QJsonArray areaData; for(const auto &a:areas)areaData.append(a.toJson());
     QJsonArray rasters; for (const auto &a : assets) rasters.append(a.toJson());
-    return {{"systems",systemsJson()},{"controls",QJsonObject{{"interact",controls.interact},{"close",controls.close},{"restart",controls.restart},{"inventory",controls.inventory}}},{"areas",areaData},{"assets", rasters}, {"world", world.toJson()}, {"format", "cartfoundry"}, {"version", 5}, {"target", target}, {"title", title}, {"entry", entry}, {"prompts", nodes}};
+    return {{"settings",QJsonObject{{"defaultScene",defaultScene},{"splashTicks",splashTicks}}},{"systems",systemsJson()},{"controls",QJsonObject{{"interact",controls.interact},{"close",controls.close},{"restart",controls.restart},{"inventory",controls.inventory}}},{"areas",areaData},{"assets", rasters}, {"world", world.toJson()}, {"format", "cartfoundry"}, {"version", 6}, {"target", target}, {"title", title}, {"entry", entry}, {"prompts", nodes}};
 }
 bool Project::fromJson(const QJsonObject &json, Project &result, QString &error) {
     auto fail = [&](const QString &s) { error = s; return false; };
-    if (json["format"] != "cartfoundry" || (json["version"] != 1 && json["version"] != 2 && json["version"] != 3 && json["version"] != 4 && json["version"] != 5) || (json["target"] != "gbc" && json["target"] != "gb"))
-        return fail("Expected a CartFoundry version 1, 2, 3, 4 or 5 Game Boy / Color project.");
+    if (json["format"] != "cartfoundry" || (json["version"] != 1 && json["version"] != 2 && json["version"] != 3 && json["version"] != 4 && json["version"] != 5 && json["version"] != 6) || (json["target"] != "gbc" && json["target"] != "gb"))
+        return fail("Expected a CartFoundry version 1–6 Game Boy / Color project.");
     if (!json["title"].isString() || !json["entry"].isString() || !json["prompts"].isArray())
         return fail("Project requires title, entry and a prompts array.");
     Project p; p.target = json["target"].toString(); p.title = json["title"].toString(); p.entry = json["entry"].toString();
     const auto nodes = json["prompts"].toArray();
-    if (nodes.isEmpty() || nodes.size() > 64) return fail("Projects support 1 to 64 prompts.");
+    if ((nodes.isEmpty()&&json["version"].toInt()<6) || nodes.size() > 64) return fail("Projects support 1 to 64 prompts.");
     QSet<QString> ids;
     for (const auto &value : nodes) {
         if (!value.isObject()) return fail("Each prompt must be an object.");
@@ -107,6 +107,7 @@ bool Project::fromJson(const QJsonObject &json, Project &result, QString &error)
     if(json.contains("controls")){auto c=json["controls"].toObject();for(auto key:{"interact","close","restart"}){int n=c[key].toInt(-1);if(!c[key].isDouble()||c[key].toDouble()!=n||!QList<int>{16,32,64,128}.contains(n))return fail("Controls must be A, B, Select or Start.");}p.controls={c["interact"].toInt(),c["close"].toInt(),c["restart"].toInt()};}
     if(json.contains("controls")){auto c=json["controls"].toObject();if(c.contains("inventory")){int n=c["inventory"].toInt(-1);if(!c["inventory"].isDouble()||c["inventory"].toDouble()!=n||!QList<int>{16,32,64,128}.contains(n))return fail("Invalid inventory button.");p.controls.inventory=n;}else for(int n:{64,128,32,16})if(n!=p.controls.interact&&n!=p.controls.close&&n!=p.controls.restart){p.controls.inventory=n;break;}}
     if(json.contains("systems")){if(!json["systems"].isObject()||!readSystems(json["systems"].toObject(),p,error))return false;}
+    if(json["version"].toInt()<6)p.migrateScenes();else{auto settings=json["settings"].toObject();if(!settings["defaultScene"].isString()||!settings["splashTicks"].isDouble()||settings["splashTicks"].toInt()!=settings["splashTicks"].toDouble()||settings["splashTicks"].toInt()<1||settings["splashTicks"].toInt()>600)return fail("Project settings require a default scene and splash duration (1-600 ticks).");p.defaultScene=settings["defaultScene"].toString();p.splashTicks=settings["splashTicks"].toInt();}
     // Incomplete text and wires are editable; export performs the full validation.
     result = p; error.clear(); return true;
 }
@@ -136,9 +137,9 @@ QStringList Project::validate() const {
     if(buttons.size()!=4)errors<<"Interact, close, restart and inventory controls must use different buttons.";
     for(auto n:buttons)if(!QList<int>{16,32,64,128}.contains(n))errors<<"Invalid game control button.";
     if (target != "gb" && target != "gbc") errors << "Choose Game Boy or Game Boy Color mode.";
-    if (prompts.isEmpty() || prompts.size() > 64) errors << "Use 1 to 64 prompts.";
+    if (prompts.size() > 64) errors << "Use up to 64 prompts.";
     if (title.trimmed().isEmpty() || title.size() > 18 || !ascii(title)) errors << "Project title: use 1-18 printable ASCII characters.";
-    if (entry.isEmpty() || indexOf(entry) < 0) errors << "Choose a valid starting prompt.";
+    
     QSet<QString> ids;
     int bytes = 0;
     for (const auto &p : prompts) {
@@ -176,7 +177,7 @@ QStringList Project::validate() const {
     auto maps=allAreas();QSet<QString> areaIds;
     if(maps.size()>8)errors<<"Use at most 8 areas.";
     for(const auto &map:maps){if(map.id.isEmpty()||areaIds.contains(map.id))errors<<"Area IDs must be unique.";areaIds.insert(map.id);if(map.name.trimmed().isEmpty())errors<<"Name every area.";}
-    for(const auto &w:maps) if (world.enabled) {
+    for(const auto &w:maps) if (sceneIndex(areaScene(w.id))>=0&&scenes[sceneIndex(areaScene(w.id))].kind=="world") {
         const auto *ts = asset(w.tileset), *sp = asset(w.player);
         if (!ts || ts->kind != "tileset") errors << "Overworld needs a tileset.";
         if (!sp || sp->kind != "sprite") errors << "Overworld needs a player sprite.";
@@ -251,6 +252,7 @@ Project Project::example() {
         {"path", "THE OLD PATH", "You find a sign:\nTHIS WAY TO\nSOMETHING NEW.\nWhere does it lead?", {420, 390}, {{"Follow the sign", "quest"}, {"Turn back", "welcome"}}},
         {"quest", "A NEW BEGINNING", "Your story begins\nhere. Rewire these\nchoices to change\nits course.", {800, 220}, {{"Start again", "welcome"}}}
     };
+    p.scenes[0].kind="screen";p.scenes[0].onSceneEnter="dialogue "+p.entry;
     return p;
 }
 }

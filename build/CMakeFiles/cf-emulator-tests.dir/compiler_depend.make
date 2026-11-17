@@ -941,6 +941,7 @@ CMakeFiles/cf-emulator-tests.dir/tests/emulator_tests.cpp.o: /Users/erin/Dev/Car
   /Users/erin/Dev/CartFoundry/runtime/cf_animation.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_behavior.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_world.h \
+  /Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h \
   /opt/homebrew/opt/qt/include/QtCore/QJsonObject \
   /opt/homebrew/opt/qt/include/QtCore/QMap \
   /opt/homebrew/opt/qt/include/QtCore/QPointF \
@@ -2151,6 +2152,8 @@ cf-emulator-tests_autogen/include/emulator_tests.moc:
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/wctype.h:
 
 /opt/homebrew/opt/qt/lib/QtCore.framework/Headers/qtmetamacros.h:
+
+/Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__utility/default_three_way_comparator.h:
 

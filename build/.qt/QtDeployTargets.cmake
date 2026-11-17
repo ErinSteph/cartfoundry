@@ -1,4 +1,4 @@
-set(__QT_DEPLOY_TARGETS "mgba;cf_emulation;cf_project;CartFoundry;cf-build;cf-tests;cf-flow-tests;cf-world-tests;cf-emulator-tests;cf-behavior-tests;cf-animation-tests;cf-systems-tests;cf-pokemon-tests;cf-versatility-tests")
+set(__QT_DEPLOY_TARGETS "mgba;cf_emulation;cf_project;CartFoundry;cf-build;cf-tests;cf-flow-tests;cf-world-tests;cf-emulator-tests;cf-behavior-tests;cf-animation-tests;cf-systems-tests;cf-pokemon-tests;cf-versatility-tests;cf-scene-tests")
 set(__QT_DEPLOY_TARGET_mgba_FILE /Users/erin/Dev/CartFoundry/build/third_party/mgba/libmgba.a)
 set(__QT_DEPLOY_TARGET_mgba_TYPE STATIC_LIBRARY)
 set(__QT_DEPLOY_TARGET_cf_emulation_FILE /Users/erin/Dev/CartFoundry/build/libcf_emulation.a)
@@ -27,3 +27,5 @@ set(__QT_DEPLOY_TARGET_cf-pokemon-tests_FILE /Users/erin/Dev/CartFoundry/build/c
 set(__QT_DEPLOY_TARGET_cf-pokemon-tests_TYPE EXECUTABLE)
 set(__QT_DEPLOY_TARGET_cf-versatility-tests_FILE /Users/erin/Dev/CartFoundry/build/cf-versatility-tests)
 set(__QT_DEPLOY_TARGET_cf-versatility-tests_TYPE EXECUTABLE)
+set(__QT_DEPLOY_TARGET_cf-scene-tests_FILE /Users/erin/Dev/CartFoundry/build/cf-scene-tests)
+set(__QT_DEPLOY_TARGET_cf-scene-tests_TYPE EXECUTABLE)

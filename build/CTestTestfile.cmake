@@ -22,4 +22,6 @@ add_test("pokemon-adventure" "/Users/erin/Dev/CartFoundry/build/cf-pokemon-tests
 set_tests_properties("pokemon-adventure" PROPERTIES  _BACKTRACE_TRIPLES "/Users/erin/Dev/CartFoundry/CMakeLists.txt;55;add_test;/Users/erin/Dev/CartFoundry/CMakeLists.txt;0;")
 add_test("versatility-and-rendering" "/Users/erin/Dev/CartFoundry/build/cf-versatility-tests")
 set_tests_properties("versatility-and-rendering" PROPERTIES  _BACKTRACE_TRIPLES "/Users/erin/Dev/CartFoundry/CMakeLists.txt;59;add_test;/Users/erin/Dev/CartFoundry/CMakeLists.txt;0;")
+add_test("scenes-and-startup" "/Users/erin/Dev/CartFoundry/build/cf-scene-tests")
+set_tests_properties("scenes-and-startup" PROPERTIES  _BACKTRACE_TRIPLES "/Users/erin/Dev/CartFoundry/CMakeLists.txt;62;add_test;/Users/erin/Dev/CartFoundry/CMakeLists.txt;0;")
 subdirs("third_party/mgba")

@@ -36,6 +36,7 @@ struct RasterAsset {
 struct ImportOptions {
     int width = 16, height = 16; // output size per frame
     int columns=1,rows=1;
+    bool screen=false;
     bool smooth = false;
     enum Fit { Contain, Cover, Stretch } fit = Contain;
     bool transparent = true;

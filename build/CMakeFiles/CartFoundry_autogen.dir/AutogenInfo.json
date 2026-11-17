@@ -480,9 +480,21 @@
 			null
 		],
 		[
+			"/Users/erin/Dev/CartFoundry/editor/src/screen_builder.h",
+			"Mu",
+			"SOTBLUZQSQ/moc_screen_builder.cpp",
+			null
+		],
+		[
 			"/Users/erin/Dev/CartFoundry/editor/src/script_editor.h",
 			"Mu",
 			"SOTBLUZQSQ/moc_script_editor.cpp",
+			null
+		],
+		[
+			"/Users/erin/Dev/CartFoundry/editor/src/script_workspace.h",
+			"Mu",
+			"SOTBLUZQSQ/moc_script_workspace.cpp",
 			null
 		],
 		[
@@ -581,7 +593,17 @@
 		[ "/Users/erin/Dev/CartFoundry/editor/src/main.cpp", "Mu", null ],
 		[ "/Users/erin/Dev/CartFoundry/editor/src/pixel_editor.cpp", "Mu", null ],
 		[
+			"/Users/erin/Dev/CartFoundry/editor/src/screen_builder.cpp",
+			"Mu",
+			null
+		],
+		[
 			"/Users/erin/Dev/CartFoundry/editor/src/script_editor.cpp",
+			"Mu",
+			null
+		],
+		[
+			"/Users/erin/Dev/CartFoundry/editor/src/script_workspace.cpp",
 			"Mu",
 			null
 		],

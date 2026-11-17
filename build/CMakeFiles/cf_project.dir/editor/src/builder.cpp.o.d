@@ -1015,6 +1015,7 @@ CMakeFiles/cf_project.dir/editor/src/builder.cpp.o: \
   /Users/erin/Dev/CartFoundry/editor/src/game_script.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_game.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_flow.h \
+  /Users/erin/Dev/CartFoundry/editor/src/screen_model.h \
   /opt/homebrew/opt/qt/include/QtCore/QCoreApplication \
   /opt/homebrew/opt/qt/lib/QtCore.framework/Headers/qcoreapplication.h \
   /opt/homebrew/opt/qt/lib/QtCore.framework/Headers/qcoreevent.h \
@@ -1071,6 +1072,7 @@ CMakeFiles/cf_project.dir/editor/src/builder.cpp.o: \
   /opt/homebrew/opt/qt/include/QtCore/QFileInfo \
   /opt/homebrew/opt/qt/include/QtCore/QProcess \
   /opt/homebrew/opt/qt/lib/QtCore.framework/Headers/qprocess.h \
+  /opt/homebrew/opt/qt/include/QtCore/QRegularExpression \
   /opt/homebrew/opt/qt/include/QtCore/QSaveFile \
   /opt/homebrew/opt/qt/lib/QtCore.framework/Headers/qsavefile.h \
   /opt/homebrew/opt/qt/include/QtCore/QTemporaryDir \

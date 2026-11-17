@@ -945,6 +945,7 @@ CMakeFiles/cf-versatility-tests.dir/tests/versatility_tests.cpp.o: /Users/erin/D
   /Users/erin/Dev/CartFoundry/runtime/cf_flow.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_game.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_world.h \
+  /Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h \
   /opt/homebrew/opt/qt/include/QtCore/QJsonObject \
   /opt/homebrew/opt/qt/include/QtCore/QMap \
   /opt/homebrew/opt/qt/include/QtCore/QPointF \
@@ -2155,6 +2156,8 @@ CMakeFiles/cf-versatility-tests.dir/tests/versatility_tests.cpp.o: /Users/erin/D
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/wctype.h:
 
 /opt/homebrew/opt/qt/lib/QtCore.framework/Headers/qtmetamacros.h:
+
+/Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__utility/default_three_way_comparator.h:
 

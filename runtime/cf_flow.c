@@ -1,5 +1,5 @@
 #include "cf_flow.h"
-uint8_t cf_step(CFState *state, const CFPrompt *prompts, uint8_t count, uint8_t entry, uint8_t keys) {
+uint8_t cf_step(CFState *state, const CFPrompt *prompts, uint8_t count, uint8_t entry, uint8_t keys) CF_FLOW_CALL {
     const CFPrompt *p;
     uint8_t target;
     if (!count || entry >= count) return 0;
@@ -21,4 +21,4 @@ uint8_t cf_step(CFState *state, const CFPrompt *prompts, uint8_t count, uint8_t 
     return 0;
 }
 
-void cf_text_layout(const CFPrompt *p,CFTextLayout *out){int16_t cols=p->box_w-2*p->padding,body=p->padding+((p->text_flags&2)?2:0),footer=p->box_h-1-p->padding,choice=footer+((p->text_flags&4)?0:1)-p->choice_count*p->choice_spacing,rows=choice-1-body;out->columns=cols>0?cols:1;out->body_rows=rows>0?rows:0;out->body_row=body;out->choice_row=choice>0?choice:0;out->footer_row=footer>0?footer:0;}
+void cf_text_layout(const CFPrompt *p,CFTextLayout *out) CF_FLOW_CALL {int16_t cols=p->box_w-2*p->padding,body=p->padding+((p->text_flags&2)?2:0),footer=p->box_h-1-p->padding,choice=footer+((p->text_flags&4)?0:1)-p->choice_count*p->choice_spacing,rows=choice-1-body;out->columns=cols>0?cols:1;out->body_rows=rows>0?rows:0;out->body_row=body;out->choice_row=choice>0?choice:0;out->footer_row=footer>0?footer:0;}

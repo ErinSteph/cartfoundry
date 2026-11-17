@@ -6,6 +6,7 @@ ce06be063bc2591afc8435fb106eda5a CMakeFiles/cf-build_autogen
 ce06be063bc2591afc8435fb106eda5a CMakeFiles/cf-emulator-tests_autogen
 ce06be063bc2591afc8435fb106eda5a CMakeFiles/cf-flow-tests_autogen
 ce06be063bc2591afc8435fb106eda5a CMakeFiles/cf-pokemon-tests_autogen
+ce06be063bc2591afc8435fb106eda5a CMakeFiles/cf-scene-tests_autogen
 ce06be063bc2591afc8435fb106eda5a CMakeFiles/cf-systems-tests_autogen
 ce06be063bc2591afc8435fb106eda5a CMakeFiles/cf-tests_autogen
 ce06be063bc2591afc8435fb106eda5a CMakeFiles/cf-versatility-tests_autogen
@@ -19,6 +20,7 @@ f3d46106259836fdbb701b48471d06ba cf-animation-tests_autogen/timestamp
 f706210e6aa08e758b8e13927cd7b955 cf-emulator-tests_autogen/timestamp
 aa6b1827aa641ea3cfcbec4297655bd7 cf-flow-tests_autogen/timestamp
 87973f47866c25a040f0bd66ae23749d cf-pokemon-tests_autogen/timestamp
+4db323a33ccf896dba67f9fb4695b0e8 cf-scene-tests_autogen/timestamp
 0c5792591c6626920e0891b4f7654606 cf-systems-tests_autogen/timestamp
 73c99376a81e8ca57207e74c03bad454 cf-tests_autogen/timestamp
 5976c008b544c5fd3a427838876ffe3d cf-versatility-tests_autogen/timestamp

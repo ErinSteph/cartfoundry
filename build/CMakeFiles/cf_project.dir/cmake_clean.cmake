@@ -20,6 +20,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/cf_project.dir/editor/src/pokemon_example.cpp.o.d"
   "CMakeFiles/cf_project.dir/editor/src/project.cpp.o"
   "CMakeFiles/cf_project.dir/editor/src/project.cpp.o.d"
+  "CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.o"
+  "CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.o.d"
   "CMakeFiles/cf_project.dir/editor/src/world_model.cpp.o"
   "CMakeFiles/cf_project.dir/editor/src/world_model.cpp.o.d"
   "CMakeFiles/cf_project.dir/runtime/cf_animation.c.o"

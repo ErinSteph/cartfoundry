@@ -33,6 +33,7 @@ public:
     void setProject(const Project &);
     void reset(bool fresh=true,bool enter=true);
     void input(int key);
+    void startScene(const QString &,bool fresh=true);
 protected:
     void paintEvent(QPaintEvent *) override;
     void keyPressEvent(QKeyEvent *) override;
@@ -43,6 +44,7 @@ private:
     QVector<CFAnimationController> actorAnimations;QVector<CFAnimationBindings> actorBindings;QVector<QVector<CFAnimation>> actorClips;
     bool playerMoving=false;QImage playerSheet;QVector<QImage> actorSheets;
     QVector<CFActorState> actorStates;QVector<CFBehavior> actorBehaviors;CFBehavior playerBehavior{};int movementClock=0,touchCooldown=60;
+    int activeScene=-1,screenCursor=-1;bool screenMode=false;void chooseButton(int);
     Project project;CFWorldState state{};CFState flow{};bool dialog=false;QSet<int> held;
     GameSession session;CFStepState stepState{};QVector<CFStepRule> stepRules;QVector<QVector<CFInstruction>> stepCode;QByteArray solids;QVector<int> health;int menu=-1,menuSide=0,menuChoice=0;bool menuReadOnly=false;
     void tick();void interact(bool combat=false);void requests();void menuInput(int);

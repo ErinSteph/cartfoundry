@@ -933,6 +933,7 @@ cf-tests_autogen/timestamp: /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.
   /Users/erin/Dev/CartFoundry/runtime/cf_behavior.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_world.h \
   /Users/erin/Dev/CartFoundry/tests/project_tests.cpp \
+  /Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h \
   /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QCryptographicHash \
   /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QFile \
   /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QJsonArray \
@@ -2527,8 +2528,6 @@ cf-tests_autogen/timestamp: /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.
 
 /opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qcontainertools_impl.h:
 
-/opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qforeach.h:
-
 /opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qcompilerdetection.h:
 
 /opt/homebrew/opt/qt/lib/cmake/Qt6DBus/Qt6DBusTargets.cmake:
@@ -2728,6 +2727,12 @@ cf-tests_autogen/timestamp: /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.
 /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/c++/v1/__filesystem/file_status.h:
 
 /opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QCryptographicHash:
+
+/opt/homebrew/Cellar/qtbase/6.12.0_2/lib/QtCore.framework/Versions/A/Headers/qforeach.h:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/sys/_symbol_aliasing.h:
+
+/Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h:
 
 /Users/erin/Dev/CartFoundry/runtime/cf_world.h:
 
@@ -2958,8 +2963,6 @@ CMakeFiles/4.4.5/CMakeSystem.cmake:
 /opt/homebrew/opt/qt/lib/cmake/Qt6Core/Qt6QDarwinBluetoothPermissionPluginConfig.cmake:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/sys/_types/_blkcnt_t.h:
-
-/Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/sys/_symbol_aliasing.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX27.2.sdk/usr/include/sys/_pthread/_pthread_types.h:
 

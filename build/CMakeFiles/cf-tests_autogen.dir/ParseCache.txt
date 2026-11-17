@@ -930,6 +930,7 @@
  mdp:/Users/erin/Dev/CartFoundry/runtime/cf_behavior.h
  mdp:/Users/erin/Dev/CartFoundry/runtime/cf_world.h
  mdp:/Users/erin/Dev/CartFoundry/tests/project_tests.cpp
+ mdp:/Users/erin/Dev/CartFoundry/tests/rom_test_helpers.h
  mdp:/opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QCryptographicHash
  mdp:/opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QFile
  mdp:/opt/homebrew/Cellar/qtbase/6.12.0_2/include/QtCore/QJsonArray

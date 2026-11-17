@@ -20,6 +20,8 @@
  /Users/erin/Dev/CartFoundry/editor/src/pokemon_example.cpp
  /Users/erin/Dev/CartFoundry/editor/src/project.cpp
  /Users/erin/Dev/CartFoundry/editor/src/project.h
+ /Users/erin/Dev/CartFoundry/editor/src/screen_model.cpp
+ /Users/erin/Dev/CartFoundry/editor/src/screen_model.h
  /Users/erin/Dev/CartFoundry/editor/src/world_model.cpp
  /Users/erin/Dev/CartFoundry/runtime/cf_animation.c
  /Users/erin/Dev/CartFoundry/runtime/cf_animation.h

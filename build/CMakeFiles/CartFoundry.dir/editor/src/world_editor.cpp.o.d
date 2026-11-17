@@ -1038,6 +1038,7 @@ CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o: \
   /Users/erin/Dev/CartFoundry/editor/src/importer.h \
   /Users/erin/Dev/CartFoundry/editor/src/animation_editor.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_raycast.h \
+  /Users/erin/Dev/CartFoundry/editor/src/screen_model.h \
   /opt/homebrew/opt/qt/include/QtWidgets/QtWidgets \
   /opt/homebrew/opt/qt/lib/QtWidgets.framework/Headers/QtWidgetsDepends \
   /opt/homebrew/opt/qt/lib/QtCore.framework/Headers/QtCore \

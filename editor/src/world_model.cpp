@@ -67,15 +67,22 @@ bool World::fromJson(const QJsonObject &o, World &out, QString &error) {
     out = w; return true;
 }
 QVector<World> Project::allAreas() const { auto result=areas;result.prepend(world);return result; }
+int Project::sceneIndex(const QString &id)const{for(int i=0;i<scenes.size();++i)if(scenes[i].id==id)return i;return -1;}
+QString Project::areaScene(const QString &id)const{for(auto &w:allAreas())if(w.id==id)for(auto &m:maps)if(m.id==w.mapId)return m.scene;return {};}
+bool Project::hasWorldScenes()const{for(auto &s:scenes)if(s.kind=="world")return true;return false;}
+QVector<World> Project::runtimeAreas()const{QVector<World> result;for(auto &w:allAreas()){int index=sceneIndex(areaScene(w.id));if(index>=0&&scenes[index].kind=="world")result<<w;}return result;}
+void Project::migrateScenes(){if(scenes.isEmpty())scenes<<Scene{"scene_main","Main Scene"};defaultScene=world.enabled?areaScene(world.id):scenes[0].id;if(sceneIndex(defaultScene)<0)defaultScene=scenes[0].id;for(auto &s:scenes){s.kind="screen";s.onSceneEnter.clear();s.startArea.clear();if(world.enabled)for(auto &w:allAreas())if(areaScene(w.id)==s.id){s.kind="world";s.startArea=w.id;break;}}if(!world.enabled&&indexOf(entry)>=0)scenes[sceneIndex(defaultScene)].onSceneEnter="dialogue "+entry;else if(!world.onStart.trimmed().isEmpty()){scenes[sceneIndex(defaultScene)].onSceneEnter=world.onStart;world.onStart.clear();}}
+Project Project::blank(){Project p;p.title="New Game";p.entry.clear();ScreenElement title;title.id="title";title.name="Title";title.text="New Game";title.rect={2,3,16,2};title.align=1;p.scenes[0].elements<<title;return p;}
 static bool hasEvents(const Project &p){if(!p.items.isEmpty()||!p.scripts.isEmpty()||!p.timers.isEmpty())return true;for(auto &n:p.prompts){if(!n.onEnter.isEmpty())return true;for(auto &c:n.choices)if(!c.actions.isEmpty())return true;}for(auto &w:p.allAreas()){if(!w.onStart.isEmpty()||!w.objects.isEmpty()||!w.terrainEvents.isEmpty())return true;for(auto &a:w.actors)if(!a.onInteract.isEmpty()||!a.onHit.isEmpty()||!a.onDefeat.isEmpty())return true;}return false;}
 static QVector<Prompt> reachablePrompts(const Project &p,QStringList roots){QSet<QString> seen;for(int i=0;i<roots.size();++i){QString id=roots[i];if(seen.contains(id))continue;seen.insert(id);int n=p.indexOf(id);if(n>=0)for(auto &c:p.prompts[n].choices)if(!seen.contains(c.target))roots<<c.target;}QVector<Prompt> result;for(auto &node:p.prompts)if(seen.contains(node.id))result<<node;return result;}
-Project Project::isolatedPrompt(const QString &id)const{auto p=*this;p.world.enabled=false;p.areas.clear();p.prompts=hasEvents(*this)?prompts:reachablePrompts(p,{id});p.npcs.clear();p.world.terrainEvents.clear();p.world.objects.clear();p.world.onStart.clear();p.entry=id;return p;}
+Project Project::isolatedPrompt(const QString &id)const{auto p=*this;p.world.enabled=false;p.areas.clear();p.prompts=hasEvents(*this)?prompts:reachablePrompts(p,{id});p.npcs.clear();p.world.terrainEvents.clear();p.world.objects.clear();p.world.onStart.clear();p.entry=id;p.scenes={{"test_scene","Conversation test"}};p.defaultScene="test_scene";p.scenes[0].onSceneEnter="dialogue "+id;for(auto &m:p.maps)m.scene="test_scene";return p;}
 Project Project::isolatedArea(int index) const {
     auto p=*this;auto maps=allAreas();if(index>=0&&index<maps.size())p.world=maps[index];p.world.enabled=true;p.world.exits.clear();p.areas.clear();
     QStringList roots=p.world.interactions.values();QSet<QString> required{p.world.tileset,p.world.player};for(auto &prompt:p.prompts)if(!prompt.portrait.isEmpty())required.insert(prompt.portrait);
     for(auto &a:p.world.actors){required.insert(a.sprite);BehaviorSpec behavior;QString error;if(parseBehavior(a.script,behavior,error)&&!behavior.prompt.isEmpty())roots<<behavior.prompt;}
     p.prompts=hasEvents(*this)?prompts:reachablePrompts(p,roots);p.npcs.clear();if(p.prompts.isEmpty()){Prompt n;n.id="area_test";n.title="AREA TEST";n.text="Explore this area.";p.prompts<<n;}p.entry=p.prompts[0].id;
     for(auto &item:p.items)if(!item.icon.isEmpty())required.insert(item.icon);
+    for(auto &s:p.scenes){s.kind="screen";s.startArea.clear();s.elements.clear();s.onSceneEnter.clear();s.onBack.clear();}p.defaultScene=p.areaScene(p.world.id);if(p.sceneIndex(p.defaultScene)<0)p.defaultScene=p.scenes[0].id;auto &testScene=p.scenes[p.sceneIndex(p.defaultScene)];testScene.kind="world";testScene.startArea=p.world.id;
     QVector<RasterAsset> assets;for(auto &a:p.assets)if(required.contains(a.id))assets<<a;p.assets=assets;return p;
 }
 Project Project::overworldExample() {
@@ -127,7 +134,7 @@ Project Project::overworldExample() {
     p.npcs<<NpcTemplate{"field_keeper","Field keeper",w.actors[0]};
     p.prompts[0].choices[0].condition="coins >= 3";p.prompts[0].choices[1].actions="add coins 1";
     p.scenes<<Scene{"scene_garden","Garden"};p.maps<<MapGroup{"map_garden","Garden map","scene_garden"};second.mapId="map_garden";
-    p.areas<<second;
+    p.areas<<second;p.migrateScenes();
     return p;
 }
 }

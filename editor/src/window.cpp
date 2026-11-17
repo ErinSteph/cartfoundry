@@ -8,6 +8,8 @@
 #include "data_editor.h"
 #include "pixel_editor.h"
 #include "event_tools.h"
+#include "screen_builder.h"
+#include "script_workspace.h"
 #include <QtWidgets>
 #include <QtConcurrent>
 #include <QUuid>
@@ -43,6 +45,7 @@ Window::Window() {
     });
     a = file->addAction("&Save"); a->setShortcut(QKeySequence::Save); connect(a, &QAction::triggered, this, [this] { save(); });
     a = file->addAction("Save &As…"); a->setShortcut(QKeySequence::SaveAs); connect(a, &QAction::triggered, this, [this] { save(true); });
+    file->addSeparator();auto *settings=file->addAction("Project Settings…");connect(settings,&QAction::triggered,this,[this]{projectSettings();});
     file->addSeparator(); a = file->addAction("Export Game Boy Color ROM…"); a->setShortcut(QKeySequence("Ctrl+B")); connect(a, &QAction::triggered, this, [this] { exportRom(); });
     auto *targetMenu=menuBar()->addMenu("&Target");
     for(auto pair:{qMakePair(QString("Game Boy"),QString("gb")),qMakePair(QString("Game Boy Color"),QString("gbc"))}) {
@@ -73,6 +76,9 @@ Window::Window() {
     dataEditor = new DataEditor; workspace->addTab(dataEditor,"Project & game data"); dataEditor->onEdit=[this](const Project &p){mutate([&]{project=p;});};
     dataEditor->onOpenArea=[this](int i){worldEditor->selectArea(i);workspace->setCurrentWidget(worldEditor);};
     pixels=new PixelEditor;workspace->addTab(pixels,"Pixel art");pixels->onEdit=[this](const Project &p){mutate([&]{project=p;});};
+    screens=new ScreenBuilder;workspace->addTab(screens,"Scenes & screen builder");screens->onEdit=[this](const Project&p){mutate([&]{project=p;});};screens->onTest=[this](const Project&p){buildAndPlay(p);};
+    scriptWorkspace=new ScriptWorkspace;workspace->addTab(scriptWorkspace,"Scripts");scriptWorkspace->onEdit=[this](const Project&p){mutate([&]{project=p;});};
+    dataEditor->onOpenScene=[this](int i){screens->selectScene(i);workspace->setCurrentWidget(screens);};
     emulator = new EmulatorWidget; workspace->addTab(emulator, "ROM emulator");
     worldEditor->onTestArea = [this](const Project &p){buildAndPlay(p);};
     worldEditor->onEdit = [this](const Project &p) { mutate([&] { project = p; }); };
@@ -84,7 +90,7 @@ Window::Window() {
     auto *coverage=helpMenu->addAction("Authoring controls & engine coverage");connect(coverage,&QAction::triggered,this,[this]{QFile file(resourceRoot()+"/docs/editor-authoring.md");if(!file.open(QIODevice::ReadOnly)){QMessageBox::warning(this,"Guide unavailable",file.errorString());return;}QDialog dialog(this);dialog.setWindowTitle("Authoring controls & engine coverage");dialog.resize(950,800);auto *layout=new QVBoxLayout(&dialog);auto *browser=new QTextBrowser;browser->setOpenExternalLinks(true);browser->setMarkdown(QString::fromUtf8(file.readAll()));layout->addWidget(browser);auto *buttons=new QDialogButtonBox(QDialogButtonBox::Close);layout->addWidget(buttons);connect(buttons,&QDialogButtonBox::rejected,&dialog,&QDialog::reject);dialog.exec();});
     auto *left = new QWidget; left->setMinimumWidth(185); left->setMaximumWidth(260); auto *ll = new QVBoxLayout(left); ll->setContentsMargins(16, 18, 16, 16);
     ll->addWidget(caption("PROJECT")); projectTitle = new QLineEdit; projectTitle->setPlaceholderText("Project title"); ll->addWidget(projectTitle);
-    ll->addWidget(caption("STARTING PROMPT")); entry = new QComboBox; ll->addWidget(entry); ll->addSpacing(16);
+    ll->addWidget(caption("CONVERSATION PREVIEW START")); entry = new QComboBox; ll->addWidget(entry); ll->addSpacing(16);
     ll->addWidget(caption("PROMPTS")); promptList = new QListWidget; ll->addWidget(promptList, 1);
     button("+ Add prompt", ll, [this] { addPrompt(); });
     removeButton = button("Delete prompt", ll, [this] { deletePrompt(); }); ll->addSpacing(12);
@@ -165,8 +171,9 @@ void Window::closeEvent(QCloseEvent *e) {
     if (building) { QMessageBox::information(this, "Build in progress", "Wait for the ROM build to finish before closing CartFoundry."); e->ignore(); return; }
     if (mayDiscard()) e->accept(); else e->ignore();
 }
+void Window::projectSettings(){QDialog dialog(this);dialog.setWindowTitle("Project Settings");dialog.resize(560,340);auto *form=new QFormLayout(&dialog);auto *title=new QLineEdit(project.title);form->addRow("Game title",title);auto *target=new QComboBox;target->addItem("Game Boy","gb");target->addItem("Game Boy Color","gbc");target->setCurrentIndex(target->findData(project.target));form->addRow("Target",target);auto *scene=new QComboBox;for(auto &s:project.scenes)scene->addItem(s.name+" ["+s.id+"]",s.id);scene->setCurrentIndex(scene->findData(project.defaultScene));form->addRow("Default Scene",scene);auto *duration=new QDoubleSpinBox;duration->setRange(1.0/60,10);duration->setDecimals(3);duration->setValue(project.splashTicks/60.0);duration->setSuffix(" seconds");form->addRow("Platform splash duration",duration);auto *help=new QLabel("Startup order: GB/GBC splash → Default Scene → onSceneEnter.\nWorld scenes first load their Initial Area and its onAreaEnter script.\nDialogue starts only from an explicit dialogue event.\nSelect a scene in Scenes & screen builder to edit its entry script.");help->setWordWrap(true);form->addRow(help);auto *buttons=new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);form->addRow(buttons);connect(buttons,&QDialogButtonBox::accepted,&dialog,&QDialog::accept);connect(buttons,&QDialogButtonBox::rejected,&dialog,&QDialog::reject);if(dialog.exec()==QDialog::Accepted)mutate([&]{project.title=title->text();project.target=target->currentData().toString();project.defaultScene=scene->currentData().toString();project.splashTicks=qBound(1,qRound(duration->value()*60),600);});}
 void Window::fresh() {
-    project = Project::example(); path.clear(); selected = project.entry; undo.clear(); redo.clear(); saved = bytes(); resetPreview(); refresh();
+    project = Project::blank(); path.clear(); selected = project.entry; undo.clear(); redo.clear(); saved = bytes(); resetPreview(); refresh();workspace->setCurrentWidget(screens);
 }
 bool Window::openProject(const QString &f) {
     Project p; QString error;
@@ -196,7 +203,7 @@ void Window::refresh(bool refill) {
     entry->clear(); promptList->clear();
     for (const auto &p : project.prompts) { entry->addItem(p.title, p.id); promptList->addItem((p.id == project.entry ? "▶  " : "    ") + p.title); }
     entry->setCurrentIndex(project.indexOf(project.entry)); promptList->setCurrentRow(project.indexOf(selected));
-    graph->setProject(project, selected); worldEditor->setProject(project); scripts->setProject(project); animations->setProject(project); dataEditor->setProject(project); pixels->setProject(project);session.configure(project,false); filling = false;
+    graph->setProject(project, selected); worldEditor->setProject(project); scripts->setProject(project); animations->setProject(project); dataEditor->setProject(project); pixels->setProject(project);screens->setProject(project);scriptWorkspace->setProject(project);session.configure(project,false); filling = false;
     if (refill) fillInspector();
     auto errors = project.validate();
     validation->setText(errors.isEmpty() ? QString("✓ Ready to build   ·   %1 prompts   ·   %2").arg(project.prompts.size()).arg(project.target == "gb" ? "Game Boy" : "Game Boy Color") : "Build needs attention:\n" + errors.mid(0, 4).join('\n') + (errors.size() > 4 ? QString("\n…and %1 more issues").arg(errors.size() - 4) : QString()));
@@ -281,7 +288,7 @@ void Window::previewRequests(){if(session.state.request_world){session.state.req
     session.state.request_prompt=255;
     if(session.state.request_storage<project.storages.size()){previewMenu=session.state.request_storage;previewReadOnly=session.state.request_readonly;session.state.request_readonly=0;session.state.request_storage=255;previewSide=previewItem=0;}
 }
-void Window::resetPreview() { previewMenu=-1;session.configure(project);CFState state{};session.enterPrompt(state,project.indexOf(project.entry));previewPrompt=state.prompt;previewChoice=state.choice;previewRequests(); }
+void Window::resetPreview() { previewMenu=-1;session.configure(project);CFState state{};session.enterPrompt(state,project.indexOf(project.entry));previewPrompt=project.prompts.isEmpty()?-1:state.prompt;previewChoice=state.choice;previewRequests(); }
 void Window::previewInput(int input) {
     if(previewMenu<0&&previewPrompt>=0&&previewPrompt<project.prompts.size()&&project.prompts[previewPrompt].modal&&(input==8||input==16))return;
     if(previewMenu>=0){
@@ -290,13 +297,13 @@ void Window::previewInput(int input) {
         int source=previewMenu&&previewSide?0:previewMenu;QVector<int> ids;for(int i=0;i<project.items.size();++i)if(session.state.counts[source][i])ids<<i;
         if(!ids.isEmpty()){previewItem=qBound(0,previewItem,int(ids.size())-1);if(input==1)previewItem=(previewItem+ids.size()-1)%ids.size();if(input==2)previewItem=(previewItem+1)%ids.size();if(input==4){int item=ids[previewItem];if(previewMenu&&!previewReadOnly)session.state.variables[31]=cf_storage_transfer(&session.state,&session.definition,source,previewSide?previewMenu:0,item,1);else if(session.run(project.items[item].useScript)&&!previewReadOnly&&project.items[item].consumable)cf_storage_change(&session.state,&session.definition,0,item,-1);}}
     }else if(input==16){previewMenu=previewSide=previewItem=0;previewReadOnly=false;}
-    else if(input==CF_KEY_RESET){CFState state{};session.enterPrompt(state,project.indexOf(project.entry));previewPrompt=state.prompt;previewChoice=state.choice;}
+    else if(input==CF_KEY_RESET){CFState state{};session.enterPrompt(state,project.indexOf(project.entry));previewPrompt=project.prompts.isEmpty()?-1:state.prompt;previewChoice=state.choice;}
     else{CFState state{uint8_t(previewPrompt<0?255:previewPrompt),uint8_t(previewChoice)};session.step(state,input);previewPrompt=state.prompt;previewChoice=state.choice;}
     updatePreview();
 }
 void Window::updatePreview() {
     previewRequests();
-    if (previewPrompt >= project.prompts.size()) resetPreview();
+    if (!project.prompts.isEmpty()&&previewPrompt >= project.prompts.size()) resetPreview();
     
     static_cast<PreviewScreen *>(screen)->dmg = project.target == "gb";
     auto rendered=project;for(auto &n:rendered.prompts)n.text=renderGameText(project,session.state,n.text,textLayout(n).columns);auto lines=screenLines(rendered,previewPrompt,previewChoice);auto *preview=static_cast<PreviewScreen *>(screen);preview->portraitImage={};preview->palette=previewPrompt>=0&&previewPrompt<project.prompts.size()?project.prompts[previewPrompt].textPalette:QVector<quint16>{};if(previewMenu<0&&previewPrompt>=0&&previewPrompt<project.prompts.size())if(auto a=project.asset(project.prompts[previewPrompt].portrait))preview->portraitImage=a->frameImage(0,project.target=="gb");
@@ -306,6 +313,6 @@ void Window::updatePreview() {
         auto write=[&](int row,QString value){value=value.left(18);for(int i=0;i<value.size();++i)lines[row][i+1]=value[i];};int source=previewMenu&&previewSide?0:previewMenu;write(1,project.storages[source].name);QVector<int> ids;for(int i=0;i<project.items.size();++i)if(session.state.counts[source][i])ids<<i;previewItem=qBound(0,previewItem,qMax(0,int(ids.size())-1));if(ids.isEmpty())write(4,"Empty");int start=qMax(0,previewItem-9);for(int i=start;i<ids.size()&&i<start+10;++i)write(3+i-start,QString("%1%2 %3").arg(i==previewItem?">":" ").arg(project.items[ids[i]].name.left(12)).arg(session.state.counts[source][ids[i]]));write(15,previewReadOnly?"A:inspect":previewMenu?"A:move Select:swap":"A:use");write(16,"B:close");
     }
     screen->setText(lines.join('\n'));screen->update();session.state.dirty=0;
-    previewLabel->setText(previewPrompt >= 0 && previewPrompt < project.prompts.size() ? "Now playing: " + project.prompts[previewPrompt].title : "Set a starting prompt to play");
+    previewLabel->setText(previewPrompt >= 0 && previewPrompt < project.prompts.size() ? "Now playing: " + project.prompts[previewPrompt].title : "Conversation preview only — game startup is in Project Settings");
 }
 }

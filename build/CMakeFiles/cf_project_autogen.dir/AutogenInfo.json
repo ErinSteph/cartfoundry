@@ -474,6 +474,12 @@
 			null
 		],
 		[
+			"/Users/erin/Dev/CartFoundry/editor/src/screen_model.h",
+			"Mu",
+			"SOTBLUZQSQ/moc_screen_model.cpp",
+			null
+		],
+		[
 			"/Users/erin/Dev/CartFoundry/runtime/cf_animation.h",
 			"Mu",
 			"BP4HXTY4JZ/moc_cf_animation.cpp",
@@ -588,6 +594,7 @@
 			null
 		],
 		[ "/Users/erin/Dev/CartFoundry/editor/src/project.cpp", "Mu", null ],
+		[ "/Users/erin/Dev/CartFoundry/editor/src/screen_model.cpp", "Mu", null ],
 		[ "/Users/erin/Dev/CartFoundry/editor/src/world_model.cpp", "Mu", null ],
 		[ "/Users/erin/Dev/CartFoundry/runtime/cf_animation.c", "Mu", null ],
 		[ "/Users/erin/Dev/CartFoundry/runtime/cf_behavior.c", "Mu", null ],

@@ -361,6 +361,19 @@ cf-versatility-tests/fast:
 .PHONY : cf-versatility-tests/fast
 
 #=============================================================================
+# Target rules for targets named cf-scene-tests
+
+# Build rule for target.
+cf-scene-tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cf-scene-tests
+.PHONY : cf-scene-tests
+
+# fast build rule for target.
+cf-scene-tests/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf-scene-tests.dir/build.make CMakeFiles/cf-scene-tests.dir/build
+.PHONY : cf-scene-tests/fast
+
+#=============================================================================
 # Target rules for targets named cf_emulation_autogen_timestamp_deps
 
 # Build rule for target.
@@ -699,6 +712,32 @@ cf-versatility-tests_autogen/fast:
 .PHONY : cf-versatility-tests_autogen/fast
 
 #=============================================================================
+# Target rules for targets named cf-scene-tests_autogen_timestamp_deps
+
+# Build rule for target.
+cf-scene-tests_autogen_timestamp_deps: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cf-scene-tests_autogen_timestamp_deps
+.PHONY : cf-scene-tests_autogen_timestamp_deps
+
+# fast build rule for target.
+cf-scene-tests_autogen_timestamp_deps/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf-scene-tests_autogen_timestamp_deps.dir/build.make CMakeFiles/cf-scene-tests_autogen_timestamp_deps.dir/build
+.PHONY : cf-scene-tests_autogen_timestamp_deps/fast
+
+#=============================================================================
+# Target rules for targets named cf-scene-tests_autogen
+
+# Build rule for target.
+cf-scene-tests_autogen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cf-scene-tests_autogen
+.PHONY : cf-scene-tests_autogen
+
+# fast build rule for target.
+cf-scene-tests_autogen/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf-scene-tests_autogen.dir/build.make CMakeFiles/cf-scene-tests_autogen.dir/build
+.PHONY : cf-scene-tests_autogen/fast
+
+#=============================================================================
 # Target rules for targets named mgba-version-info
 
 # Build rule for target.
@@ -891,6 +930,30 @@ cf-pokemon-tests_autogen/mocs_compilation.s: cf-pokemon-tests_autogen/mocs_compi
 cf-pokemon-tests_autogen/mocs_compilation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf-pokemon-tests.dir/build.make CMakeFiles/cf-pokemon-tests.dir/cf-pokemon-tests_autogen/mocs_compilation.cpp.s
 .PHONY : cf-pokemon-tests_autogen/mocs_compilation.cpp.s
+
+cf-scene-tests_autogen/mocs_compilation.o: cf-scene-tests_autogen/mocs_compilation.cpp.o
+.PHONY : cf-scene-tests_autogen/mocs_compilation.o
+
+# target to build an object file
+cf-scene-tests_autogen/mocs_compilation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf-scene-tests.dir/build.make CMakeFiles/cf-scene-tests.dir/cf-scene-tests_autogen/mocs_compilation.cpp.o
+.PHONY : cf-scene-tests_autogen/mocs_compilation.cpp.o
+
+cf-scene-tests_autogen/mocs_compilation.i: cf-scene-tests_autogen/mocs_compilation.cpp.i
+.PHONY : cf-scene-tests_autogen/mocs_compilation.i
+
+# target to preprocess a source file
+cf-scene-tests_autogen/mocs_compilation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf-scene-tests.dir/build.make CMakeFiles/cf-scene-tests.dir/cf-scene-tests_autogen/mocs_compilation.cpp.i
+.PHONY : cf-scene-tests_autogen/mocs_compilation.cpp.i
+
+cf-scene-tests_autogen/mocs_compilation.s: cf-scene-tests_autogen/mocs_compilation.cpp.s
+.PHONY : cf-scene-tests_autogen/mocs_compilation.s
+
+# target to generate assembly for a file
+cf-scene-tests_autogen/mocs_compilation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf-scene-tests.dir/build.make CMakeFiles/cf-scene-tests.dir/cf-scene-tests_autogen/mocs_compilation.cpp.s
+.PHONY : cf-scene-tests_autogen/mocs_compilation.cpp.s
 
 cf-systems-tests_autogen/mocs_compilation.o: cf-systems-tests_autogen/mocs_compilation.cpp.o
 .PHONY : cf-systems-tests_autogen/mocs_compilation.o
@@ -1468,6 +1531,54 @@ editor/src/project.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf_project.dir/build.make CMakeFiles/cf_project.dir/editor/src/project.cpp.s
 .PHONY : editor/src/project.cpp.s
 
+editor/src/screen_builder.o: editor/src/screen_builder.cpp.o
+.PHONY : editor/src/screen_builder.o
+
+# target to build an object file
+editor/src/screen_builder.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CartFoundry.dir/build.make CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o
+.PHONY : editor/src/screen_builder.cpp.o
+
+editor/src/screen_builder.i: editor/src/screen_builder.cpp.i
+.PHONY : editor/src/screen_builder.i
+
+# target to preprocess a source file
+editor/src/screen_builder.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CartFoundry.dir/build.make CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.i
+.PHONY : editor/src/screen_builder.cpp.i
+
+editor/src/screen_builder.s: editor/src/screen_builder.cpp.s
+.PHONY : editor/src/screen_builder.s
+
+# target to generate assembly for a file
+editor/src/screen_builder.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CartFoundry.dir/build.make CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.s
+.PHONY : editor/src/screen_builder.cpp.s
+
+editor/src/screen_model.o: editor/src/screen_model.cpp.o
+.PHONY : editor/src/screen_model.o
+
+# target to build an object file
+editor/src/screen_model.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf_project.dir/build.make CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.o
+.PHONY : editor/src/screen_model.cpp.o
+
+editor/src/screen_model.i: editor/src/screen_model.cpp.i
+.PHONY : editor/src/screen_model.i
+
+# target to preprocess a source file
+editor/src/screen_model.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf_project.dir/build.make CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.i
+.PHONY : editor/src/screen_model.cpp.i
+
+editor/src/screen_model.s: editor/src/screen_model.cpp.s
+.PHONY : editor/src/screen_model.s
+
+# target to generate assembly for a file
+editor/src/screen_model.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf_project.dir/build.make CMakeFiles/cf_project.dir/editor/src/screen_model.cpp.s
+.PHONY : editor/src/screen_model.cpp.s
+
 editor/src/script_editor.o: editor/src/script_editor.cpp.o
 .PHONY : editor/src/script_editor.o
 
@@ -1491,6 +1602,30 @@ editor/src/script_editor.s: editor/src/script_editor.cpp.s
 editor/src/script_editor.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CartFoundry.dir/build.make CMakeFiles/CartFoundry.dir/editor/src/script_editor.cpp.s
 .PHONY : editor/src/script_editor.cpp.s
+
+editor/src/script_workspace.o: editor/src/script_workspace.cpp.o
+.PHONY : editor/src/script_workspace.o
+
+# target to build an object file
+editor/src/script_workspace.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CartFoundry.dir/build.make CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.o
+.PHONY : editor/src/script_workspace.cpp.o
+
+editor/src/script_workspace.i: editor/src/script_workspace.cpp.i
+.PHONY : editor/src/script_workspace.i
+
+# target to preprocess a source file
+editor/src/script_workspace.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CartFoundry.dir/build.make CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.i
+.PHONY : editor/src/script_workspace.cpp.i
+
+editor/src/script_workspace.s: editor/src/script_workspace.cpp.s
+.PHONY : editor/src/script_workspace.s
+
+# target to generate assembly for a file
+editor/src/script_workspace.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CartFoundry.dir/build.make CMakeFiles/CartFoundry.dir/editor/src/script_workspace.cpp.s
+.PHONY : editor/src/script_workspace.cpp.s
 
 editor/src/window.o: editor/src/window.cpp.o
 .PHONY : editor/src/window.o
@@ -1867,6 +2002,30 @@ tests/project_tests.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf-tests.dir/build.make CMakeFiles/cf-tests.dir/tests/project_tests.cpp.s
 .PHONY : tests/project_tests.cpp.s
 
+tests/scene_tests.o: tests/scene_tests.cpp.o
+.PHONY : tests/scene_tests.o
+
+# target to build an object file
+tests/scene_tests.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf-scene-tests.dir/build.make CMakeFiles/cf-scene-tests.dir/tests/scene_tests.cpp.o
+.PHONY : tests/scene_tests.cpp.o
+
+tests/scene_tests.i: tests/scene_tests.cpp.i
+.PHONY : tests/scene_tests.i
+
+# target to preprocess a source file
+tests/scene_tests.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf-scene-tests.dir/build.make CMakeFiles/cf-scene-tests.dir/tests/scene_tests.cpp.i
+.PHONY : tests/scene_tests.cpp.i
+
+tests/scene_tests.s: tests/scene_tests.cpp.s
+.PHONY : tests/scene_tests.s
+
+# target to generate assembly for a file
+tests/scene_tests.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cf-scene-tests.dir/build.make CMakeFiles/cf-scene-tests.dir/tests/scene_tests.cpp.s
+.PHONY : tests/scene_tests.cpp.s
+
 tests/systems_tests.o: tests/systems_tests.cpp.o
 .PHONY : tests/systems_tests.o
 
@@ -1968,6 +2127,8 @@ help:
 	@echo "... cf-flow-tests_autogen_timestamp_deps"
 	@echo "... cf-pokemon-tests_autogen"
 	@echo "... cf-pokemon-tests_autogen_timestamp_deps"
+	@echo "... cf-scene-tests_autogen"
+	@echo "... cf-scene-tests_autogen_timestamp_deps"
 	@echo "... cf-systems-tests_autogen"
 	@echo "... cf-systems-tests_autogen_timestamp_deps"
 	@echo "... cf-tests_autogen"
@@ -1988,6 +2149,7 @@ help:
 	@echo "... cf-emulator-tests"
 	@echo "... cf-flow-tests"
 	@echo "... cf-pokemon-tests"
+	@echo "... cf-scene-tests"
 	@echo "... cf-systems-tests"
 	@echo "... cf-tests"
 	@echo "... cf-versatility-tests"
@@ -2016,6 +2178,9 @@ help:
 	@echo "... cf-pokemon-tests_autogen/mocs_compilation.o"
 	@echo "... cf-pokemon-tests_autogen/mocs_compilation.i"
 	@echo "... cf-pokemon-tests_autogen/mocs_compilation.s"
+	@echo "... cf-scene-tests_autogen/mocs_compilation.o"
+	@echo "... cf-scene-tests_autogen/mocs_compilation.i"
+	@echo "... cf-scene-tests_autogen/mocs_compilation.s"
 	@echo "... cf-systems-tests_autogen/mocs_compilation.o"
 	@echo "... cf-systems-tests_autogen/mocs_compilation.i"
 	@echo "... cf-systems-tests_autogen/mocs_compilation.s"
@@ -2088,9 +2253,18 @@ help:
 	@echo "... editor/src/project.o"
 	@echo "... editor/src/project.i"
 	@echo "... editor/src/project.s"
+	@echo "... editor/src/screen_builder.o"
+	@echo "... editor/src/screen_builder.i"
+	@echo "... editor/src/screen_builder.s"
+	@echo "... editor/src/screen_model.o"
+	@echo "... editor/src/screen_model.i"
+	@echo "... editor/src/screen_model.s"
 	@echo "... editor/src/script_editor.o"
 	@echo "... editor/src/script_editor.i"
 	@echo "... editor/src/script_editor.s"
+	@echo "... editor/src/script_workspace.o"
+	@echo "... editor/src/script_workspace.i"
+	@echo "... editor/src/script_workspace.s"
 	@echo "... editor/src/window.o"
 	@echo "... editor/src/window.i"
 	@echo "... editor/src/window.s"
@@ -2136,6 +2310,9 @@ help:
 	@echo "... tests/project_tests.o"
 	@echo "... tests/project_tests.i"
 	@echo "... tests/project_tests.s"
+	@echo "... tests/scene_tests.o"
+	@echo "... tests/scene_tests.i"
+	@echo "... tests/scene_tests.s"
 	@echo "... tests/systems_tests.o"
 	@echo "... tests/systems_tests.i"
 	@echo "... tests/systems_tests.s"

@@ -21,8 +21,12 @@
  /Users/erin/Dev/CartFoundry/editor/src/main.cpp
  /Users/erin/Dev/CartFoundry/editor/src/pixel_editor.cpp
  /Users/erin/Dev/CartFoundry/editor/src/pixel_editor.h
+ /Users/erin/Dev/CartFoundry/editor/src/screen_builder.cpp
+ /Users/erin/Dev/CartFoundry/editor/src/screen_builder.h
  /Users/erin/Dev/CartFoundry/editor/src/script_editor.cpp
  /Users/erin/Dev/CartFoundry/editor/src/script_editor.h
+ /Users/erin/Dev/CartFoundry/editor/src/script_workspace.cpp
+ /Users/erin/Dev/CartFoundry/editor/src/script_workspace.h
  /Users/erin/Dev/CartFoundry/editor/src/window.cpp
  /Users/erin/Dev/CartFoundry/editor/src/window.h
  /Users/erin/Dev/CartFoundry/editor/src/world_editor.cpp

@@ -17,6 +17,7 @@ class QSpinBox;
 class QTabWidget;
 class QCheckBox;
 namespace cf {
+class ScreenBuilder;class ScriptWorkspace;
 class GraphView;
 class WorldEditor;
 class EmulatorWidget;
@@ -31,6 +32,7 @@ public:
 protected:
     void closeEvent(QCloseEvent *) override;
 private:
+    ScreenBuilder *screens;ScriptWorkspace *scriptWorkspace;void projectSettings();
     Project project;
     GameSession session;
     DataEditor *dataEditor;PixelEditor *pixels;QCheckBox *modal;QComboBox *portrait;QLineEdit *promptId;

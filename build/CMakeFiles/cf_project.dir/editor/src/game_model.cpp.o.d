@@ -1014,6 +1014,7 @@ CMakeFiles/cf_project.dir/editor/src/game_model.cpp.o: \
   /Users/erin/Dev/CartFoundry/editor/src/game_script.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_game.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_flow.h \
+  /Users/erin/Dev/CartFoundry/editor/src/screen_model.h \
   /opt/homebrew/opt/qt/include/QtCore/QJsonArray \
   /opt/homebrew/opt/qt/lib/QtCore.framework/Headers/qjsonarray.h \
   /opt/homebrew/opt/qt/include/QtCore/QRegularExpression \
