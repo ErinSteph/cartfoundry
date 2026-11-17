@@ -1,8 +1,8 @@
 # CartFoundry
 
-Our own cross-platform Game Boy / Game Boy Color engine and C++/Qt desktop
-editor. Game ROMs execute our C runtime. The application bundles its compiler
-and mGBA emulator core; it works offline, without Godot or external emulator apps.
+A cross-platform Game Boy / Game Boy Color engine and C++/Qt desktop
+editor. The application bundles a compiler
+and mGBA emulator core.
 
 ## Try it
 
