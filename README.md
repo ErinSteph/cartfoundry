@@ -7,10 +7,13 @@ A cross-platform Game Boy / Game Boy Color engine and C++/Qt desktop
 editor. The application bundles a compiler
 and mGBA emulator core.
 
-<img width="600" alt="Screenshot 2026-11-17 at 15 26 15" src="https://github.com/user-attachments/assets/9e046aee-dc4c-4c10-9c8a-175ab9421666" />
-<img width="600" alt="Screenshot 2026-11-17 at 15 26 35" src="https://github.com/user-attachments/assets/0806c60b-b2e0-4f68-927b-dfcdd7674efb" />
-<img width="600" alt="Screenshot 2026-11-17 at 15 26 58" src="https://github.com/user-attachments/assets/61abaa06-8574-4304-b956-9ca253826472" />
-<img width="600" alt="Screenshot 2026-11-17 at 15 27 20" src="https://github.com/user-attachments/assets/6e9364d3-f3a5-4878-a4d5-fa8bf77231ea" />
+
+<img width="600" alt="Screenshot 2026-11-17 at 22 18 47" src="https://github.com/user-attachments/assets/074d0701-2cd4-4a49-992a-2108c83e4064" />
+<img width="600" alt="Screenshot 2026-11-17 at 22 17 25" src="https://github.com/user-attachments/assets/3a03e1bb-696d-4558-a131-d00d56dc2c05" />
+<img width="600" alt="Screenshot 2026-11-17 at 22 18 00" src="https://github.com/user-attachments/assets/5471fd9a-0c8d-48b8-ac36-ed93d5fa812a" />
+<img width="600" alt="Screenshot 2026-11-17 at 22 18 26" src="https://github.com/user-attachments/assets/a62c9882-c4b0-4fb5-837d-98216c2b66d5" />
+
+
 
 ## Try it
 
