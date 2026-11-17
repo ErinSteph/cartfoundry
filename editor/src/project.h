@@ -1,0 +1,101 @@
+#pragma once
+#include <QJsonObject>
+#include <QMap>
+#include <QRect>
+#include "assets.h"
+#include "behavior.h"
+#include <QPointF>
+#include <QStringList>
+#include <QVector>
+
+namespace cf {
+struct Choice { QString text; QString target; QString condition,actions; };
+struct Prompt {
+    QString id, title, text;
+    QPointF position;
+    QVector<Choice> choices;
+    QRect textbox{0, 0, 20, 18};
+    QString onEnter,portrait;bool modal=false;
+    bool border=true,showTitle=true,showFooter=true;int padding=1,choiceSpacing=1,textAlign=0;QString cursor=">",disabledMarker="x",footer;QVector<quint16> textPalette;
+};
+struct Actor {
+    QString id,name,sprite,script;
+    int x=4,y=4;
+    int health=3;QString onInteract,onHit,onDefeat,libraryId;
+    QJsonObject toJson() const;
+};
+struct Variable {QString id;int initial=0;};
+struct Item {QString id,name,description,icon;int stackLimit=10;bool consumable=false;QString useScript;};
+struct Storage {QString id,name;int capacity=8;QMap<QString,int> contents;};
+struct GameScript {QString id,name,source;};
+struct Timer {QString id,name,source;int interval=60;bool repeat=false,autostart=false,pauseDialogue=true;};
+struct NpcTemplate {QString id,name;Actor actor;};
+struct Scene {QString id,name;};
+struct MapGroup {QString id,name,scene;};
+struct WorldObject {QString id,name,kind="storage",storage,onInteract,onHit;int x=4,y=4,tile=0;bool solid=true;};
+struct TerrainEvent {int tile=0,every=1,chance=25;QString script;};
+struct Controls { int interact=16,close=32,restart=128,inventory=64; };
+struct World {
+    QString id = "area_start", name = "Starting Area", chapter = "Chapter 1";
+    QMap<int, QString> exits;
+    QString mapId="map_main",onStart;
+    QVector<WorldObject> objects;
+    QVector<TerrainEvent> terrainEvents;
+    int interactionRange=16,attackRange=24;
+    QString playerScript = "behavior top_down\nspeed 1\nevery 1\n";
+    QVector<Actor> actors;
+    bool enabled = false;
+    int width = 40, height = 32, spawnX = 4, spawnY = 4;
+    QString tileset, player;
+    QVector<int> tiles = QVector<int>(40 * 32, 0);
+    QByteArray collision = QByteArray(40 * 32, 0);
+    QMap<int, QString> interactions;
+    QByteArray effectiveCollision() const;
+    QVector<int> effectiveTiles() const;
+    void resize(int w, int h);
+    QJsonObject toJson() const;
+    static bool fromJson(const QJsonObject &, World &, QString &);
+};
+struct TextLayout { int columns, bodyRows, choiceRow, footerRow,bodyRow; };
+QString buttonName(int key);
+TextLayout textLayout(const Prompt &);
+struct Project {
+    QString title = "First Conversation";
+    QString target = "gbc";
+    Controls controls;
+    QVector<Variable> variables;
+    QVector<Item> items;
+    QVector<Storage> storages{{"inventory","Inventory",8,{}}};
+    QVector<GameScript> scripts;
+    QVector<Timer> timers;int rngSeed=44257;
+    QVector<NpcTemplate> npcs;
+    QVector<Scene> scenes{{"scene_main","Main Scene"}};
+    QVector<MapGroup> maps{{"map_main","Overworld","scene_main"}};
+    QJsonObject systemsJson() const;
+    static bool readSystems(const QJsonObject &,Project &,QString &);
+    QStringList validateSystems() const;
+    int variableIndex(QString id) const;
+    int itemIndex(const QString &) const;
+    int storageIndex(const QString &) const;
+    QString entry;
+    QVector<Prompt> prompts;
+    QVector<RasterAsset> assets;
+    World world;
+    QVector<World> areas; // additional areas; world is the starting area
+    QVector<World> allAreas() const;
+    Project isolatedArea(int index) const;
+    Project isolatedPrompt(const QString &id) const;
+    const RasterAsset *asset(const QString &id) const;
+    QJsonObject toJson() const;
+    static bool fromJson(const QJsonObject &, Project &, QString &error);
+    static bool load(const QString &, Project &, QString &error);
+    bool save(const QString &, QString &error) const;
+    QStringList validate() const;
+    int indexOf(const QString &) const;
+    static Project example();
+    static Project overworldExample();
+    static Project pokemonExample();
+};
+QStringList wrapText(const QString &, int columns = 18);
+QStringList screenLines(const Project &, int prompt, int choice);
+}

@@ -1,0 +1,81 @@
+{
+    "entry": "welcome",
+    "format": "cartfoundry",
+    "prompts": [
+        {
+            "choices": [
+                {
+                    "target": "quest",
+                    "text": "Enter the foundry"
+                },
+                {
+                    "target": "path",
+                    "text": "Follow the path"
+                }
+            ],
+            "id": "welcome",
+            "position": [
+                60,
+                130
+            ],
+            "text": "Welcome, traveller.\nA warm light glows\ninside the foundry.\nWhat will you do?",
+            "title": "THE WORKSHOP"
+        },
+        {
+            "choices": [
+                {
+                    "target": "quest",
+                    "text": "Ask about a quest"
+                },
+                {
+                    "target": "welcome",
+                    "text": "Go outside"
+                }
+            ],
+            "id": "foundry",
+            "position": [
+                420,
+                50
+            ],
+            "text": "The keeper smiles.\nEvery adventure\nstarts with a\nsingle choice.",
+            "title": "THE FOUNDRY"
+        },
+        {
+            "choices": [
+                {
+                    "target": "quest",
+                    "text": "Follow the sign"
+                },
+                {
+                    "target": "welcome",
+                    "text": "Turn back"
+                }
+            ],
+            "id": "path",
+            "position": [
+                420,
+                390
+            ],
+            "text": "You find a sign:\nTHIS WAY TO\nSOMETHING NEW.\nWhere does it lead?",
+            "title": "THE OLD PATH"
+        },
+        {
+            "choices": [
+                {
+                    "target": "welcome",
+                    "text": "Start again"
+                }
+            ],
+            "id": "quest",
+            "position": [
+                800,
+                220
+            ],
+            "text": "Your story begins\nhere. Rewire these\nchoices to change\nits course.",
+            "title": "A NEW BEGINNING"
+        }
+    ],
+    "target": "gbc",
+    "title": "First Conversation",
+    "version": 1
+}

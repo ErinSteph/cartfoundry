@@ -1,0 +1,54 @@
+#include "project.h"
+#include "game_script.h"
+#include <QJsonArray>
+#include <QRegularExpression>
+#include <QSet>
+namespace cf {
+int Project::variableIndex(QString id)const{if(id.startsWith('$'))id.remove(0,1);for(int i=0;i<variables.size();++i)if(variables[i].id==id)return i;return -1;}
+int Project::itemIndex(const QString &id)const{for(int i=0;i<items.size();++i)if(items[i].id==id)return i;return -1;}
+int Project::storageIndex(const QString &id)const{for(int i=0;i<storages.size();++i)if(storages[i].id==id)return i;return -1;}
+QJsonObject Project::systemsJson()const{QJsonArray vs,is,ss,ps,ns,sc,ms,ts;
+for(auto &v:variables)vs.append(QJsonObject{{"id",v.id},{"initial",v.initial}});
+for(auto &i:items)is.append(QJsonObject{{"id",i.id},{"name",i.name},{"description",i.description},{"icon",i.icon},{"stackLimit",i.stackLimit},{"consumable",i.consumable},{"useScript",i.useScript}});
+for(auto &s:storages){QJsonObject contents;for(auto it=s.contents.begin();it!=s.contents.end();++it)contents[it.key()]=it.value();ss.append(QJsonObject{{"id",s.id},{"name",s.name},{"slots",s.capacity},{"contents",contents}});}
+for(auto &s:scripts)ps.append(QJsonObject{{"id",s.id},{"name",s.name},{"source",s.source}});
+for(auto &n:npcs)ns.append(QJsonObject{{"id",n.id},{"name",n.name},{"actor",n.actor.toJson()}});
+for(auto &s:scenes)sc.append(QJsonObject{{"id",s.id},{"name",s.name}});for(auto &m:maps)ms.append(QJsonObject{{"id",m.id},{"name",m.name},{"scene",m.scene}});
+for(auto &t:timers)ts.append(QJsonObject{{"id",t.id},{"name",t.name},{"source",t.source},{"interval",t.interval},{"repeat",t.repeat},{"autostart",t.autostart},{"pauseDialogue",t.pauseDialogue}});
+return {{"timers",ts},{"rngSeed",rngSeed},{"variables",vs},{"items",is},{"storages",ss},{"scripts",ps},{"npcs",ns},{"scenes",sc},{"maps",ms}};}
+bool Project::readSystems(const QJsonObject &o,Project &p,QString &error){
+    auto fail=[&]{error="Invalid game systems data (IDs, integer ranges or library structure).";return false;};
+    auto string=[&](QJsonObject v,const char*k){return v[k].isString();};auto integer=[&](QJsonValue v,int min,int max){return v.isDouble()&&v.toInt(min-1)==v.toDouble()&&v.toInt()>=min&&v.toInt()<=max;};
+    struct Collection{const char *key;int max;};for(auto c:{Collection{"variables",31},{"items",16},{"storages",8},{"scripts",32},{"npcs",16},{"scenes",32},{"maps",32}})if(!o[c.key].isArray()||o[c.key].toArray().size()>c.max)return fail();
+    if(o.contains("rngSeed")){if(!integer(o["rngSeed"],0,65535))return fail();p.rngSeed=o["rngSeed"].toInt();}
+    p.timers.clear();if(o.contains("timers")){if(!o["timers"].isArray()||o["timers"].toArray().size()>8)return fail();for(auto value:o["timers"].toArray()){auto v=value.toObject();if(!string(v,"id")||!string(v,"name")||!string(v,"source")||!integer(v["interval"],1,65535)||!v["repeat"].isBool()||!v["autostart"].isBool()||!v["pauseDialogue"].isBool())return fail();p.timers<<Timer{v["id"].toString(),v["name"].toString(),v["source"].toString(),v["interval"].toInt(),v["repeat"].toBool(),v["autostart"].toBool(),v["pauseDialogue"].toBool()};}}
+    p.variables.clear();for(auto value:o["variables"].toArray()){auto v=value.toObject();if(!string(v,"id")||!integer(v["initial"],-32768,32767))return fail();p.variables<<Variable{v["id"].toString(),v["initial"].toInt()};}
+    p.items.clear();for(auto value:o["items"].toArray()){auto v=value.toObject();for(auto key:{"id","name","description","icon","useScript"})if(!string(v,key))return fail();if(!integer(v["stackLimit"],1,99)||!v["consumable"].isBool())return fail();p.items<<Item{v["id"].toString(),v["name"].toString(),v["description"].toString(),v["icon"].toString(),v["stackLimit"].toInt(),v["consumable"].toBool(),v["useScript"].toString()};}
+    p.storages.clear();for(auto value:o["storages"].toArray()){auto v=value.toObject();if(!string(v,"id")||!string(v,"name")||!integer(v["slots"],1,16)||!v["contents"].isObject())return fail();Storage s{v["id"].toString(),v["name"].toString(),v["slots"].toInt(),{}};auto contents=v["contents"].toObject();for(auto i=contents.begin();i!=contents.end();++i){if(!integer(i.value(),0,1584))return fail();s.contents[i.key()]=i.value().toInt();}p.storages<<s;}
+    p.scripts.clear();for(auto value:o["scripts"].toArray()){auto v=value.toObject();if(!string(v,"id")||!string(v,"name")||!string(v,"source"))return fail();p.scripts<<GameScript{v["id"].toString(),v["name"].toString(),v["source"].toString()};}
+    p.scenes.clear();for(auto value:o["scenes"].toArray()){auto v=value.toObject();if(!string(v,"id")||!string(v,"name"))return fail();p.scenes<<Scene{v["id"].toString(),v["name"].toString()};}
+    p.maps.clear();for(auto value:o["maps"].toArray()){auto v=value.toObject();if(!string(v,"id")||!string(v,"name")||!string(v,"scene"))return fail();p.maps<<MapGroup{v["id"].toString(),v["name"].toString(),v["scene"].toString()};}
+    if(p.storages.isEmpty()||p.storages[0].id!="inventory"||p.scenes.isEmpty()||p.maps.isEmpty())return fail();
+    p.npcs.clear();for(auto value:o["npcs"].toArray()){auto v=value.toObject();if(!string(v,"id")||!string(v,"name")||!v["actor"].isObject())return fail();auto actor=v["actor"].toObject();World temp;temp.resize(64,64);auto world=temp.toJson();world["actors"]=QJsonArray{actor};if(!World::fromJson(world,temp,error))return false;p.npcs<<NpcTemplate{v["id"].toString(),v["name"].toString(),temp.actors[0]};}
+    return true;
+}
+QStringList Project::validateSystems()const{QStringList errors;QRegularExpression idPattern("^[A-Za-z_][A-Za-z0-9_]{0,31}$");
+    auto ids=[&](auto list,QString label,int max){QSet<QString> used;if(list.size()>max)errors<<label+": too many entries.";for(auto &v:list){if(!idPattern.match(v.id).hasMatch()||used.contains(v.id))errors<<label+": use unique identifier names (letters, numbers, underscores).";used.insert(v.id);}return used;};
+    auto vars=ids(variables,"Variables",31);if(vars.contains("result"))errors<<"result is a reserved read-only variable.";ids(items,"Items",16);ids(storages,"Storage",8);ids(scripts,"Scripts",32);ids(timers,"Timers",8);if(rngSeed<0||rngSeed>65535)errors<<"RNG seed must be 0-65535.";ids(npcs,"NPC library",16);auto sceneIds=ids(scenes,"Scenes",32);auto mapIds=ids(maps,"Maps",32);
+    if(scenes.isEmpty()||maps.isEmpty())errors<<"Keep at least one scene and map.";for(auto &m:maps)if(!sceneIds.contains(m.scene))errors<<m.name+": select an existing parent scene.";
+    if(storages.isEmpty()||storages[0].id!="inventory")errors<<"The first storage must be the player inventory (id: inventory).";
+    GameCompiler compiler(*this);auto program=[&](QString source,QString label){QVector<CFInstruction> code;QString error;if(!compiler.program(source,code,error))errors<<label+": "+error;};
+    for(auto &v:variables)if(v.initial<-32768||v.initial>32767)errors<<v.id+": initial value exceeds signed 16-bit range.";
+    for(auto &i:items){if(i.name.isEmpty()||i.name.size()>14||i.stackLimit<1||i.stackLimit>99)errors<<i.id+": item name must be 1-14 characters; stack limit 1-99.";for(auto c:i.name)if(c.unicode()<32||c.unicode()>126){errors<<i.id+": item names use printable ASCII.";break;}if(!i.icon.isEmpty()&&(!asset(i.icon)||asset(i.icon)->kind!="sprite"))errors<<i.id+": missing icon sprite.";program(i.useScript,"Item "+i.id);}
+    for(auto &s:storages){if(s.name.isEmpty()||s.name.size()>18)errors<<s.id+": storage name must be 1-18 characters.";for(auto c:s.name)if(c.unicode()<32||c.unicode()>126){errors<<s.id+": storage names use printable ASCII.";break;}int capacity=0;if(s.capacity<1||s.capacity>16)errors<<s.id+": storage capacity is 1-16 slots.";for(auto i=s.contents.begin();i!=s.contents.end();++i){int index=itemIndex(i.key());if(index<0||i.value()<0||i.value()>1584){errors<<s.id+": invalid initial item quantity.";continue;}int limit=qMax(1,items[index].stackLimit);capacity+=(i.value()+limit-1)/limit;}if(capacity>s.capacity)errors<<s.id+": initial contents exceed capacity.";}
+    for(auto &t:timers){if(t.interval<1||t.interval>65535)errors<<t.id+": timer interval must be 1-65535 ticks.";program(t.source,"Timer "+t.id);}
+    for(auto &s:scripts)program(s.source,"Script "+s.id);
+    for(auto &p:prompts){QString textError;encodeGameText(*this,p.text,&textError);if(!textError.isEmpty())errors<<p.title+": "+textError;if(!p.portrait.isEmpty()){auto a=asset(p.portrait);if(!a||a->kind!="sprite")errors<<p.title+": choose a portrait sprite.";else if(p.textbox.y()<a->frameHeight()/8+1)errors<<p.title+": move textbox below the portrait (Y at least "+QString::number(a->frameHeight()/8+1)+").";}program(p.onEnter,p.title+" enter");for(auto &c:p.choices){QString error;CFCondition condition;if(!compiler.condition(c.condition,condition,error))errors<<p.title+" choice: "+error;program(c.actions,p.title+" choice");}}
+    for(auto &w:allAreas()){if(w.terrainEvents.size()>8)errors<<w.name+": use up to 8 terrain events.";for(auto &e:w.terrainEvents){if(e.tile<0||!asset(w.tileset)||e.tile>=asset(w.tileset)->tileCount()||e.every<1||e.every>255||e.chance<0||e.chance>100)errors<<w.name+": invalid terrain event tile, interval or chance.";program(e.script,w.name+" terrain event");}if(!mapIds.contains(w.mapId))errors<<w.name+": missing parent map.";if(w.interactionRange<8||w.interactionRange>64||w.attackRange<8||w.attackRange>128)errors<<w.name+": ray ranges must be 8-64 (interaction), 8-128 (combat).";program(w.onStart,w.name+" enter");
+        if(w.objects.size()>8)errors<<w.name+": use at most 8 area objects.";QSet<QString> objectIds;for(auto &o:w.objects){if(o.id.isEmpty()||objectIds.contains(o.id))errors<<w.name+": object IDs must be unique.";objectIds.insert(o.id);if(o.kind!="storage"&&o.kind!="script")errors<<o.name+": object kind must be storage or script.";if(o.x<0||o.y<0||o.x>=w.width||o.y>=w.height)errors<<o.name+": object is outside the area.";if(o.tile<0||(asset(w.tileset)&&o.tile>=asset(w.tileset)->tileCount()))errors<<o.name+": object tile is outside the tileset.";if(o.kind=="storage"&&storageIndex(o.storage)<0)errors<<o.name+": choose a storage.";program(o.onInteract,o.name+" interact");program(o.onHit,o.name+" hit");}
+        for(auto &a:w.actors){if(a.health<1||a.health>255)errors<<a.name+": health is 1-255.";program(a.onInteract,a.name+" interact");program(a.onHit,a.name+" hit");program(a.onDefeat,a.name+" defeat");}
+    }
+    for(auto &n:npcs){if(n.actor.health<1||n.actor.health>255)errors<<n.name+": health is 1-255.";if(!asset(n.actor.sprite)||asset(n.actor.sprite)->kind!="sprite")errors<<n.name+": NPC template needs a sprite.";BehaviorSpec b;QString error;if(!parseBehavior(n.actor.script,b,error)||b.code.kind==CF_BEHAVIOR_PLAYER)errors<<n.name+": invalid NPC behaviour. "+error;program(n.actor.onInteract,n.name+" interact");program(n.actor.onHit,n.name+" hit");program(n.actor.onDefeat,n.name+" defeat");}
+    return errors;
+}
+}

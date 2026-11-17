@@ -1,0 +1,33 @@
+Start testing: Nov 17 13:28 GMT
+----------------------------------------------------------
+1/9 Testing: project-and-build
+1/9 Test: project-and-build
+Command: "/Users/erin/Dev/CartFoundry/build/cf-tests"
+Directory: /Users/erin/Dev/CartFoundry/build
+"project-and-build" start time: Nov 17 13:28 GMT
+Output:
+----------------------------------------------------------
+********* Start testing of ProjectTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (arm64-little_endian-lp64 shared (dynamic) release build; by Apple LLVM 21.0.0 (clang-2100.3.34.2)), macos 27.2.1
+PASS   : ProjectTests::initTestCase()
+PASS   : ProjectTests::roundTrip()
+PASS   : ProjectTests::malformedAndLimits()
+PASS   : ProjectTests::screenAndEscaping()
+PASS   : ProjectTests::scriptsAndControls()
+PASS   : ProjectTests::spriteSheets()
+PASS   : ProjectTests::rasterConversion()
+PASS   : ProjectTests::worldAndModes()
+PASS   : ProjectTests::textboxLayout()
+PASS   : ProjectTests::buildAndRewire()
+PASS   : ProjectTests::cleanupTestCase()
+Totals: 11 passed, 0 failed, 0 skipped, 0 blacklisted, 54184ms
+********* Finished testing of ProjectTests *********
+<end of output>
+Test time =  54.29 sec
+----------------------------------------------------------
+Test Passed.
+"project-and-build" end time: Nov 17 13:29 GMT
+"project-and-build" time elapsed: 00:00:54
+----------------------------------------------------------
+
+End testing: Nov 17 13:29 GMT
