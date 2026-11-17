@@ -1,6 +1,6 @@
 # Authoring controls and engine coverage
 
-CartFoundry 0.6 exposes the current gameplay commands through editor forms as
+CartFoundry 0.7 exposes the current gameplay commands through editor forms as
 well as source text. New primitives should gain a model field, editor control,
 shared preview/runtime behavior, validation and meaningful verification together.
 
@@ -8,6 +8,12 @@ shared preview/runtime behavior, validation and meaningful verification together
 
 | Function | Editor controls |
 |---|---|
+| Game startup / target / splash duration | File → Project Settings → Default Scene, Target, Platform splash duration |
+| Scene entry and scene changes | Scenes & screen builder / hierarchy scene inspector → onSceneEnter; + Event → Scenes / Load scene |
+| Menu screens | Screen builder: text, panel, image and button elements; drag/resize, alignment, order and enabled conditions |
+| Scene testing | Screen builder Preview (shared native runtime) and Test Scene (real ROM); Build & Play uses Default Scene |
+| Script workspace / references | Scripts tab: element-type list, event selector, live edits, double-click reference browser; live read-only JSON tab |
+| Explicit area loads / object and NPC event calls | + Event → Areas / Load area, Objects / Call event, NPCs / Call event |
 | Project, scene, map, area and object ownership | Project & game data tree; parent selectors; Open map editor |
 | Areas, exits and spawn points | World tab area selector, size/spawn/link painting and isolated area test |
 | Tile and collision painting | Pencil, rectangle fill and flood fill; right-drag erases; Alt-click picks a tile |
@@ -116,9 +122,9 @@ there is no separate weighted-table editor yet.
 
 ## Practical limits
 
-The current cartridge format remains 32 KiB without banking or SRAM saves.
-Graphics sharing and code-size optimization save space; actual compilation is
-the final ROM-size check. There are up to eight areas, four NPC instances per
+Exports use MBC5 with banked event bytecode and splash/screen graphics. There
+are no SRAM saves yet. Fixed runtime/gameplay-data bank limits are checked at
+export; graphics sharing and code-size optimization save space. There are up to eight areas, four NPC instances per
 area, eight objects per area, eight timers, 31 user variables, 16 item types and
 eight storages. Event programs allow 96 expanded instructions, eight nested
 conditions and four call levels. The sprite hardware limits still apply.
@@ -139,3 +145,20 @@ expose deliberately as broader genre support develops.
 
 These are interface references. CartFoundry continues to use its own Qt editor,
 project format, compiler pipeline and shared C runtime.
+
+## Scenes and startup (0.7)
+
+See [Scenes & Screens](../examples/scenes/README.md) for the complete editor recipe
+and entry semantics. The conversation preview start no longer controls game boot.
+The GB/GBC splash uses the artwork shipped in `images/splash_gb.png` and
+`images/splash_gbc.png`, quantized to the target's four-colour display. Default
+splash duration is 120 video frames (about two seconds).
+
+Public additions: `scene scene_id`, `area area_id`,
+`object area_id object_id interact|hit`, and
+`npc area_id actor_id interact|hit|defeat`. Object/NPC calls execute the selected
+actor's authored event; they do not deal damage, change animation or mutate health.
+They are expanded like reusable script calls and share the recursion/instruction
+limits. Scene/area loads end the current event. The compiler moves event bytecode
+and screen graphics to MBC5 banks; fixed runtime/data sections are checked for
+overflow. Save format 6 adds project startup settings and authored scene contents.

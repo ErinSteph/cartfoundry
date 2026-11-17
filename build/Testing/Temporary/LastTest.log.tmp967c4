@@ -1,0 +1,185 @@
+Start testing: Nov 17 21:56 GMT
+----------------------------------------------------------
+1/10 Testing: project-and-build
+1/10 Test: project-and-build
+Command: "/Users/erin/Dev/CartFoundry/build/cf-tests"
+Directory: /Users/erin/Dev/CartFoundry/build
+"project-and-build" start time: Nov 17 21:56 GMT
+Output:
+----------------------------------------------------------
+********* Start testing of ProjectTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (arm64-little_endian-lp64 shared (dynamic) release build; by Apple LLVM 21.0.0 (clang-2100.3.34.2)), macos 27.2.1
+PASS   : ProjectTests::initTestCase()
+PASS   : ProjectTests::roundTrip()
+PASS   : ProjectTests::malformedAndLimits()
+PASS   : ProjectTests::screenAndEscaping()
+PASS   : ProjectTests::scriptsAndControls()
+PASS   : ProjectTests::spriteSheets()
+PASS   : ProjectTests::rasterConversion()
+FAIL!  : ProjectTests::worldAndModes() 'color.success' returned FALSE. (main.c:
+main.c:79: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:80: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:85: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:86: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:89: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:91: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:105: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:106: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:108: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:109: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:162: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+cf_flow.c:
+cf_world.c:
+cf_behavior.c:
+cf_animation.c:
+cf_game.c:
+cf_raycast.c:
+cf_bank.c:
+bank_4.c:
+
+Runtime exceeds its fixed ROM bank: _MAIN)
+   Loc: [/Users/erin/Dev/CartFoundry/tests/project_tests.cpp(78)]
+PASS   : ProjectTests::textboxLayout()
+PASS   : ProjectTests::buildAndRewire()
+PASS   : ProjectTests::cleanupTestCase()
+Totals: 10 passed, 1 failed, 0 skipped, 0 blacklisted, 43193ms
+********* Finished testing of ProjectTests *********
+<end of output>
+Test time =  43.34 sec
+----------------------------------------------------------
+Test Failed.
+"project-and-build" end time: Nov 17 21:56 GMT
+"project-and-build" time elapsed: 00:00:43
+----------------------------------------------------------
+
+2/10 Testing: runtime-flow
+2/10 Test: runtime-flow
+Command: "/Users/erin/Dev/CartFoundry/build/cf-flow-tests"
+Directory: /Users/erin/Dev/CartFoundry/build
+"runtime-flow" start time: Nov 17 21:56 GMT
+Output:
+----------------------------------------------------------
+Runtime choices, loops, endings, reset, rewiring and invalid-target checks passed.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"runtime-flow" end time: Nov 17 21:56 GMT
+"runtime-flow" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/10 Testing: runtime-world
+3/10 Test: runtime-world
+Command: "/Users/erin/Dev/CartFoundry/build/cf-world-tests"
+Directory: /Users/erin/Dev/CartFoundry/build
+"runtime-world" start time: Nov 17 21:56 GMT
+Output:
+----------------------------------------------------------
+World bounds, foot-box collision, facing, camera and movement checks passed.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"runtime-world" end time: Nov 17 21:56 GMT
+"runtime-world" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/10 Testing: emulator-integration
+4/10 Test: emulator-integration
+Command: "/Users/erin/Dev/CartFoundry/build/cf-emulator-tests"
+Directory: /Users/erin/Dev/CartFoundry/build
+"emulator-integration" start time: Nov 17 21:56 GMT
+Output:
+----------------------------------------------------------
+********* Start testing of EmulatorTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (arm64-little_endian-lp64 shared (dynamic) release build; by Apple LLVM 21.0.0 (clang-2100.3.34.2)), macos 27.2.1
+PASS   : EmulatorTests::initTestCase()
+FAIL!  : EmulatorTests::actualRomExecution() 'build.success' returned FALSE. (main.c:
+main.c:79: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:80: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:85: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:86: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:89: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:91: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:105: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:106: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:108: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:109: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:162: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+cf_flow.c:
+cf_world.c:
+cf_behavior.c:
+cf_animation.c:
+cf_game.c:
+cf_raycast.c:
+cf_bank.c:
+bank_4.c:
+
+Runtime exceeds its fixed ROM bank: _MAIN)
+   Loc: [/Users/erin/Dev/CartFoundry/tests/emulator_tests.cpp(9)]
+FAIL!  : EmulatorTests::animatedSprites() 'build.success' returned FALSE. (main.c:
+main.c:81: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:82: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:87: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:88: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:91: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:93: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:107: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:108: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:110: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:111: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+main.c:164: warning 110: conditional flow changed by optimizer: so said EVELYN the modified DOG
+cf_flow.c:
+cf_world.c:
+cf_behavior.c:
+cf_animation.c:
+cf_game.c:
+cf_raycast.c:
+cf_bank.c:
+bank_4.c:
+
+Runtime exceeds its fixed ROM bank: _MAIN)
+   Loc: [/Users/erin/Dev/CartFoundry/tests/emulator_tests.cpp(25)]
+PASS   : EmulatorTests::gameSystems()
+Received signal 15 (SIGTERM)
+         remappedControls function time: 7371ms, total time: 101923ms
+<end of output>
+Test time = 101.98 sec
+----------------------------------------------------------
+Test Failed.
+"emulator-integration" end time: Nov 17 21:58 GMT
+"emulator-integration" time elapsed: 00:01:41
+----------------------------------------------------------
+
+5/10 Testing: runtime-behavior
+5/10 Test: runtime-behavior
+Command: "/Users/erin/Dev/CartFoundry/build/cf-behavior-tests"
+Directory: /Users/erin/Dev/CartFoundry/build
+"runtime-behavior" start time: Nov 17 21:58 GMT
+Output:
+----------------------------------------------------------
+Patrol bounds, wall reversal, chase distance, timing and contact passed.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"runtime-behavior" end time: Nov 17 21:58 GMT
+"runtime-behavior" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/10 Testing: runtime-animation
+6/10 Test: runtime-animation
+Command: "/Users/erin/Dev/CartFoundry/build/cf-animation-tests"
+Directory: /Users/erin/Dev/CartFoundry/build
+"runtime-animation" start time: Nov 17 21:58 GMT
+Output:
+----------------------------------------------------------
+Animation ranges, exact duration, loops, one-shots, replay and bindings passed.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"runtime-animation" end time: Nov 17 21:58 GMT
+"runtime-animation" time elapsed: 00:00:00
+----------------------------------------------------------
+

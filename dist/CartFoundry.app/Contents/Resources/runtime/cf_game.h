@@ -23,33 +23,41 @@
 #define CF_OP_VIEW 14
 #define CF_OP_SEED 15
 #define CF_OP_TIMER 16
+#define CF_OP_SCENE 17
+#define CF_OP_AREA 18
 typedef struct {uint8_t op,a,b,c,d;int16_t value;} CFInstruction;
-typedef struct {uint8_t count;const CFInstruction *code;} CFProgram;
+typedef struct {uint8_t count;const CFInstruction *code;uint8_t bank;} CFProgram;
 /* type 0=always, 1=variable, 2=item count; rhs_variable selects a variable RHS. */
 typedef struct {uint8_t type,a,b,compare,rhs_variable;int16_t value;} CFCondition;
 typedef struct {CFCondition condition;CFProgram actions;} CFChoiceRule;
 typedef struct {uint8_t capacity;const uint16_t *initial;} CFStorageDef;
 typedef struct {uint16_t interval;uint8_t repeat,autostart,pause_dialogue;CFProgram program;} CFTimerDef;
 typedef struct {uint8_t variable_count,item_count,storage_count;const int16_t *initial;const uint8_t *stack_limits;const CFStorageDef *storages;uint16_t seed;uint8_t timer_count;const CFTimerDef *timers;} CFGameDef;
-typedef struct {int16_t variables[CF_GAME_VARIABLES];uint16_t counts[CF_GAME_STORAGES][CF_GAME_ITEMS];uint8_t request_storage,request_prompt,request_world,request_readonly,dirty;uint16_t random;uint16_t timer_remaining[8];uint8_t timer_active[8];} CFGameState;
+typedef struct {int16_t variables[CF_GAME_VARIABLES];uint16_t counts[CF_GAME_STORAGES][CF_GAME_ITEMS];uint8_t request_storage,request_prompt,request_world,request_readonly,dirty,request_scene,request_area;uint16_t random;uint16_t timer_remaining[8];uint8_t timer_active[8];} CFGameState;
 typedef struct {uint8_t tile,every,chance;CFProgram program;} CFStepRule;
 typedef struct {int16_t cell;uint8_t steps[8];} CFStepState;
+#ifdef __TARGET_gb
+#include <gb/gb.h>
+#define CF_GAME_CALL BANKED
+#else
+#define CF_GAME_CALL
+#endif
 #ifdef __cplusplus
 extern "C" {
 #endif
-void cf_game_tick(CFGameState *,const CFGameDef *,uint8_t in_dialogue);
-uint16_t cf_game_random(CFGameState *,uint16_t maximum);
-void cf_game_step_init(CFStepState *,int16_t cell);
-uint8_t cf_game_step(CFStepState *,CFGameState *,const CFGameDef *,const CFStepRule *,uint8_t count,int16_t cell,uint8_t tile);
-void cf_game_text(const CFGameState *,const char *,char *,uint16_t capacity,uint8_t columns);
-void cf_game_init(CFGameState *,const CFGameDef *);
-uint8_t cf_game_condition(const CFGameState *,const CFCondition *);
-uint8_t cf_storage_change(CFGameState *,const CFGameDef *,uint8_t storage,uint8_t item,int16_t amount);
-uint8_t cf_storage_transfer(CFGameState *,const CFGameDef *,uint8_t from,uint8_t to,uint8_t item,uint16_t amount);
-uint8_t cf_game_execute(CFGameState *,const CFGameDef *,const CFProgram *);
-void cf_story_enter(CFState *,uint8_t prompt,CFGameState *,const CFGameDef *,const CFProgram *enter);
-void cf_story_normalize(CFState *,const CFPrompt *,const CFChoiceRule *,const CFGameState *);
-uint8_t cf_story_step(CFState *,const CFPrompt *,uint8_t count,uint8_t entry,uint8_t keys,CFGameState *,const CFGameDef *,const CFChoiceRule *,const CFProgram *enter);
+void cf_game_tick(CFGameState *,const CFGameDef *,uint8_t in_dialogue) CF_GAME_CALL;
+uint16_t cf_game_random(CFGameState *,uint16_t maximum) CF_GAME_CALL;
+void cf_game_step_init(CFStepState *,int16_t cell) CF_GAME_CALL;
+uint8_t cf_game_step(CFStepState *,CFGameState *,const CFGameDef *,const CFStepRule *,uint8_t count,int16_t cell,uint8_t tile) CF_GAME_CALL;
+void cf_game_text(const CFGameState *,const char *,char *,uint16_t capacity,uint8_t columns) CF_GAME_CALL;
+void cf_game_init(CFGameState *,const CFGameDef *) CF_GAME_CALL;
+uint8_t cf_game_condition(const CFGameState *,const CFCondition *) CF_GAME_CALL;
+uint8_t cf_storage_change(CFGameState *,const CFGameDef *,uint8_t storage,uint8_t item,int16_t amount) CF_GAME_CALL;
+uint8_t cf_storage_transfer(CFGameState *,const CFGameDef *,uint8_t from,uint8_t to,uint8_t item,uint16_t amount) CF_GAME_CALL;
+uint8_t cf_game_execute(CFGameState *,const CFGameDef *,const CFProgram *) CF_GAME_CALL;
+void cf_story_enter(CFState *,uint8_t prompt,CFGameState *,const CFGameDef *,const CFProgram *enter) CF_GAME_CALL;
+void cf_story_normalize(CFState *,const CFPrompt *,const CFChoiceRule *,const CFGameState *) CF_GAME_CALL;
+uint8_t cf_story_step(CFState *,const CFPrompt *,uint8_t count,uint8_t entry,uint8_t keys,CFGameState *,const CFGameDef *,const CFChoiceRule *,const CFProgram *enter) CF_GAME_CALL;
 #ifdef __cplusplus
 }
 #endif

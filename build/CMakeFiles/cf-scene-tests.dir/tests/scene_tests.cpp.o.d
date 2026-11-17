@@ -1318,5 +1318,12 @@ CMakeFiles/cf-scene-tests.dir/tests/scene_tests.cpp.o: \
   /opt/homebrew/opt/qt/lib/QtGui.framework/Headers/qvector4d.h \
   /opt/homebrew/opt/qt/lib/QtTest.framework/Headers/qttestversion.h \
   /opt/homebrew/opt/qt/include/QtCore/QTemporaryDir \
+  /opt/homebrew/opt/qt/include/QtGui/QPainter \
+  /opt/homebrew/opt/qt/lib/QtGui.framework/Headers/qpainter.h \
+  /opt/homebrew/opt/qt/lib/QtGui.framework/Headers/qtextoption.h \
+  /opt/homebrew/opt/qt/lib/QtGui.framework/Headers/qpen.h \
+  /opt/homebrew/opt/qt/lib/QtGui.framework/Headers/qfontinfo.h \
+  /opt/homebrew/opt/qt/lib/QtGui.framework/Headers/qfontvariableaxis.h \
+  /opt/homebrew/opt/qt/lib/QtGui.framework/Headers/qfontmetrics.h \
   /Users/erin/Dev/CartFoundry/build/cf-scene-tests_autogen/include/scene_tests.moc \
   /opt/homebrew/opt/qt/lib/QtCore.framework/Headers/qtmochelpers.h

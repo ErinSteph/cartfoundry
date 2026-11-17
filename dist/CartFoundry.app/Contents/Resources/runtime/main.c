@@ -1,3 +1,5 @@
+#pragma codeseg MAIN
+#pragma constseg MAIN
 #include <gb/gb.h>
 #include <gb/cgb.h>
 #include "cf_font.h"
@@ -5,12 +7,28 @@
 #include "cf_world.h"
 #include "cf_area.h"
 #include "cf_raycast.h"
+#include "cf_scene.h"
+#include "cf_bank.h"
 #include "project.h"
 static volatile uint8_t input_held,input_pressed,input_previous,pending_ticks;
 /* Latch short button presses even when a renderer/event spans a video frame. */
-static void sample_input(void){uint8_t held=joypad();input_pressed|=held & ~input_previous;input_previous=held;input_held=held;if(pending_ticks<255)++pending_ticks;}
+#pragma codeseg HOME
+static void sample_input(void) NONBANKED {uint8_t held=joypad();input_pressed|=held & ~input_previous;input_previous=held;input_held=held;if(pending_ticks<255)++pending_ticks;}
+#pragma codeseg MAIN
 static CFState state;
 static CFGameState game;
+static uint8_t touch_cooldown;
+static uint8_t dialog,active_scene,screen_cursor=255;
+static const CFScene *scene;
+static uint8_t bitmap_buffer[256],screen_map[360];
+static void screen_draw(void) NONBANKED ;
+static void screen_select(int8_t delta) NONBANKED;
+static void scene_load(uint8_t id,uint8_t area_override) NONBANKED ;
+static void area_enter(uint8_t id) NONBANKED ;
+#pragma codeseg HOME
+static void bitmap_load(const CFBitmap *image,uint8_t base) NONBANKED {uint16_t offset=0,remaining=image->count*16;uint8_t count;uint16_t palette[4];while(remaining){count=remaining>=256?16:remaining/16;cf_bank_copy(image->bank,image->tiles+offset,bitmap_buffer,(uint16_t)count*16);set_bkg_data(base+offset/16,count,bitmap_buffer);remaining-=(uint16_t)count*16;offset+=(uint16_t)count*16;}cf_bank_copy(image->bank,image->map,screen_map,360);cf_bank_copy(image->bank,(const uint8_t*)image->palette,(uint8_t*)palette,8);if(CF_COLOR&&_cpu==CGB_TYPE)set_bkg_palette(0,1,palette);}
+#pragma codeseg MAIN
+
 static char body_text[512];
 static uint8_t menu_active,menu_storage,menu_side,menu_choice,menu_readonly;
 static void process_requests(void);
@@ -33,7 +51,7 @@ static CFAnimationController player_animation,actor_animations[4];
 static uint8_t loaded_frames[5],actor_health[4];
 static CFHitbox ray_targets[140];
 static CFRayHit ray_hit;
-static uint8_t player_clock,touch_cooldown,player_moving;
+static uint8_t player_clock,player_moving;
 #define CF_MAP_W (area->width)
 #define CF_MAP_H (area->height)
 #define CF_SPAWN_X (area->spawn_x)
@@ -44,7 +62,7 @@ static uint8_t player_clock,touch_cooldown,player_moving;
 #define cf_map (area->map)
 #define cf_solid (area->solid)
 #define cf_triggers (area->triggers)
-static uint8_t dialog;
+
 static int16_t last_col = -1, last_row = -1;
 static void map_cell(uint8_t x, uint8_t y) {
     tile_at(world_vram_map,x,y,x<CF_MAP_W&&y<CF_MAP_H?cf_map[(uint16_t)y*CF_MAP_W+x]:128,0);
@@ -105,8 +123,8 @@ static void cast_ray(uint8_t distance,uint8_t combat){
 }
 static void ray_action(uint8_t combat){uint8_t index;cast_ray(combat?area->attack_range:area->interaction_range,combat);index=ray_hit.index;
     if(ray_hit.kind==CF_HIT_OBJECT){const CFObject *o=&area->objects[index];if(combat)cf_game_execute(&game,&cf_game_def,&o->hit);else if(o->interact.count)cf_game_execute(&game,&cf_game_def,&o->interact);else if(o->storage<cf_game_def.storage_count)game.request_storage=o->storage;}
-    if(ray_hit.kind==CF_HIT_ACTOR){const CFActorSpawn *a=&area->actors[index];if(combat){if(actor_health[index])--actor_health[index];cf_game_execute(&game,&cf_game_def,&a->hit);if(!actor_health[index])cf_game_execute(&game,&cf_game_def,&a->defeat);player_draw();}else if(a->interact.count)cf_game_execute(&game,&cf_game_def,&a->interact);else if(a->behavior.touch_prompt<CF_PROMPT_COUNT)game.request_prompt=a->behavior.touch_prompt;}
-    if(!combat&&ray_hit.kind==CF_HIT_EXIT)world_load(area->exits[index].target);
+    if(ray_hit.kind==CF_HIT_ACTOR){const CFActorSpawn *a=&area->actors[index];if(!combat){cf_animation_update(&actor_animations[index],a->animations,a->animation_count,a->bindings,actors[index].moving,1);upload_animations();player_draw();}if(combat){if(actor_health[index])--actor_health[index];cf_game_execute(&game,&cf_game_def,&a->hit);if(!actor_health[index])cf_game_execute(&game,&cf_game_def,&a->defeat);player_draw();}else if(a->interact.count)cf_game_execute(&game,&cf_game_def,&a->interact);else if(a->behavior.touch_prompt<CF_PROMPT_COUNT)game.request_prompt=a->behavior.touch_prompt;}
+    if(!combat&&ray_hit.kind==CF_HIT_EXIT)area_enter(area->exits[index].target);
     if(!combat&&ray_hit.kind==CF_HIT_PROMPT)game.request_prompt=area->triggers[index].target;
 }
 
@@ -119,15 +137,15 @@ static void text(uint8_t x,uint8_t y,const char *s,uint8_t limit) {
 }
 static void begin_text(void){uint8_t x,y;render_map=hidden_map();render_palette=render_map==0x9800?7:4;
 #if CF_WORLD
-    origin_x=world.camera_x>>3;origin_y=world.camera_y>>3;for(y=0;y<18;++y)for(x=0;x<20;++x){uint8_t wx=origin_x+x,wy=origin_y+y;tile_at(render_map,wx,wy,wx<CF_MAP_W&&wy<CF_MAP_H?cf_map[(uint16_t)wy*CF_MAP_W+wx]:128,0);}
-#else
-    origin_x=origin_y=0;for(y=0;y<18;++y)for(x=0;x<20;++x)tile_at(render_map,x,y,0,render_palette);
+    if(scene->world){origin_x=world.camera_x>>3;origin_y=world.camera_y>>3;for(y=0;y<18;++y)for(x=0;x<20;++x){uint8_t wx=origin_x+x,wy=origin_y+y;tile_at(render_map,wx,wy,wx<CF_MAP_W&&wy<CF_MAP_H?cf_map[(uint16_t)wy*CF_MAP_W+wx]:128,0);}}else
 #endif
+    {origin_x=origin_y=0;for(y=0;y<18;++y)for(x=0;x<20;++x)tile_at(render_map,x,y,scene->image?screen_map[(uint16_t)y*20+x]:0,0);}
+
     if(CF_COLOR&&_cpu==CGB_TYPE)set_bkg_palette(render_palette,1,colors);
 }
 static void commit_text(void){game.dirty=0;
 #if CF_WORLD
-    world.camera_x&=~7;world.camera_y&=~7;show_map(render_map,(uint8_t)world.camera_x,(uint8_t)world.camera_y);HIDE_SPRITES;
+    if(scene->world){world.camera_x&=~7;world.camera_y&=~7;show_map(render_map,(uint8_t)world.camera_x,(uint8_t)world.camera_y);}else show_map(render_map,0,0);HIDE_SPRITES;
 #else
     show_map(render_map,0,0);
 #endif
@@ -151,11 +169,31 @@ static void draw(void) {
 }
 static void cursor_draw(void){uint8_t i;CFTextLayout layout;const CFPrompt *p=&cf_prompts[state.prompt];cf_text_layout(p,&layout);for(i=0;i<p->choice_count;++i)glyph(p->box_x+p->padding,p->box_y+layout.choice_row+i*p->choice_spacing,cf_game_condition(&game,&cf_choice_rules[(uint16_t)state.prompt*3+i].condition)?(i==state.choice?p->cursor:' '):p->disabled_marker);}
 
-static void restore_view(void){
+#pragma codeseg HOME
+static void screen_draw(void) NONBANKED {uint8_t i,x,y,row,length,columns;const CFScreenElement *e;const char *c;if(screen_cursor>=scene->count||!cf_game_condition(&game,&scene->elements[screen_cursor].condition))screen_select(1);begin_text();for(i=0;i<scene->count;++i){e=&scene->elements[i];if(e->type==3)continue;for(y=0;y<e->h;++y)for(x=0;x<e->w;++x)glyph(e->x+x,e->y+y,e->type==2?((x==0||x==e->w-1)?((y==0||y==e->h-1)?'+':'|'):(y==0||y==e->h-1)?'-':' '):' ');if(e->type==2)continue;columns=e->w-(e->type==1);cf_game_text(&game,e->text,body_text,sizeof body_text,columns);c=body_text;row=0;while(*c&&row<e->h){length=0;while(c[length]&&c[length]!='\n')++length;x=e->x+(e->type==1);if(e->align==1)x+=(columns-length)/2;else if(e->align==2)x+=columns-length;while(*c&&*c!='\n')glyph(x++,e->y+row,*c++);if(*c=='\n')++c;++row;}if(e->type==1)glyph(e->x,e->y,cf_game_condition(&game,&e->condition)?(screen_cursor==i?'>':' '):'x');}commit_text();}
+#pragma codeseg MAIN
+#pragma codeseg HOME
+static void screen_select(int8_t delta) NONBANKED {uint8_t i,next=screen_cursor;for(i=0;i<scene->count;++i){if(next==255)next=delta<0?scene->count-1:0;else next=delta<0?(next?next-1:scene->count-1):(next+1)%scene->count;if(scene->elements[next].type==1&&cf_game_condition(&game,&scene->elements[next].condition)){screen_cursor=next;return;}}screen_cursor=255;}
+#pragma codeseg MAIN
+#pragma codeseg HOME
+static void scene_load(uint8_t id,uint8_t area_override) NONBANKED {uint16_t palette[4];if(id>=CF_SCENE_COUNT)return;active_scene=id;scene=&cf_scenes[id];dialog=menu_active=0;game.request_prompt=game.request_storage=game.request_scene=game.request_area=255;game.request_world=0;screen_cursor=255;
 #if CF_WORLD
-    if(dialog)draw();else{cf_world_camera(&world,CF_MAP_W,CF_MAP_H);world_vram_map=hidden_map();stream_full();player_draw();show_map(world_vram_map,(uint8_t)world.camera_x,(uint8_t)world.camera_y);SHOW_SPRITES;}
+if(scene->world){world_load(area_override==255?scene->area:area_override);}else
+#endif
+{HIDE_SPRITES;DISPLAY_OFF;palette[0]=scene->background;palette[1]=colors[1];palette[2]=colors[2];palette[3]=colors[3];if(scene->image)bitmap_load(scene->image,128);else if(CF_COLOR&&_cpu==CGB_TYPE)set_bkg_palette(0,1,palette);DISPLAY_ON;screen_select(1);screen_draw();}cf_game_execute(&game,&cf_game_def,&scene->enter);}
+#pragma codeseg MAIN
+#pragma codeseg HOME
+static void area_enter(uint8_t id) NONBANKED {
+#if CF_WORLD
+if(cf_area_scene[id]!=active_scene)scene_load(cf_area_scene[id],id);else world_load(id);
 #else
-    draw();
+(void)id;
+#endif
+}
+#pragma codeseg MAIN
+static void restore_view(void){if(dialog){draw();return;}if(!scene->world){screen_draw();return;}
+#if CF_WORLD
+cf_world_camera(&world,CF_MAP_W,CF_MAP_H);world_vram_map=hidden_map();stream_full();player_draw();show_map(world_vram_map,(uint8_t)world.camera_x,(uint8_t)world.camera_y);SHOW_SPRITES;
 #endif
 }
 static uint8_t menu_source(void){return menu_storage&&menu_side?0:menu_storage;}
@@ -165,61 +203,37 @@ static void menu_draw(void){uint8_t x,y,ids[16],count=menu_items(ids),i,start;be
     for(y=0;y<18;++y)for(x=0;x<20;++x)glyph(x,y,(x==0||x==19)?'|':(y==0||y==17)?'-':' ');text(1,1,cf_storage_names[menu_source()],18);if(menu_choice>=count)menu_choice=count?count-1:0;start=menu_choice>9?menu_choice-9:0;if(!count)text(1,4,"Empty",18);for(i=start;i<count&&i<start+10;++i){glyph(1,3+i-start,i==menu_choice?'>':' ');text(2,3+i-start,cf_item_names[ids[i]],12);number(15,3+i-start,game.counts[menu_source()][ids[i]]);}text(1,15,menu_readonly?CF_VIEW_HINT:menu_storage?CF_CONTAINER_HINT:CF_INVENTORY_HINT,18);text(1,16,CF_CLOSE_HINT,18);commit_text();
 }
 static void menu_input(uint8_t pressed){uint8_t ids[16],count,item;if(!(pressed&(J_UP|J_DOWN|CF_CONTROL_INTERACT|CF_CONTROL_CLOSE|CF_CONTROL_INVENTORY)))return;count=menu_items(ids);if(pressed&CF_CONTROL_CLOSE){menu_active=0;restore_view();return;}if(menu_storage&&!menu_readonly&&(pressed&CF_CONTROL_INVENTORY)){menu_side=!menu_side;menu_choice=0;menu_draw();return;}if(count){if(pressed&J_UP)menu_choice=menu_choice?menu_choice-1:count-1;if(pressed&J_DOWN)menu_choice=(menu_choice+1)%count;if(pressed&CF_CONTROL_INTERACT){item=ids[menu_choice];if(menu_storage&&!menu_readonly)game.variables[31]=cf_storage_transfer(&game,&cf_game_def,menu_source(),menu_side?menu_storage:0,item,1);else if(cf_game_execute(&game,&cf_game_def,&cf_item_use[item])&&!menu_readonly&&cf_item_consumable[item])cf_storage_change(&game,&cf_game_def,0,item,-1);}menu_draw();}}
-static void process_requests(void){uint8_t i;
-#if CF_WORLD
+static void process_requests(void){uint8_t i;for(i=0;i<8&&(game.request_scene<CF_SCENE_COUNT||game.request_area!=255);++i){if(game.request_scene<CF_SCENE_COUNT)scene_load(game.request_scene,255);else{uint8_t target=game.request_area;game.request_area=255;area_enter(target);}}game.request_scene=game.request_area=255;
     if(game.request_world){game.request_world=0;game.request_prompt=game.request_storage=255;menu_active=dialog=0;touch_cooldown=60;restore_view();return;}
-#endif
 for(i=0;i<4&&game.request_prompt<CF_PROMPT_COUNT;++i){uint8_t p=game.request_prompt;game.request_prompt=255;menu_active=0;cf_story_enter(&state,p,&game,&cf_game_def,cf_enter_scripts);cf_story_normalize(&state,cf_prompts,cf_choice_rules,&game);
-#if CF_WORLD
     dialog=1;
-#endif
-    if(game.request_prompt==255&&!game.request_world&&game.request_storage==255)draw();}game.request_prompt=255;
-#if CF_WORLD
+    if(game.request_prompt==255&&!game.request_world&&game.request_storage==255&&game.request_scene==255)draw();}game.request_prompt=255;
     if(game.request_world){game.request_world=0;game.request_storage=255;menu_active=dialog=0;touch_cooldown=60;restore_view();return;}
-#endif
     if(game.request_storage<cf_game_def.storage_count){menu_storage=game.request_storage;menu_readonly=game.request_readonly;game.request_readonly=0;game.request_storage=255;menu_active=1;menu_side=menu_choice=0;menu_draw();}}
 void main(void) {
     uint8_t held,pressed,keys,ticks;
 #if CF_WORLD
     uint8_t i,step,contact,moving;int16_t old_x,old_y;int8_t dx,dy;
 #endif
-    cf_game_init(&game,&cf_game_def);add_VBL(sample_input);
-    DISPLAY_OFF;LCDC_REG &= ~LCDCF_BG8000;
-    set_1bpp_colors(3,0);set_bkg_1bpp_data(0,96,cf_font);
-    fill_bkg_rect(0,0,32,32,0);
-    BGP_REG=0xe4;OBP0_REG=0xe4;
-    if(CF_COLOR && _cpu==CGB_TYPE) set_bkg_palette(7,1,colors);
-#if CF_WORLD
-    world_load(0);
-#else
-    DISPLAY_ON;cf_story_enter(&state,CF_ENTRY,&game,&cf_game_def,cf_enter_scripts);cf_story_normalize(&state,cf_prompts,cf_choice_rules,&game);draw();
-#endif
+    cf_game_init(&game,&cf_game_def);
+    DISPLAY_OFF;LCDC_REG|=LCDCF_BG8000;bitmap_load(&cf_splash,0);set_bkg_tiles(0,0,20,18,screen_map);BGP_REG=OBP0_REG=0xe4;if(CF_COLOR&&_cpu==CGB_TYPE){VBK_REG=1;fill_bkg_rect(0,0,32,32,0);VBK_REG=0;}move_bkg(0,0);SHOW_BKG;DISPLAY_ON;{uint16_t wait=CF_SPLASH_TICKS;while(wait--)vsync();}
+    DISPLAY_OFF;LCDC_REG&=~LCDCF_BG8000;set_1bpp_colors(3,0);set_bkg_1bpp_data(0,96,cf_font);fill_bkg_rect(0,0,32,32,0);DISPLAY_ON;scene_load(CF_DEFAULT_SCENE,255);input_previous=joypad();input_held=input_previous;input_pressed=pending_ticks=0;add_VBL(sample_input);
     process_requests();
     while(1) {
         vsync();CRITICAL {held=input_held;pressed=input_pressed;input_pressed=0;ticks=pending_ticks;pending_ticks=0;}keys=0;
-        if(cf_game_def.timer_count){while(ticks--)cf_game_tick(&game,&cf_game_def,
-#if CF_WORLD
-        dialog||menu_active
-#else
-        1
-#endif
-        );process_requests();if(game.dirty){if(menu_active)menu_draw();else{
-#if CF_WORLD
-        if(dialog)
-#endif
-        {cf_story_normalize(&state,cf_prompts,cf_choice_rules,&game);draw();}}game.dirty=0;}}
+        if(cf_game_def.timer_count){while(ticks--)cf_game_tick(&game,&cf_game_def,dialog||menu_active);process_requests();if(game.dirty){if(menu_active)menu_draw();else if(dialog){cf_story_normalize(&state,cf_prompts,cf_choice_rules,&game);draw();}else if(!scene->world)screen_draw();game.dirty=0;}}
         if(menu_active){menu_input(pressed);process_requests();continue;}
-#if !CF_WORLD
-        if(cf_prompts[state.prompt].modal)pressed&=~(CF_CONTROL_CLOSE|CF_CONTROL_INVENTORY|CF_CONTROL_RESTART);
-#endif
+        if(!scene->world&&!dialog){if(pressed&J_UP)screen_select(-1);if(pressed&J_DOWN)screen_select(1);if(pressed&(J_UP|J_DOWN))screen_draw();if((pressed&CF_CONTROL_INTERACT)&&screen_cursor<scene->count&&cf_game_condition(&game,&scene->elements[screen_cursor].condition))cf_game_execute(&game,&cf_game_def,&scene->elements[screen_cursor].action);if(pressed&CF_CONTROL_CLOSE)cf_game_execute(&game,&cf_game_def,&scene->back);process_requests();if(game.dirty&&!dialog&&!menu_active)screen_draw();continue;}
+        if(dialog&&cf_prompts[state.prompt].modal)pressed&=~(CF_CONTROL_CLOSE|CF_CONTROL_INVENTORY|CF_CONTROL_RESTART);
+        if(dialog&&(pressed&CF_CONTROL_CLOSE)){dialog=0;restore_view();continue;}
         if(pressed & CF_CONTROL_INVENTORY){
 #if CF_WORLD
             if(dialog&&cf_prompts[state.prompt].modal)continue;
 #endif
             game.request_storage=0;game.request_readonly=0;process_requests();continue;}
 #if CF_WORLD
-        if(pressed & CF_CONTROL_RESTART){if(dialog&&cf_prompts[state.prompt].modal)continue;world_reset();continue;}
-        if(!dialog) {
+        if(scene->world&&(pressed & CF_CONTROL_RESTART)){world_reset();continue;}
+        if(scene->world&&!dialog) {
             dx=held & J_LEFT ? -1 : held & J_RIGHT ? 1 : 0;dy=held & J_UP ? -1 : held & J_DOWN ? 1 : 0;
             old_x=world.x;old_y=world.y;
             if(++player_clock>=area->player_behavior.interval){player_clock=0;for(step=0;step<area->player_behavior.speed;++step)cf_world_move(&world,CF_MAP_W,CF_MAP_H,cf_solid,dx,dy);}
@@ -238,15 +252,12 @@ void main(void) {
             if(pressed & CF_CONTROL_CLOSE)ray_action(1);else if(pressed & CF_CONTROL_INTERACT)ray_action(0);process_requests();
             continue;
         }
-        if(pressed & CF_CONTROL_CLOSE) { if(cf_prompts[state.prompt].modal)continue;cf_world_camera(&world,CF_MAP_W,CF_MAP_H);world_vram_map=hidden_map();stream_full();player_draw();show_map(world_vram_map,(uint8_t)world.camera_x,(uint8_t)world.camera_y);SHOW_SPRITES;dialog=0;touch_cooldown=60;continue; }
 #endif
         if(pressed & J_UP) keys |= CF_KEY_UP;
         if(pressed & J_DOWN) keys |= CF_KEY_DOWN;
         if(pressed & CF_CONTROL_INTERACT) keys |= CF_KEY_ACCEPT;
-#if !CF_WORLD
-        if(pressed & (CF_CONTROL_CLOSE|CF_CONTROL_RESTART)) keys |= CF_KEY_RESET;
-#endif
-        if(cf_story_step(&state,cf_prompts,CF_PROMPT_COUNT,CF_ENTRY,keys,&game,&cf_game_def,cf_choice_rules,cf_enter_scripts)){if(keys&(CF_KEY_UP|CF_KEY_DOWN))cursor_draw();else if(game.request_prompt==255&&!game.request_world&&game.request_storage==255)draw();}
+
+        if(cf_story_step(&state,cf_prompts,CF_PROMPT_COUNT,CF_ENTRY,keys,&game,&cf_game_def,cf_choice_rules,cf_enter_scripts)){if(keys&(CF_KEY_UP|CF_KEY_DOWN))cursor_draw();else if(game.request_prompt==255&&!game.request_world&&game.request_storage==255&&game.request_scene==255)draw();}
         process_requests();
     }
 }

@@ -1,16 +1,8 @@
-<img width="600" alt="cf_banner" src="https://github.com/user-attachments/assets/c455d0c0-3a0c-4c58-955b-a7d690bae09e" />
-
-
 # CartFoundry
 
-A cross-platform Game Boy / Game Boy Color engine and C++/Qt desktop
-editor. The application bundles a compiler
-and mGBA emulator core.
-
-<img width="600" alt="Screenshot 2026-11-17 at 15 26 15" src="https://github.com/user-attachments/assets/9e046aee-dc4c-4c10-9c8a-175ab9421666" />
-<img width="600" alt="Screenshot 2026-11-17 at 15 26 35" src="https://github.com/user-attachments/assets/0806c60b-b2e0-4f68-927b-dfcdd7674efb" />
-<img width="600" alt="Screenshot 2026-11-17 at 15 26 58" src="https://github.com/user-attachments/assets/61abaa06-8574-4304-b956-9ca253826472" />
-<img width="600" alt="Screenshot 2026-11-17 at 15 27 20" src="https://github.com/user-attachments/assets/6e9364d3-f3a5-4878-a4d5-fa8bf77231ea" />
+Our own cross-platform Game Boy / Game Boy Color engine and C++/Qt desktop
+editor. Game ROMs execute our C runtime. The application bundles its compiler
+and mGBA emulator core; it works offline, without Godot or external emulator apps.
 
 ## Try it
 
@@ -24,14 +16,23 @@ For a simpler world, start with **File → New Overworld Example**, or open
 Garden in two chapters. The original branching conversation is under
 `examples/first-conversation/`.
 
+- **File → Project Settings** chooses the Default Scene, target and platform splash
+  duration. Startup is explicit: splash → default scene → its `onSceneEnter`.
+- **Scenes & screen builder:** author menu screens from text, images, panels and
+  buttons. Drag/resize on the tile grid, edit actions and conditions, then Preview
+  or Test Scene. **File → New Scenes & Screens Example** demonstrates the flow;
+  see [the scene guide](examples/scenes/README.md).
+- **Scripts:** choose an element type, element and event; edit source with event
+  forms and a reference browser. Double-click references to insert their IDs or
+  commands. A second tab shows the live read-only project JSON.
 - **Sprites, tilesets & overworld:** choose an area, import/replace images and
   set its tileset/player. Import lets you select dimensions, fit/crop/stretch,
   scaling filter and background removal, with a live four-colour preview.
 - Choose a tile and paint the map. The tool selector also paints solid collision,
   spawn points, prompt interactions and area exits. Left drag paints, right drag
   erases. Collision is red while that layer is selected; exits are blue.
-- Name areas and give them chapter labels. Add/duplicate areas and **Set start**
-  to choose the game's first area. Exits link to a destination's spawn point.
+- Name areas and give them chapter labels. Add/duplicate areas and **Use as scene start**
+  to choose the initial area within its parent world scene. Exits link to a destination's spawn point.
 - **Conversations & textboxes:** wire prompt choices and edit their text. Adjust
   textbox X/Y/width/height in the Inspector; overflow is reported before export.
 - Switch **Game Boy / Game Boy Color** with the toolbar or **Target** menu.
@@ -84,8 +85,8 @@ and physical hardware have not been validated here yet.
 
 This milestone supports animated sprite sheets and one four-colour tileset per
 area. Music/audio output, game saves, text pagination
-and ROM banking remain future work. Eight named areas are supported within the
-current 32 KiB cartridge/data budget. See THIRD_PARTY.md for supporting licenses.
+remain future work. Eight named areas are supported with MBC5 banked event and
+screen resources; runtime/gameplay tables still have fixed-bank limits. See THIRD_PARTY.md for supporting licenses.
 
 ## Controls and scripts
 

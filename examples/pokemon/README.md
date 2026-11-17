@@ -140,7 +140,7 @@ In **Conversations & textboxes**, add all prompt IDs from the prompt reference
 below. Give each its displayed title. Set **Prompt ID** before wiring or pasting
 scripts; click away to commit it. IDs are the stable names used by `dialogue`.
 Delete unused prompts from the initial conversation template when finished.
-Set the starting prompt to `intro`.
+Set Conversation preview start to `intro` (this affects only the preview).
 
 Every example prompt has textbox X=0, Y=5, Width=20, Height=13. Its portrait appears
 above it. Toggle **Modal dialogue** on the entries marked modal. This protects
@@ -315,7 +315,10 @@ is `call wild_encounter`. A step means entering a new tile with the player's foo
 box, not elapsed time or animation frames. Standing still does not roll. Only
 entries onto the selected tile count toward the interval.
 
-Set **On enter area** to `dialogue intro`. Keep the interaction ray at 16 pixels.
+Select the parent scene, set its type to **World**, choose Pocket Meadow as its
+Initial Area, and set **onSceneEnter** to `dialogue intro`. In **File → Project
+Settings**, choose that scene as **Default Scene**. Leave On enter area empty.
+Keep the interaction ray at 16 pixels.
 The overworld combat ray is unused by this battle system; battles are scripted
 choice menus. Place the Nurse and PC as above, and connect the sign after creating
 its prompt. Every referenced script, item, variable, storage, prompt and asset is

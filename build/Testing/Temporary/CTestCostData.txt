@@ -1,10 +1,11 @@
-project-and-build 18 3.01589
-runtime-flow 21 0.000906466
-runtime-world 16 0.00133657
-emulator-integration 10 63.7841
-runtime-behavior 12 0.00167188
-runtime-animation 9 0.0025691
-game-systems 6 0.0824962
-pokemon-adventure 4 64.4249
-versatility-and-rendering 1 90.5159
+project-and-build 19 3.49565
+runtime-flow 23 0.000335645
+runtime-world 18 0.000227732
+emulator-integration 11 19.0811
+runtime-behavior 14 0.000192783
+runtime-animation 11 0.000215549
+game-systems 8 0.0203338
+pokemon-adventure 5 16.9649
+versatility-and-rendering 2 49.8013
+scenes-and-startup 1 65.1379
 ---

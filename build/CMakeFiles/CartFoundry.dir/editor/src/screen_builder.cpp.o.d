@@ -1034,6 +1034,10 @@ CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o: \
   /Users/erin/Dev/CartFoundry/runtime/cf_game.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_flow.h \
   /Users/erin/Dev/CartFoundry/editor/src/event_tools.h \
+  /Users/erin/Dev/CartFoundry/editor/src/world_editor.h \
+  /Users/erin/Dev/CartFoundry/editor/src/game_session.h \
+  /Users/erin/Dev/CartFoundry/editor/src/game_script.h \
+  /opt/homebrew/opt/qt/include/QtCore/QSet \
   /opt/homebrew/opt/qt/include/QtWidgets/QtWidgets \
   /opt/homebrew/opt/qt/lib/QtWidgets.framework/Headers/QtWidgetsDepends \
   /opt/homebrew/opt/qt/lib/QtCore.framework/Headers/QtCore \

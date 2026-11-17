@@ -5,7 +5,7 @@ for(int i=0;i<p.prompts.size();++i){auto &prompt=p.prompts[i];prompts[i].choice_
 if(restart)reset();}
 void GameSession::reset(){cf_game_init(&state,&definition);}
 void GameSession::enterPrompt(CFState &flow,int index){if(index>=0&&index<prompts.size()){cf_story_enter(&flow,index,&state,&definition,enter.data());cf_story_normalize(&flow,prompts.data(),rules.data(),&state);}}
-bool GameSession::step(CFState &flow,int key){return cf_story_step(&flow,prompts.data(),prompts.size(),project.indexOf(project.entry),key,&state,&definition,rules.data(),enter.data());}
+bool GameSession::step(CFState &flow,int key){return cf_story_step(&flow,prompts.data(),prompts.size(),qMax(0,project.indexOf(project.entry)),key,&state,&definition,rules.data(),enter.data());}
 bool GameSession::enabled(int p,int c)const{return p>=0&&p<prompts.size()&&c>=0&&c<prompts[p].choice_count&&cf_game_condition(&state,&rules[p*3+c].condition);}
 bool GameSession::run(const QString &source){QVector<CFInstruction> code;QString error;if(!GameCompiler(project).program(source,code,error))return false;CFProgram p{uint8_t(code.size()),code.data()};return cf_game_execute(&state,&definition,&p);}
 }

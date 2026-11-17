@@ -12,17 +12,22 @@
 #include "project.h"
 static volatile uint8_t input_held,input_pressed,input_previous,pending_ticks;
 /* Latch short button presses even when a renderer/event spans a video frame. */
+#pragma codeseg HOME
 static void sample_input(void) NONBANKED {uint8_t held=joypad();input_pressed|=held & ~input_previous;input_previous=held;input_held=held;if(pending_ticks<255)++pending_ticks;}
+#pragma codeseg MAIN
 static CFState state;
 static CFGameState game;
 static uint8_t touch_cooldown;
 static uint8_t dialog,active_scene,screen_cursor=255;
 static const CFScene *scene;
 static uint8_t bitmap_buffer[256],screen_map[360];
-static void screen_draw(void);
-static void scene_load(uint8_t id,uint8_t area_override);
-static void area_enter(uint8_t id);
-static void bitmap_load(const CFBitmap *image,uint8_t base){uint16_t offset=0,remaining=image->count*16;uint8_t count;uint16_t palette[4];while(remaining){count=remaining>=256?16:remaining/16;cf_bank_copy(image->bank,image->tiles+offset,bitmap_buffer,(uint16_t)count*16);set_bkg_data(base+offset/16,count,bitmap_buffer);remaining-=(uint16_t)count*16;offset+=(uint16_t)count*16;}cf_bank_copy(image->bank,image->map,screen_map,360);cf_bank_copy(image->bank,(const uint8_t*)image->palette,(uint8_t*)palette,8);if(CF_COLOR&&_cpu==CGB_TYPE)set_bkg_palette(0,1,palette);}
+static void screen_draw(void) NONBANKED ;
+static void screen_select(int8_t delta) NONBANKED;
+static void scene_load(uint8_t id,uint8_t area_override) NONBANKED ;
+static void area_enter(uint8_t id) NONBANKED ;
+#pragma codeseg HOME
+static void bitmap_load(const CFBitmap *image,uint8_t base) NONBANKED {uint16_t offset=0,remaining=image->count*16;uint8_t count;uint16_t palette[4];while(remaining){count=remaining>=256?16:remaining/16;cf_bank_copy(image->bank,image->tiles+offset,bitmap_buffer,(uint16_t)count*16);set_bkg_data(base+offset/16,count,bitmap_buffer);remaining-=(uint16_t)count*16;offset+=(uint16_t)count*16;}cf_bank_copy(image->bank,image->map,screen_map,360);cf_bank_copy(image->bank,(const uint8_t*)image->palette,(uint8_t*)palette,8);if(CF_COLOR&&_cpu==CGB_TYPE)set_bkg_palette(0,1,palette);}
+#pragma codeseg MAIN
 
 static char body_text[512];
 static uint8_t menu_active,menu_storage,menu_side,menu_choice,menu_readonly;
@@ -164,20 +169,28 @@ static void draw(void) {
 }
 static void cursor_draw(void){uint8_t i;CFTextLayout layout;const CFPrompt *p=&cf_prompts[state.prompt];cf_text_layout(p,&layout);for(i=0;i<p->choice_count;++i)glyph(p->box_x+p->padding,p->box_y+layout.choice_row+i*p->choice_spacing,cf_game_condition(&game,&cf_choice_rules[(uint16_t)state.prompt*3+i].condition)?(i==state.choice?p->cursor:' '):p->disabled_marker);}
 
-static void screen_draw(void){uint8_t i,x,y,row,length,columns;const CFScreenElement *e;const char *c;begin_text();for(i=0;i<scene->count;++i){e=&scene->elements[i];if(e->type==3)continue;for(y=0;y<e->h;++y)for(x=0;x<e->w;++x)glyph(e->x+x,e->y+y,e->type==2?((x==0||x==e->w-1)?((y==0||y==e->h-1)?'+':'|'):(y==0||y==e->h-1)?'-':' '):' ');if(e->type==2)continue;columns=e->w-(e->type==1);cf_game_text(&game,e->text,body_text,sizeof body_text,columns);c=body_text;row=0;while(*c&&row<e->h){length=0;while(c[length]&&c[length]!='\n')++length;x=e->x+(e->type==1);if(e->align==1)x+=(columns-length)/2;else if(e->align==2)x+=columns-length;while(*c&&*c!='\n')glyph(x++,e->y+row,*c++);if(*c=='\n')++c;++row;}if(e->type==1)glyph(e->x,e->y,cf_game_condition(&game,&e->condition)?(screen_cursor==i?'>':' '):'x');}commit_text();}
-static void screen_select(int8_t delta){uint8_t i,next=screen_cursor;for(i=0;i<scene->count;++i){if(next==255)next=delta<0?scene->count-1:0;else next=delta<0?(next?next-1:scene->count-1):(next+1)%scene->count;if(scene->elements[next].type==1&&cf_game_condition(&game,&scene->elements[next].condition)){screen_cursor=next;return;}}screen_cursor=255;}
-static void scene_load(uint8_t id,uint8_t area_override){uint16_t palette[4];if(id>=CF_SCENE_COUNT)return;active_scene=id;scene=&cf_scenes[id];dialog=menu_active=0;game.request_prompt=game.request_storage=game.request_scene=game.request_area=255;game.request_world=0;screen_cursor=255;
+#pragma codeseg HOME
+static void screen_draw(void) NONBANKED {uint8_t i,x,y,row,length,columns;const CFScreenElement *e;const char *c;if(screen_cursor>=scene->count||!cf_game_condition(&game,&scene->elements[screen_cursor].condition))screen_select(1);begin_text();for(i=0;i<scene->count;++i){e=&scene->elements[i];if(e->type==3)continue;for(y=0;y<e->h;++y)for(x=0;x<e->w;++x)glyph(e->x+x,e->y+y,e->type==2?((x==0||x==e->w-1)?((y==0||y==e->h-1)?'+':'|'):(y==0||y==e->h-1)?'-':' '):' ');if(e->type==2)continue;columns=e->w-(e->type==1);cf_game_text(&game,e->text,body_text,sizeof body_text,columns);c=body_text;row=0;while(*c&&row<e->h){length=0;while(c[length]&&c[length]!='\n')++length;x=e->x+(e->type==1);if(e->align==1)x+=(columns-length)/2;else if(e->align==2)x+=columns-length;while(*c&&*c!='\n')glyph(x++,e->y+row,*c++);if(*c=='\n')++c;++row;}if(e->type==1)glyph(e->x,e->y,cf_game_condition(&game,&e->condition)?(screen_cursor==i?'>':' '):'x');}commit_text();}
+#pragma codeseg MAIN
+#pragma codeseg HOME
+static void screen_select(int8_t delta) NONBANKED {uint8_t i,next=screen_cursor;for(i=0;i<scene->count;++i){if(next==255)next=delta<0?scene->count-1:0;else next=delta<0?(next?next-1:scene->count-1):(next+1)%scene->count;if(scene->elements[next].type==1&&cf_game_condition(&game,&scene->elements[next].condition)){screen_cursor=next;return;}}screen_cursor=255;}
+#pragma codeseg MAIN
+#pragma codeseg HOME
+static void scene_load(uint8_t id,uint8_t area_override) NONBANKED {uint16_t palette[4];if(id>=CF_SCENE_COUNT)return;active_scene=id;scene=&cf_scenes[id];dialog=menu_active=0;game.request_prompt=game.request_storage=game.request_scene=game.request_area=255;game.request_world=0;screen_cursor=255;
 #if CF_WORLD
 if(scene->world){world_load(area_override==255?scene->area:area_override);}else
 #endif
 {HIDE_SPRITES;DISPLAY_OFF;palette[0]=scene->background;palette[1]=colors[1];palette[2]=colors[2];palette[3]=colors[3];if(scene->image)bitmap_load(scene->image,128);else if(CF_COLOR&&_cpu==CGB_TYPE)set_bkg_palette(0,1,palette);DISPLAY_ON;screen_select(1);screen_draw();}cf_game_execute(&game,&cf_game_def,&scene->enter);}
-static void area_enter(uint8_t id){
+#pragma codeseg MAIN
+#pragma codeseg HOME
+static void area_enter(uint8_t id) NONBANKED {
 #if CF_WORLD
 if(cf_area_scene[id]!=active_scene)scene_load(cf_area_scene[id],id);else world_load(id);
 #else
 (void)id;
 #endif
 }
+#pragma codeseg MAIN
 static void restore_view(void){if(dialog){draw();return;}if(!scene->world){screen_draw();return;}
 #if CF_WORLD
 cf_world_camera(&world,CF_MAP_W,CF_MAP_H);world_vram_map=hidden_map();stream_full();player_draw();show_map(world_vram_map,(uint8_t)world.camera_x,(uint8_t)world.camera_y);SHOW_SPRITES;

@@ -185,7 +185,7 @@ QStringList Project::validate() const {
             errors << "Map dimensions must be 20-64 x 18-64 tiles with matching layer sizes.";
         if (w.spawnX < 0 || w.spawnY < 0 || w.spawnX >= w.width || w.spawnY >= w.height) errors << "Spawn must be inside the map.";
         else if (w.collision.size() == w.width * w.height && w.effectiveCollision()[w.spawnY * w.width + w.spawnX]) errors << "Spawn is on a solid tile.";
-        for(auto i=w.exits.begin();i!=w.exits.end();++i)if(i.key()<0||i.key()>=w.width*w.height||!areaIds.contains(i.value()))errors<<w.name+": exit points to a missing area or tile.";
+        for(auto i=w.exits.begin();i!=w.exits.end();++i)if(i.key()<0||i.key()>=w.width*w.height||!areaIds.contains(i.value())||sceneIndex(areaScene(i.value()))<0||scenes[sceneIndex(areaScene(i.value()))].kind!="world")errors<<w.name+": exit points to a missing area or tile.";
         if(w.exits.size()>64)errors<<"Use at most 64 exits per area.";
         bytes += w.exits.size()*4;
         if (w.interactions.size() > 64) errors << "Use at most 64 interaction tiles.";
@@ -220,7 +220,7 @@ QStringList Project::validate() const {
         if (sp) bytes += sp->tileCount() * 16;
         bytes += w.width * w.height * 2 + w.interactions.size() * 4;
     }
-    if (bytes > 18000) errors << "Project exceeds the prototype's 18 KB data budget (ROM banking comes later).";
+    if (bytes > 18000) errors << "Project exceeds the current 18 KB fixed gameplay-data budget; simplify maps or dialogue.";
     errors.append(validateSystems());
     return errors;
 }

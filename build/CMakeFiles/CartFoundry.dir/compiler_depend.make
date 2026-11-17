@@ -12215,9 +12215,12 @@ CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o: /Users/erin/Dev/Cart
   /Users/erin/Dev/CartFoundry/editor/src/assets.h \
   /Users/erin/Dev/CartFoundry/editor/src/behavior.h \
   /Users/erin/Dev/CartFoundry/editor/src/event_tools.h \
+  /Users/erin/Dev/CartFoundry/editor/src/game_script.h \
+  /Users/erin/Dev/CartFoundry/editor/src/game_session.h \
   /Users/erin/Dev/CartFoundry/editor/src/project.h \
   /Users/erin/Dev/CartFoundry/editor/src/screen_builder.h \
   /Users/erin/Dev/CartFoundry/editor/src/screen_model.h \
+  /Users/erin/Dev/CartFoundry/editor/src/world_editor.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_animation.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_behavior.h \
   /Users/erin/Dev/CartFoundry/runtime/cf_flow.h \
@@ -12227,6 +12230,7 @@ CMakeFiles/CartFoundry.dir/editor/src/screen_builder.cpp.o: /Users/erin/Dev/Cart
   /opt/homebrew/opt/qt/include/QtCore/QMap \
   /opt/homebrew/opt/qt/include/QtCore/QPointF \
   /opt/homebrew/opt/qt/include/QtCore/QRect \
+  /opt/homebrew/opt/qt/include/QtCore/QSet \
   /opt/homebrew/opt/qt/include/QtCore/QString \
   /opt/homebrew/opt/qt/include/QtCore/QStringList \
   /opt/homebrew/opt/qt/include/QtCore/QVector \
@@ -18925,8 +18929,6 @@ CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o: /Users/erin/Dev/CartFo
 
 /opt/homebrew/opt/qt/include/QtCore/QUuid:
 
-/opt/homebrew/opt/qt/include/QtCore/QSet:
-
 /Users/erin/Dev/CartFoundry/editor/src/script_workspace.h:
 
 /Users/erin/Dev/CartFoundry/editor/src/script_workspace.cpp:
@@ -18934,6 +18936,8 @@ CMakeFiles/CartFoundry.dir/editor/src/world_editor.cpp.o: /Users/erin/Dev/CartFo
 /Users/erin/Dev/CartFoundry/editor/src/window.cpp:
 
 /Users/erin/Dev/CartFoundry/editor/src/script_editor.h:
+
+/opt/homebrew/opt/qt/include/QtCore/QSet:
 
 /Users/erin/Dev/CartFoundry/editor/src/pixel_editor.h:
 

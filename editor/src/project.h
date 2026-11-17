@@ -100,6 +100,7 @@ struct Project {
     QStringList validate() const;
     int indexOf(const QString &) const;
     static Project blank();
+    static Project scenesExample();
     static Project example();
     static Project overworldExample();
     static Project pokemonExample();

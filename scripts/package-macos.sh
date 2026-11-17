@@ -12,7 +12,7 @@ RES=dist/CartFoundry.app/Contents/Resources
 mkdir -p "$RES/tools" "$RES/examples"
 cp -RX runtime images docs "$RES/"
 cp -RX tools/gbdk "$RES/tools/"
-cp -RX examples/first-conversation examples/overworld examples/pokemon "$RES/examples/"
+cp -RX examples/first-conversation examples/overworld examples/pokemon examples/scenes "$RES/examples/"
 cp THIRD_PARTY.md "$RES/"
 cp -RX licenses "$RES/"
 COPYFILE_DISABLE=1 tar -czf "$RES/licenses/mgba/source-0.10.5.tar.gz" -C third_party mgba

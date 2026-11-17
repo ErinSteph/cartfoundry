@@ -35,7 +35,7 @@ static QString headerFor(const Project &p,BankWriter *banks,const QString &root)
     QStringList enterRules,choiceRules,itemUse,timerRules;for(auto &t:p.timers)timerRules<<QString("{%1,%2,%3,%4,%5}").arg(t.interval).arg(t.repeat?1:0).arg(t.autostart?1:0).arg(t.pauseDialogue?1:0).arg(program(t.source));s+="static const CFTimerDef cf_timers[]={"+(timerRules.isEmpty()?QString("{0}"):timerRules.join(","))+"};\n";
     for(auto &prompt:p.prompts){enterRules<<program(prompt.onEnter);for(int i=0;i<3;++i){CFCondition c{};QString error;QString action;if(i<prompt.choices.size()){compiler.condition(prompt.choices[i].condition,c,error);action=prompt.choices[i].actions;}choiceRules<<QString("{{%1,%2,%3,%4,%5,%6},%7}").arg(c.type).arg(c.a).arg(c.b).arg(c.compare).arg(c.rhs_variable).arg(c.value).arg(program(action));}}
     for(auto &item:p.items)itemUse<<program(item.useScript);
-    s+="static const CFProgram cf_enter_scripts[]={"+(enterRules.isEmpty()?QString("{0}"):enterRules.join(","))+"};\nstatic const CFChoiceRule cf_choice_rules[]={"+(choiceRules.isEmpty()?QString("{0}"):choiceRules.join(","))+"};\n";
+    s+="static const CFProgram cf_enter_scripts[]={"+(enterRules.isEmpty()?QString("{0}"):enterRules.join(","))+"};\nstatic const CFChoiceRule cf_choice_rules[]={"+(choiceRules.isEmpty()?QString("{{0},{0}}"):choiceRules.join(","))+"};\n";
     s+="static const CFProgram cf_item_use[]={"+(itemUse.isEmpty()?QString("{0,0}"):itemUse.join(","))+"};\n";
     QStringList initial,limits,storageDefs,itemNames,storageNames,consumable;
     for(auto v:p.variables)initial<<QString::number(v.initial);for(auto i:p.items){limits<<QString::number(i.stackLimit);itemNames<<literal(i.name);consumable<<(i.consumable?"1":"0");}
@@ -62,7 +62,7 @@ static QString headerFor(const Project &p,BankWriter *banks,const QString &root)
     s += "#define CF_VIEW_HINT " + literal(buttonName(p.controls.interact)+":inspect") + "\n";
     s += "#define CF_CLOSE_HINT " + literal(buttonName(p.controls.close)+":close") + "\n";
     s += "#define CF_MODAL_HINT " + literal(buttonName(p.controls.interact)+":select") + "\n";
-    s += "#define CF_CONTROL_HINT " + literal(buttonName(p.controls.interact)+":select "+buttonName(p.controls.close)+(p.world.enabled?":close":":reset")) + "\n";
+    s += "#define CF_CONTROL_HINT " + literal(buttonName(p.controls.interact)+":select "+buttonName(p.controls.close)+QString(":close")) + "\n";
     s += QString("#define CF_COLOR %1\n#define CF_WORLD %2\n").arg(p.target == "gbc" ? 1 : 0).arg(p.hasWorldScenes() ? 1 : 0);
     s+="#pragma constseg MAIN\n";
     QMap<QByteArray,QString> sharedArrays;
@@ -116,6 +116,7 @@ BuildResult buildRom(const Project &p, const QString &output, const QString &res
     const QString compiler = root + "/tools/gbdk/bin/lcc";
 #endif
     if (!QFileInfo::exists(compiler)) { r.log = "Bundled GBDK compiler is missing: " + compiler; return r; }
+    QImage splash(root+"/images/splash_"+p.target+".png");if(splash.size()!=QSize(160,144)||screenBitmap(splash,p.target=="gb").tiles.size()>256*16){r.log="Bundled platform splash must be 160×144 and fit 256 unique tiles.";return r;}
     QTemporaryDir temp;
     if (!temp.isValid()) { r.log = "Cannot create build workspace."; return r; }
     const auto work = temp.path();
@@ -130,7 +131,7 @@ BuildResult buildRom(const Project &p, const QString &output, const QString &res
     header.close();
     QStringList bankFiles;for(auto i=banks.files.begin();i!=banks.files.end();++i){QString filename="bank_"+QString::number(i.key())+".c";QFile file(work+"/"+filename);if(!file.open(QIODevice::WriteOnly)){r.log=file.errorString();return r;}file.write((QString("#pragma bank %1\n#include \"cf_game.h\"\n").arg(i.key())+i.value()).toUtf8());bankFiles<<filename;}int romBanks=4;while(romBanks<=banks.bank)romBanks*=2;
     QProcess process; process.setWorkingDirectory(work); process.setProcessChannelMode(QProcess::MergedChannels);
-    // -Wm-yC: GBC-only, no mapper, 32 KiB ROM. No project-supplied command strings.
+    // MBC5: fixed gameplay tables, banked event code and screen resources.
     QStringList flags{"-msm83:gb", "-Wf--opt-code-size", "-Wm-ynCARTFOUNDRY", "-Wl-yt0x19", "-Wl-yo"+QString::number(romBanks), "-Wl-m", "-Wl-b_MAIN=0x4000", "-o", "game.gbc", "main.c", "cf_flow.c", "cf_world.c", "cf_behavior.c", "cf_animation.c", "cf_game.c", "cf_raycast.c", "cf_bank.c"};flags+=bankFiles;
     if (p.target == "gbc") flags.prepend("-Wm-yC");
     process.start(compiler, flags);

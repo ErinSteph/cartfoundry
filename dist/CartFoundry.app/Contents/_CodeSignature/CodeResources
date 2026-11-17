@@ -14,11 +14,11 @@
 		</data>
 		<key>Resources/docs/editor-authoring.md</key>
 		<data>
-		nl4viDIM41MjP4q8aUSLOhumBFQ=
+		AfYqo0xROb90Dn8QM3DyXAGcbbY=
 		</data>
 		<key>Resources/docs/project-format.md</key>
 		<data>
-		8ddJ8qL+eX1oBypSgsOmAAIs9zQ=
+		4UBgzJ9n5QPMgp65DrxZbvqjGN8=
 		</data>
 		<key>Resources/examples/first-conversation/game.cartfoundry</key>
 		<data>
@@ -30,7 +30,7 @@
 		</data>
 		<key>Resources/examples/pokemon/README.md</key>
 		<data>
-		1HkKfZkIK4a1FF+TPpw6kTuKrbg=
+		Ld5Y7ZywX2vtu9AodWCe7puYxKE=
 		</data>
 		<key>Resources/examples/pokemon/assets/bulbasaur.png</key>
 		<data>
@@ -60,13 +60,21 @@
 		<data>
 		uwOmC0jRKwrWarEtjrOL/TwHL4s=
 		</data>
+		<key>Resources/examples/scenes/README.md</key>
+		<data>
+		nrUoHaBSccPWwag7waag8KBCyIY=
+		</data>
+		<key>Resources/examples/scenes/game.cartfoundry</key>
+		<data>
+		4MJTmb1uTZFQegsuWty2rwe54Nw=
+		</data>
 		<key>Resources/images/.DS_Store</key>
 		<data>
 		UxflOWKUB4FKzqEXU+LwcxYNi04=
 		</data>
 		<key>Resources/images/cf_banner.png</key>
 		<data>
-		b4GyUZpJr23E+4XSpwNWKS4DGaA=
+		UFNp2LsDORN144j+KzBYdT/8Ios=
 		</data>
 		<key>Resources/images/cf_icon.png</key>
 		<data>
@@ -80,13 +88,21 @@
 		<data>
 		Mwg8xGPZOepP8MQ0QDdOJWyy/DU=
 		</data>
+		<key>Resources/images/splash_gb.png</key>
+		<data>
+		RgHdI9NvLD3Ab/TrYBz4K/vMhjM=
+		</data>
+		<key>Resources/images/splash_gbc.png</key>
+		<data>
+		zH94JSm5T51pbA6VNrlvCZH3XkQ=
+		</data>
 		<key>Resources/licenses/mgba/MPL-2.0.txt</key>
 		<data>
 		l0TO3OCZ9yezJ82ZE6H9xYp/VZk=
 		</data>
 		<key>Resources/licenses/mgba/source-0.10.5.tar.gz</key>
 		<data>
-		deQBnlOdNx1DlQfS3inIUNqvPfc=
+		wXvt0UbzIIoxSBr/YFbozoxxJts=
 		</data>
 		<key>Resources/licenses/qt/GPL-3.0-only.txt</key>
 		<data>
@@ -116,6 +132,14 @@
 		<data>
 		XVp1/rvt+XXG+jn86MAetMDKWEw=
 		</data>
+		<key>Resources/runtime/cf_bank.c</key>
+		<data>
+		5z6U0r+9/K3VAYZwkl/++8UoIDA=
+		</data>
+		<key>Resources/runtime/cf_bank.h</key>
+		<data>
+		UQNzLzAmCSEIbCSAe6Gq5LmAmCI=
+		</data>
 		<key>Resources/runtime/cf_behavior.c</key>
 		<data>
 		5p/J2AGkfH/yqWXsu0uyFoCtQvE=
@@ -126,11 +150,11 @@
 		</data>
 		<key>Resources/runtime/cf_flow.c</key>
 		<data>
-		05dYFeACD8LaBJKGD8GJeOrvW9A=
+		fnaA0Hv2sh25iwQ+TpFWYFtnViY=
 		</data>
 		<key>Resources/runtime/cf_flow.h</key>
 		<data>
-		3IMikMAypIEC4lJkF3AJnLCYJwc=
+		WkGNQjfQtZ06OBOSN75QLEYnrMw=
 		</data>
 		<key>Resources/runtime/cf_font.h</key>
 		<data>
@@ -138,11 +162,11 @@
 		</data>
 		<key>Resources/runtime/cf_game.c</key>
 		<data>
-		K4n/L4jjA+I+AcM32oauLPEKFSk=
+		Z/avT5D+eD8LKhY1kQXhKK+K+G8=
 		</data>
 		<key>Resources/runtime/cf_game.h</key>
 		<data>
-		6AAOZNxcDO3oTKxYSTGNY1J06Rg=
+		Ysua/JjEoTaZR5O99nzg620FwiM=
 		</data>
 		<key>Resources/runtime/cf_raycast.c</key>
 		<data>
@@ -151,6 +175,10 @@
 		<key>Resources/runtime/cf_raycast.h</key>
 		<data>
 		acrbMrL2As7YcBVkUsvZaZD6IOA=
+		</data>
+		<key>Resources/runtime/cf_scene.h</key>
+		<data>
+		O9QDF5acYbDm2Fv4eVS2S9kUl2g=
 		</data>
 		<key>Resources/runtime/cf_world.c</key>
 		<data>
@@ -162,7 +190,7 @@
 		</data>
 		<key>Resources/runtime/main.c</key>
 		<data>
-		P58L5uwX9KMnCZZrdhQd+9NMt2U=
+		Nqa5pu3BuFjiNJ/aoAAqI1HQcdQ=
 		</data>
 		<key>Resources/tools/gbdk/ChangeLog</key>
 		<data>
@@ -3042,10 +3070,10 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			urux2Me/pSyFj9VlgimIRx5gqW8=
+			eROeSWQNGjLiVzTwyskh2CQ7tlI=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"babbb1d8c7bfa52c858fd565822988471e60a96f"</string>
+			<string>cdhash H"79139e49640d1a32e25734f0cac921d8243bb652"</string>
 		</dict>
 		<key>PlugIns/imageformats/libqgif.dylib</key>
 		<dict>
@@ -3101,14 +3129,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			8e9/qpD2MwRDwFUInb0wzhv2qwtKDluEp/UslxEJ+hQ=
+			8Vy2ZFJdogReUk53R2JBXZtEKKZMX4qxaTn6c/Z1k9w=
 			</data>
 		</dict>
 		<key>Resources/docs/project-format.md</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			pDxrfW5oEqQXFw8nCXEy4fq7wSgzCHghQjyGFf9nf9U=
+			vFvs2XutSM7cXUQwWSFLpszocZI9CPrEjoWbfEtHh4o=
 			</data>
 		</dict>
 		<key>Resources/examples/first-conversation/game.cartfoundry</key>
@@ -3129,7 +3157,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			jtn0xRsrZiXkO7IZjMFAyA7AGstNsCp5BBrKMJfUn4I=
+			n8XW71qeElW6onr9KICipmiWfvasMlluNLCvPll2iH4=
 			</data>
 		</dict>
 		<key>Resources/examples/pokemon/assets/bulbasaur.png</key>
@@ -3181,11 +3209,25 @@
 			RG/A+5leN77KGMrlG6HwO2hR6/aELYuwMTC8ux56TqM=
 			</data>
 		</dict>
+		<key>Resources/examples/scenes/README.md</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			pBZ/yUUkMzv3SMQBj95h7q9Duo23TxEZNaCIB3bQtes=
+			</data>
+		</dict>
+		<key>Resources/examples/scenes/game.cartfoundry</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			5XE5wI1Yv1g59+RXA001VZCQDsatuka4ASOwgs9SGn0=
+			</data>
+		</dict>
 		<key>Resources/images/cf_banner.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			eEhpUrMTc0zCPh2/mAvGuzwLfL4jDBO0cwKDRmGH19g=
+			eI0r+3o0wdiyUrtErXkXAbQnkJ/m2L9+IQ3jKhXzW5Q=
 			</data>
 		</dict>
 		<key>Resources/images/cf_icon.png</key>
@@ -3209,6 +3251,20 @@
 			25pWLh4U7cNxP3rS21z9+cU6HWkpqBCScAeYy1vbWtg=
 			</data>
 		</dict>
+		<key>Resources/images/splash_gb.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			BZ9qWCaSTAz1Wu1MiSanoekZWWCIoQB0hnwD8nV8vD4=
+			</data>
+		</dict>
+		<key>Resources/images/splash_gbc.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			JTBdD1RyJzypLC8FVwmxGf/f+t9+T08C5bBxf1PzZWw=
+			</data>
+		</dict>
 		<key>Resources/licenses/mgba/MPL-2.0.txt</key>
 		<dict>
 			<key>hash2</key>
@@ -3220,7 +3276,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			wGUm2VNkScMNyfCiaSpCfiSFWu/IDvgqX3MRaMc7yNc=
+			rv7ZNiC9YEOsls/c/WbA8FyHVlRUGDt+eQDgmxR8l3w=
 			</data>
 		</dict>
 		<key>Resources/licenses/qt/GPL-3.0-only.txt</key>
@@ -3272,6 +3328,20 @@
 			Kd/EirjUuAhkmafj9pkjJlQNIy5XAdCw4pUe4QPQ6ys=
 			</data>
 		</dict>
+		<key>Resources/runtime/cf_bank.c</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Qn2twwc1W6pNDgI6tsR4YZfY5CypPyuGXDx3jIzmk5Y=
+			</data>
+		</dict>
+		<key>Resources/runtime/cf_bank.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			jhiQxb6ByvStgCLJzjk0jvJaPGEJZa+JrqiHVrNM3Os=
+			</data>
+		</dict>
 		<key>Resources/runtime/cf_behavior.c</key>
 		<dict>
 			<key>hash2</key>
@@ -3290,14 +3360,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			0Hx7/2f0n0C4n8xAi49TPEVBKie/C0EDRQWeDz37tqE=
+			zVG7S3jEeKHH08NGoiNvDFoNVhdxesA5m3QY+gaJw/k=
 			</data>
 		</dict>
 		<key>Resources/runtime/cf_flow.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			HNHDWs//7Sx5L6MH2spfl6g6umNCAmhanZBmFPjHYpY=
+			DXJIuj7HWCKmE2sD5AyLizP1726CaZDzYGgd2fUdkrM=
 			</data>
 		</dict>
 		<key>Resources/runtime/cf_font.h</key>
@@ -3311,14 +3381,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			aRKtFiiojymRR9v1BE49bz921Rq0Vs5GHtsR0RiLycs=
+			bASBRHRRwrSCstN0xHd6Tyr4P/xhGIzG6yvd6K4Wsuk=
 			</data>
 		</dict>
 		<key>Resources/runtime/cf_game.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			p6Ope3spNwgD+Sj6vTmxz3FwAR97QmsP0vDDIRABS1A=
+			1WSO1Frgj5fUdgMThhCRBAkgwbJtTXjXUdas53dJcuc=
 			</data>
 		</dict>
 		<key>Resources/runtime/cf_raycast.c</key>
@@ -3333,6 +3403,13 @@
 			<key>hash2</key>
 			<data>
 			CczeuQU3gytp86aMai0aFg5ehptebAcMcjUVhPExN3M=
+			</data>
+		</dict>
+		<key>Resources/runtime/cf_scene.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			/K3LBzFALcyGVriKcl9YaP2P2IwSOCb7QfAuo6F9gw8=
 			</data>
 		</dict>
 		<key>Resources/runtime/cf_world.c</key>
@@ -3353,7 +3430,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			3pjIguZPxFKh4LMvuL653lmuTCMKrjQFkMzNpIT4XOM=
+			CpSk1cbPp8hAfBpEt2Q7jyVD9zjqSgxZcC471I8jd/U=
 			</data>
 		</dict>
 		<key>Resources/tools/gbdk/ChangeLog</key>
