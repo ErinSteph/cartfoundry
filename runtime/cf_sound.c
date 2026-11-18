@@ -32,7 +32,7 @@ static void output(CFSoundState *s,uint8_t channel){
 #endif
 }
 void cf_sound_stop(CFSoundState *s) CF_SOUND_CALL {uint8_t i;s->song_clip=0;s->song_tick=0;s->master=0x77;for(i=0;i<4;++i){s->voices[i].clip=0;s->voices[i].frequency=0;s->voices[i].remaining=0;s->voices[i].step=0;s->voices[i].instrument.pan=3;silence(i);}}
-void cf_sound_init(CFSoundState *s) CF_SOUND_CALL {s->clips=0;s->count=0;cf_sound_stop(s);}
+void cf_sound_init(CFSoundState *s) CF_SOUND_CALL {uint8_t i;s->clips=0;s->count=0;cf_sound_stop(s);for(i=0;i<4;++i)s->voices[i].trigger_serial=0;}
 static void load_track(const CFSoundClip *clip,uint8_t channel,CFSoundTrack *track){
 #ifdef __TARGET_gb
  if(clip->track_bank)cf_bank_copy(clip->track_bank,(const uint8_t *)&clip->tracks[channel],(uint8_t *)track,sizeof *track);else *track=clip->tracks[channel];
@@ -41,7 +41,7 @@ static void load_track(const CFSoundClip *clip,uint8_t channel,CFSoundTrack *tra
 #endif
 }
 static uint8_t length(const CFSoundState *s,const CFSoundVoice *v){return v->clip<=5?lengths[v->clip-1]:v->track?v->instrument.count:s->clips[v->clip-6].count;}
-static void note(CFSoundState *s,uint8_t channel){CFSoundVoice *v=&s->voices[channel];CFSoundNote n;v->age=v->envelope_clock=v->sweep_clock=0;
+static void note(CFSoundState *s,uint8_t channel){CFSoundVoice *v=&s->voices[channel];CFSoundNote n;++v->trigger_serial;v->age=v->envelope_clock=v->sweep_clock=0;
  if(v->clip<=5){v->frequency=notes[v->clip-1][v->step];v->remaining=v->clip<=2?4:10;v->duty=2;v->volume=channel?10:8;}
  else{const CFSoundClip *c=&s->clips[v->clip-6];const CFSoundNote *source=v->track?v->instrument.notes:c->notes;uint8_t bank=v->track?v->instrument.bank:c->bank;
 #ifdef __TARGET_gb
