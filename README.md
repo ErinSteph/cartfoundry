@@ -1,5 +1,4 @@
-<img width="600" alt="cf_banner" src="https://github.com/user-attachments/assets/c455d0c0-3a0c-4c58-955b-a7d690bae09e" />
-
+<img width="600" alt="cf_banner" src="https://github.com/user-attachments/assets/94da055e-818f-4c53-b810-1d4eaafa111d" />
 
 # CartFoundry
 
@@ -7,10 +6,10 @@ A cross-platform Game Boy / Game Boy Color engine and C++/Qt desktop
 editor. The application bundles a compiler
 and mGBA emulator core.
 
-<img width="600" alt="Screenshot 2026-11-17 at 15 26 15" src="https://github.com/user-attachments/assets/9e046aee-dc4c-4c10-9c8a-175ab9421666" />
-<img width="600" alt="Screenshot 2026-11-17 at 15 26 35" src="https://github.com/user-attachments/assets/0806c60b-b2e0-4f68-927b-dfcdd7674efb" />
-<img width="600" alt="Screenshot 2026-11-17 at 15 26 58" src="https://github.com/user-attachments/assets/61abaa06-8574-4304-b956-9ca253826472" />
-<img width="600" alt="Screenshot 2026-11-17 at 22 18 26" src="https://github.com/user-attachments/assets/303c75f0-195b-40ee-81fc-1459a8e2173a" />
+<img width="600" alt="Screenshot 2026-11-18 at 18 27 55" src="https://github.com/user-attachments/assets/c65258d8-c840-479e-9c0d-6bdc1d44248c" />
+<img width="600" alt="Screenshot 2026-11-18 at 18 27 13" src="https://github.com/user-attachments/assets/efd70e59-db69-4632-a9cb-8ca018c3aed3" />
+<img width="600" alt="Screenshot 2026-11-18 at 18 24 32" src="https://github.com/user-attachments/assets/169428b2-e1e8-43d2-a7cb-4b18aab1a638" />
+<img width="600" alt="Screenshot 2026-11-18 at 18 25 56" src="https://github.com/user-attachments/assets/71010156-80ab-426b-8ea4-84728e0babdd" />
 
 
 ## Download
