@@ -5,6 +5,19 @@
 class SystemsTests:public QObject{
  Q_OBJECT
 private slots:
+ void soundEvents(){auto p=cf::Project::example();cf::GameSession s;s.configure(p);
+ QVERIFY(s.run("sound loop pulse\nsound play blip"));
+ QCOMPARE(s.state.sound.voices[0].clip,uint8_t(4));QCOMPARE(s.state.sound.voices[1].clip,uint8_t(1));
+ for(int n=0;n<16;++n)cf_game_tick(&s.state,&s.definition,1);
+ QCOMPARE(s.state.sound.voices[1].clip,uint8_t(0));QCOMPARE(s.state.sound.voices[0].clip,uint8_t(4));
+ for(int n=16;n<80;++n)cf_game_tick(&s.state,&s.definition,0);
+ QCOMPARE(s.state.sound.voices[0].step,uint8_t(0));QCOMPARE(s.state.sound.voices[0].frequency,uint16_t(131));
+ QVERIFY(s.run("sound play hit"));QVERIFY(s.run("sound stop"));
+ for(auto &v:s.state.sound.voices){QCOMPARE(v.clip,uint8_t(0));QCOMPARE(v.frequency,uint16_t(0));}
+ QVERIFY(!s.run("sound play unknown"));QVERIFY(!s.run("sound loop"));QVERIFY(!s.run("sound stop blip"));
+ QVERIFY(s.run("sound loop alarm"));s.reset();QCOMPARE(s.state.sound.voices[0].clip,uint8_t(0));
+ }
+
  void compilerAndVariables(){auto p=cf::Project::example();p.variables={{"coins",5},{"visits",0}};p.items={{"key","Key","","",1,false,""}};p.storages<<cf::Storage{"chest","Chest",2,{{"key",1}}};p.scripts={{"reward","Reward","add coins 2\n"}};
  p.prompts[0].onEnter="add visits 1";p.prompts[0].choices[0].condition="coins >= 7";p.prompts[0].choices[1].actions="call reward";p.prompts[0].choices[1].target=p.prompts[0].id;
  cf::GameSession session;session.configure(p);CFState flow{};session.enterPrompt(flow,0);QCOMPARE(flow.choice,uint8_t(1));QCOMPARE(session.state.variables[1],1);session.step(flow,CF_KEY_ACCEPT);QCOMPARE(session.state.variables[0],7);QCOMPARE(session.state.variables[1],2);QCOMPARE(flow.choice,uint8_t(0));

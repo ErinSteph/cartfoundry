@@ -70,8 +70,8 @@ Garden in two chapters. The original branching conversation is under
 
 ## Develop
 
-Install a C++17 compiler, CMake 3.21+ and Qt 6 Core/Gui/Widgets/Concurrent/Test.
-Only `qtbase` is needed on Homebrew. Bootstrap the pinned third-party tools:
+Install a C++17 compiler, CMake 3.21+ and Qt 6 Core/Gui/Widgets/Concurrent/Test/Multimedia.
+Install `qtbase` and `qtmultimedia` on Homebrew. Bootstrap the pinned third-party tools:
 
 ```sh
 cmake -P scripts/fetch-gbdk.cmake
@@ -103,7 +103,9 @@ and physical hardware have not been validated here yet.
 - `docs/project-format.md`: schema, hardware budgets and testing semantics.
 
 This milestone supports animated sprite sheets and one four-colour tileset per
-area. Music/audio output, game saves, text pagination
+area. Scripted built-in sound loops and one-shots play in the preview and ROM
+emulator (`sound loop pulse`, `sound play chime`, `sound stop`); use **+ Event → Sound**.
+Imported music, game saves, text pagination
 remain future work. Eight named areas are supported with MBC5 banked event and
 screen resources; runtime/gameplay tables still have fixed-bank limits. See THIRD_PARTY.md for supporting licenses.
 

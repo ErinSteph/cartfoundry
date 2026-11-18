@@ -221,7 +221,7 @@ void main(void) {
     process_requests();
     while(1) {
         vsync();CRITICAL {held=input_held;pressed=input_pressed;input_pressed=0;ticks=pending_ticks;pending_ticks=0;}keys=0;
-        if(cf_game_def.timer_count){while(ticks--)cf_game_tick(&game,&cf_game_def,dialog||menu_active);process_requests();if(game.dirty){if(menu_active)menu_draw();else if(dialog){cf_story_normalize(&state,cf_prompts,cf_choice_rules,&game);draw();}else if(!scene->world)screen_draw();game.dirty=0;}}
+        {while(ticks--)cf_game_tick(&game,&cf_game_def,dialog||menu_active);process_requests();if(game.dirty){if(menu_active)menu_draw();else if(dialog){cf_story_normalize(&state,cf_prompts,cf_choice_rules,&game);draw();}else if(!scene->world)screen_draw();game.dirty=0;}}
         if(menu_active){menu_input(pressed);process_requests();continue;}
         if(!scene->world&&!dialog){if(pressed&J_UP)screen_select(-1);if(pressed&J_DOWN)screen_select(1);if(pressed&(J_UP|J_DOWN))screen_draw();if((pressed&CF_CONTROL_INTERACT)&&screen_cursor<scene->count&&cf_game_condition(&game,&scene->elements[screen_cursor].condition))cf_game_execute(&game,&cf_game_def,&scene->elements[screen_cursor].action);if(pressed&CF_CONTROL_CLOSE)cf_game_execute(&game,&cf_game_def,&scene->back);process_requests();if(game.dirty&&!dialog&&!menu_active)screen_draw();continue;}
         if(dialog&&cf_prompts[state.prompt].modal)pressed&=~(CF_CONTROL_CLOSE|CF_CONTROL_INVENTORY|CF_CONTROL_RESTART);

@@ -174,3 +174,30 @@ overflow. Save format 6 adds project startup settings and authored scene content
 The full recipe is in [Building maps from existing objects](map-authoring.md),
 also available through Help → Map building & reusable objects. Existing project
 format 6 files require no migration. The runtime and cartridge limits are unchanged.
+
+### Sound events
+
+Use **+ Event → Sound** in any event script (including named scripts, timers,
+terrain steps, dialogue choices and NPC/object events). Built-in Game Boy pulse
+sounds are `blip`, `hit`, `chime`, `pulse` and `alarm`.
+
+```text
+sound loop pulse
+sound play chime
+# Later, when leaving or finishing:
+sound stop
+```
+
+Play retriggers the one-shot channel; loop replaces the independent repeating
+channel. Stop silences both. Loops persist across area/scene changes until stopped
+or the session resets. The shared runtime advances sound at game tick speed,
+including during dialogue. Preview uses square-wave synthesis; Build & Play uses
+the actual emulated Game Boy audio hardware. This first pass supplies built-in
+sounds rather than imported recordings or a music sequencer. Qt Multimedia
+provides desktop output; Windows audio has not yet been verified.
+
+| Function | Insertion form |
+| --- | --- |
+| One-shot sound | + Event → Sound / Play one-shot |
+| Repeating sound | + Event → Sound / Start loop |
+| Silence | + Event → Sound / Stop all |

@@ -8,6 +8,7 @@ public:
     EmulatorCore();~EmulatorCore();
     bool load(const QString &,QString &error);
     void reset();void frame(quint32 keys=0);
+    QByteArray takeAudio();
     QImage image() const;
     quint8 readByte(quint32 address) const;
     bool loaded() const;

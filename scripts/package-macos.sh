@@ -2,7 +2,7 @@
 set -eu
 cd "$(dirname "$0")/.."
 BUILD_DIR=${1:-build}
-QT_PREFIX=${QT_PREFIX:-/opt/homebrew/opt/qtbase}
+QT_PREFIX=${QT_PREFIX:-/opt/homebrew/opt/qt}
 cmake --build "$BUILD_DIR" --target CartFoundry cf-build --parallel
 mkdir -p dist
 # Replace only our generated application bundle.
@@ -17,14 +17,15 @@ cp THIRD_PARTY.md "$RES/"
 cp -RX licenses "$RES/"
 COPYFILE_DISABLE=1 tar -czf "$RES/licenses/mgba/source-0.10.5.tar.gz" -C third_party mgba
 cp "$BUILD_DIR/cf-build" dist/CartFoundry.app/Contents/MacOS/cf-build
-# Copy only the native window and image plugins used by this editor.
+# Copy the native window, image and audio plugins used by this editor.
 PLUGINS=dist/CartFoundry.app/Contents/PlugIns
-mkdir -p "$PLUGINS/platforms" "$PLUGINS/imageformats"
+mkdir -p "$PLUGINS/platforms" "$PLUGINS/imageformats" "$PLUGINS/multimedia"
 cp -X "$QT_PREFIX/share/qt/plugins/platforms/libqcocoa.dylib" "$PLUGINS/platforms/"
 for PLUGIN in qjpeg qgif qico; do
     cp -X "$QT_PREFIX/share/qt/plugins/imageformats/lib$PLUGIN.dylib" "$PLUGINS/imageformats/"
 done
-"$QT_PREFIX/bin/macdeployqt" dist/CartFoundry.app -always-overwrite -no-plugins -no-codesign -libpath="$QT_PREFIX/lib" -executable=dist/CartFoundry.app/Contents/MacOS/cf-build -executable="$PLUGINS/platforms/libqcocoa.dylib" -executable="$PLUGINS/imageformats/libqjpeg.dylib" -executable="$PLUGINS/imageformats/libqgif.dylib" -executable="$PLUGINS/imageformats/libqico.dylib"
+cp -X "$QT_PREFIX/share/qt/plugins/multimedia/libdarwinmediaplugin.dylib" "$PLUGINS/multimedia/"
+"$QT_PREFIX/bin/macdeployqt" dist/CartFoundry.app -always-overwrite -no-plugins -no-codesign -libpath="$QT_PREFIX/lib" -executable=dist/CartFoundry.app/Contents/MacOS/cf-build -executable="$PLUGINS/platforms/libqcocoa.dylib" -executable="$PLUGINS/multimedia/libdarwinmediaplugin.dylib" -executable="$PLUGINS/imageformats/libqjpeg.dylib" -executable="$PLUGINS/imageformats/libqgif.dylib" -executable="$PLUGINS/imageformats/libqico.dylib"
 printf '[Paths]\nPlugins = PlugIns\n' > "$RES/qt.conf"
 chmod u+w dist/CartFoundry.app/Contents/Info.plist
 # The icon artwork remains in the repository; derive the platform icon at packaging time.

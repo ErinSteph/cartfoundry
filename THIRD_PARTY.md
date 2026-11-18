@@ -3,10 +3,11 @@
 CartFoundry owns its editor, project format, code generation, preview and C runtime.
 It currently uses these supporting components:
 
-- Qt 6: Core, Gui, Widgets, Concurrent (and Test for developer tests), dynamically
+- Qt 6: Core, Gui, Widgets, Concurrent, Multimedia (and Test for developer tests), dynamically
   linked. Qt is available under LGPLv3/GPLv3 or commercial terms. The package uses
   the open-source distribution; keep libraries replaceable and retain the applicable
-  license notices. Official source: https://code.qt.io/qt/qtbase.git
+  license notices. Official sources: https://code.qt.io/qt/qtbase.git and
+  https://code.qt.io/qt/qtmultimedia.git
 - GBDK-2020 4.5.0, including SDCC and lcc: bundled compiler/assembler/linker,
   Game Boy hardware support and IBM font. Upstream notices are retained under
   `tools/gbdk/licenses` and `tools/gbdk/README`. The compiler tools and target

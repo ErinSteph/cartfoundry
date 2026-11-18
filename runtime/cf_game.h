@@ -2,6 +2,7 @@
 #define CF_GAME_H
 #include <stdint.h>
 #include "cf_flow.h"
+#include "cf_sound.h"
 #define CF_GAME_VARIABLES 32
 #define CF_GAME_ITEMS 16
 #define CF_GAME_STORAGES 8
@@ -25,6 +26,7 @@
 #define CF_OP_TIMER 16
 #define CF_OP_SCENE 17
 #define CF_OP_AREA 18
+#define CF_OP_SOUND 19
 typedef struct {uint8_t op,a,b,c,d;int16_t value;} CFInstruction;
 typedef struct {uint8_t count;const CFInstruction *code;uint8_t bank;} CFProgram;
 /* type 0=always, 1=variable, 2=item count; rhs_variable selects a variable RHS. */
@@ -33,7 +35,7 @@ typedef struct {CFCondition condition;CFProgram actions;} CFChoiceRule;
 typedef struct {uint8_t capacity;const uint16_t *initial;} CFStorageDef;
 typedef struct {uint16_t interval;uint8_t repeat,autostart,pause_dialogue;CFProgram program;} CFTimerDef;
 typedef struct {uint8_t variable_count,item_count,storage_count;const int16_t *initial;const uint8_t *stack_limits;const CFStorageDef *storages;uint16_t seed;uint8_t timer_count;const CFTimerDef *timers;} CFGameDef;
-typedef struct {int16_t variables[CF_GAME_VARIABLES];uint16_t counts[CF_GAME_STORAGES][CF_GAME_ITEMS];uint8_t request_storage,request_prompt,request_world,request_readonly,dirty,request_scene,request_area;uint16_t random;uint16_t timer_remaining[8];uint8_t timer_active[8];} CFGameState;
+typedef struct {CFSoundState sound;int16_t variables[CF_GAME_VARIABLES];uint16_t counts[CF_GAME_STORAGES][CF_GAME_ITEMS];uint8_t request_storage,request_prompt,request_world,request_readonly,dirty,request_scene,request_area;uint16_t random;uint16_t timer_remaining[8];uint8_t timer_active[8];} CFGameState;
 typedef struct {uint8_t tile,every,chance;CFProgram program;} CFStepRule;
 typedef struct {int16_t cell;uint8_t steps[8];} CFStepState;
 #ifdef __TARGET_gb

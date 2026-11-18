@@ -1,5 +1,6 @@
 #pragma once
 #include "emulator_core.h"
+#include "audio_output.h"
 #include <QWidget>
 #include <QElapsedTimer>
 class QLabel;class QPushButton;class QTimer;
@@ -16,6 +17,7 @@ protected:
     void focusOutEvent(QFocusEvent *)override;
     void hideEvent(QHideEvent *)override;
 private:
+    AudioOutput audio;
     QTimer *timer;QElapsedTimer clock;qint64 last=0;double debt=0;
     void tick();int keyBit(int key)const;
 };

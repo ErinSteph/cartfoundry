@@ -9,3 +9,11 @@ bool GameSession::step(CFState &flow,int key){return cf_story_step(&flow,prompts
 bool GameSession::enabled(int p,int c)const{return p>=0&&p<prompts.size()&&c>=0&&c<prompts[p].choice_count&&cf_game_condition(&state,&rules[p*3+c].condition);}
 bool GameSession::run(const QString &source){QVector<CFInstruction> code;QString error;if(!GameCompiler(project).program(source,code,error))return false;CFProgram p{uint8_t(code.size()),code.data()};return cf_game_execute(&state,&definition,&p);}
 }
+
+namespace cf {
+void GameSession::tick(bool inDialogue){
+    QByteArray pcm(800*4,0);auto *out=reinterpret_cast<qint16 *>(pcm.data());
+    for(int n=0;n<800;++n){int sample=0;for(int c=0;c<2;++c){auto hz=state.sound.voices[c].frequency;if(hz){phase[c]+=double(hz)/48000;phase[c]-=int(phase[c]);sample+=phase[c]<0.5?2400:-2400;}}out[n*2]=out[n*2+1]=sample;}
+    audio.write(pcm);cf_game_tick(&state,&definition,inDialogue);
+}
+}

@@ -121,7 +121,7 @@ BuildResult buildRom(const Project &p, const QString &output, const QString &res
     if (!temp.isValid()) { r.log = "Cannot create build workspace."; return r; }
     const auto work = temp.path();
     if(qEnvironmentVariableIsSet("CF_DEBUG_BUILD"))temp.setAutoRemove(false);
-    for (auto f : {"main.c", "cf_flow.c", "cf_flow.h", "cf_world.c", "cf_world.h", "cf_font.h", "cf_area.h", "cf_behavior.c", "cf_behavior.h", "cf_animation.c", "cf_animation.h", "cf_game.c", "cf_game.h", "cf_raycast.c", "cf_raycast.h", "cf_bank.h", "cf_bank.c", "cf_scene.h"}) {
+    for (auto f : {"main.c", "cf_flow.c", "cf_flow.h", "cf_world.c", "cf_world.h", "cf_font.h", "cf_area.h", "cf_behavior.c", "cf_behavior.h", "cf_animation.c", "cf_animation.h", "cf_game.c", "cf_game.h", "cf_sound.c", "cf_sound.h", "cf_raycast.c", "cf_raycast.h", "cf_bank.h", "cf_bank.c", "cf_scene.h"}) {
         if (!QFile::copy(root + "/runtime/" + f, work + "/" + f)) { r.log = "Cannot copy runtime: " + QString(f); return r; }
     }
     QFile header(work + "/project.h");
@@ -132,7 +132,7 @@ BuildResult buildRom(const Project &p, const QString &output, const QString &res
     QStringList bankFiles;for(auto i=banks.files.begin();i!=banks.files.end();++i){QString filename="bank_"+QString::number(i.key())+".c";QFile file(work+"/"+filename);if(!file.open(QIODevice::WriteOnly)){r.log=file.errorString();return r;}file.write((QString("#pragma bank %1\n#include \"cf_game.h\"\n").arg(i.key())+i.value()).toUtf8());bankFiles<<filename;}int romBanks=4;while(romBanks<=banks.bank)romBanks*=2;
     QProcess process; process.setWorkingDirectory(work); process.setProcessChannelMode(QProcess::MergedChannels);
     // MBC5: fixed gameplay tables, banked event code and screen resources.
-    QStringList flags{"-msm83:gb", "-Wf--opt-code-size", "-Wm-ynCARTFOUNDRY", "-Wl-yt0x19", "-Wl-yo"+QString::number(romBanks), "-Wl-m", "-Wl-b_MAIN=0x4000", "-o", "game.gbc", "main.c", "cf_flow.c", "cf_world.c", "cf_behavior.c", "cf_animation.c", "cf_game.c", "cf_raycast.c", "cf_bank.c"};flags+=bankFiles;
+    QStringList flags{"-msm83:gb", "-Wf--opt-code-size", "-Wm-ynCARTFOUNDRY", "-Wl-yt0x19", "-Wl-yo"+QString::number(romBanks), "-Wl-m", "-Wl-b_MAIN=0x4000", "-o", "game.gbc", "main.c", "cf_flow.c", "cf_world.c", "cf_behavior.c", "cf_animation.c", "cf_game.c", "cf_sound.c", "cf_raycast.c", "cf_bank.c"};flags+=bankFiles;
     if (p.target == "gbc") flags.prepend("-Wm-yC");
     process.start(compiler, flags);
     if (!process.waitForStarted(10000)) { r.log = process.errorString(); return r; }

@@ -5,6 +5,16 @@
 class EmulatorTests:public QObject{
     Q_OBJECT
 private slots:
+    void soundEvents(){
+        auto p=cf::Project::example();for(auto &scene:p.scenes)scene.onSceneEnter="sound loop pulse\nsound play chime\ntimer start silence";p.timers={{"silence","Silence","sound stop",240,false,false,false}};
+        QTemporaryDir dir;
+        for(auto target:{QString("gb"),QString("gbc")}){p.target=target;auto build=fastTestRom(p,dir.filePath("sound."+target));QVERIFY2(build.success,qPrintable(build.log));
+            cf::EmulatorCore e;QString error;QVERIFY2(e.load(build.romPath,error),qPrintable(error));bool audible=false;
+            for(int i=0;i<180;++i){e.frame();auto pcm=e.takeAudio();auto *samples=reinterpret_cast<const qint16 *>(pcm.constData());for(int n=0;n<pcm.size()/2;++n)audible|=samples[n]!=0;}
+            QVERIFY2(audible,"Scripted sound must produce actual emulated PCM.");QVERIFY(e.readByte(0xff26)&1);QVERIFY(!(e.readByte(0xff26)&2));for(int i=0;i<120;++i)e.frame();QVERIFY(!(e.readByte(0xff26)&3));
+        }
+    }
+
     void actualRomExecution(){
         auto p=cf::Project::overworldExample();QTemporaryDir dir;auto build=fastTestRom(p,dir.filePath("world.gbc"));QVERIFY2(build.success,qPrintable(build.log));
         cf::EmulatorCore emu;QString error;QVERIFY2(emu.load(build.romPath,error),qPrintable(error));
