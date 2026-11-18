@@ -24,6 +24,7 @@ class EmulatorWidget;
 class ScriptEditor;
 class AnimationEditor;
 class DataEditor;
+class SoundEditor;
 class PixelEditor;
 class Window : public QMainWindow {
 public:
@@ -49,7 +50,7 @@ private:
     QSpinBox *boxX, *boxY, *boxW, *boxH;
     WorldEditor *worldEditor;
     ScriptEditor *scripts;
-    AnimationEditor *animations;
+    AnimationEditor *animations;SoundEditor *soundEditor;
     QTabWidget *workspace;
     QPlainTextEdit *body, *log, *onEnter;
     QLabel *validation, *screen, *previewLabel;

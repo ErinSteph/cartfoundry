@@ -192,8 +192,8 @@ Play retriggers the one-shot channel; loop replaces the independent repeating
 channel. Stop silences both. Loops persist across area/scene changes until stopped
 or the session resets. The shared runtime advances sound at game tick speed,
 including during dialogue. Preview uses square-wave synthesis; Build & Play uses
-the actual emulated Game Boy audio hardware. This first pass supplies built-in
-sounds rather than imported recordings or a music sequencer. Qt Multimedia
+the actual emulated Game Boy audio hardware. The Sound & music tab also authors
+custom patterns. Qt Multimedia
 provides desktop output; Windows audio has not yet been verified.
 
 | Function | Insertion form |
@@ -201,3 +201,64 @@ provides desktop output; Windows audio has not yet been verified.
 | One-shot sound | + Event → Sound / Play one-shot |
 | Repeating sound | + Event → Sound / Start loop |
 | Silence | + Event → Sound / Stop all |
+
+### Sound & music editor
+
+Open **Sound & music** and choose **+ Song**, **+ Effect**, or **+ Demo song**.
+Songs have four simultaneous lanes: Pulse 1, Pulse 2, Wave and Noise. Select a
+channel tab to edit its piano roll and instrument. Channel enabled is saved in
+the project; Solo is an audition-only aid. Play and Loop start all enabled lanes
+together. The longest lane sets the song length; shorter lanes rest until the
+common loop boundary, so channels cannot drift independently.
+
+Click the piano roll to draw eighth notes (C2–B7), drag to move, drag the right
+edge to resize, and right-click/Delete to erase. Gaps become rests. Overlap
+replaces that portion of the same lane. Other lanes remain independent. Each
+lane holds up to 64 note/rest entries, each lasting 1–255 ticks at 60 Hz. Tempo
+(30–300 BPM) scales every lane together. Sixteen song/effect library entries are
+available per project. Selected-note controls edit exact duration, pulse/noise
+velocity and an optional raw noise-byte override. Wave output uses its hardware
+level instead of velocity. Moving/resizing a note preserves its overrides.
+
+| Channel | Instrument controls |
+| --- | --- |
+| Pulse 1 | Duty (12.5/25/50/75%), initial volume, envelope pace/direction, period sweep pace/direction/shift |
+| Pulse 2 | Duty, initial volume, envelope pace/direction |
+| Wave | 32 editable 4-bit samples; triangle/sine/square/saw presets; mute/full/half/quarter output |
+| Noise | Envelope; clock shift/divider; 15-bit/7-bit noise; drum kit by note or fixed noise settings |
+| Every channel | Enabled, DAC, left/right/center/muted stereo routing, optional hardware length timer |
+| Song output | Independent 0–7 left/right master gain (0 is quiet, not mute) |
+
+Envelope pace is in 64 Hz units, period sweep in 128 Hz units. Pace 0 disables
+iterations. The optional hardware length is in 1/256-second units: up to 64 for
+pulse/noise and 256 for wave. Zero leaves gating to piano-roll note duration.
+The DAC and waveform/sample controls map to Game Boy sound hardware. External
+VIN input is not used. The shared C sequencer runs the song in preview and ROM;
+the preview synthesizer approximates hardware sound, while Build & Play uses
+the actual emulated APU, including envelope/sweep timing and hardware quirks.
+Hardware register reference: [Pan Docs](https://gbdev.io/pandocs/Audio_Registers.html).
+
+Noise kit pitches: C2 kick, D2 snare, F#2 closed hat, A2 tom, A#2 open hat and
+C#3 crash. Other pitches use the track's noise settings. Disable Drum kit by
+pitch to use fixed settings for every note, or set a selected note's Noise byte.
+
+Use `sound loop song_id`, `sound play effect_id`, and `sound stop` in events.
+Starting a song replaces current playback. Effects only replace their enabled
+hardware channels; the default effect uses Pulse 2. An interrupted song channel
+returns at the next song-loop boundary. The original five built-ins remain
+available and use the original single-channel script behaviour.
+
+**+ Demo song** loads *Foundry After Hours*, an eight-bar, 150 BPM composition
+using all four channels. The packaged `examples/sound-studio` project starts it
+on scene entry. It combines a pulse lead, a second pulse arpeggio, triangle-wave
+bass, and kick/snare/hat percussion, with stereo separation and note velocities.
+
+| Function | Editor control |
+| --- | --- |
+| Compose all channels | Sound & music → + Song → channel tabs |
+| Make an effect | + Effect (Pulse 2 by default) |
+| Load the composed example | + Demo song |
+| Edit pitch/duration | Piano roll → drag / resize right edge |
+| Edit a channel instrument | Channel tab → instrument inspector |
+| Hear one channel | Solo this channel → Play / Loop |
+| Trigger in game | + Event → Sound → select the library entry |

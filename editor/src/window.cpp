@@ -1,4 +1,5 @@
 #include "window.h"
+#include "sound_editor.h"
 #include "graph.h"
 #include "cf_flow.h"
 #include "world_editor.h"
@@ -79,6 +80,7 @@ Window::Window() {
     screens=new ScreenBuilder;workspace->addTab(screens,"Scenes & screen builder");screens->onEdit=[this](const Project&p){mutate([&]{project=p;});};screens->onTest=[this](const Project&p){buildAndPlay(p);};
     scriptWorkspace=new ScriptWorkspace;workspace->addTab(scriptWorkspace,"Scripts");scriptWorkspace->onEdit=[this](const Project&p){mutate([&]{project=p;});};
     dataEditor->onOpenScene=[this](int i){screens->selectScene(i);workspace->setCurrentWidget(screens);};
+    soundEditor=new SoundEditor;workspace->addTab(soundEditor,"Sound & music");soundEditor->onEdit=[this](const Project &p){mutate([&]{project=p;});};
     emulator = new EmulatorWidget; workspace->addTab(emulator, "ROM emulator");
     worldEditor->onTestArea = [this](const Project &p){buildAndPlay(p);};
     worldEditor->onEdit = [this](const Project &p) { mutate([&] { project = p; }); };
@@ -205,7 +207,7 @@ void Window::refresh(bool refill) {
     entry->clear(); promptList->clear();
     for (const auto &p : project.prompts) { entry->addItem(p.title, p.id); promptList->addItem((p.id == project.entry ? "▶  " : "    ") + p.title); }
     entry->setCurrentIndex(project.indexOf(project.entry)); promptList->setCurrentRow(project.indexOf(selected));
-    graph->setProject(project, selected); worldEditor->setProject(project); scripts->setProject(project); animations->setProject(project); dataEditor->setProject(project); pixels->setProject(project);screens->setProject(project);scriptWorkspace->setProject(project);session.configure(project,false); filling = false;
+    graph->setProject(project, selected); worldEditor->setProject(project); scripts->setProject(project); animations->setProject(project); soundEditor->setProject(project); dataEditor->setProject(project); pixels->setProject(project);screens->setProject(project);scriptWorkspace->setProject(project);session.configure(project,false); filling = false;
     if (refill) fillInspector();
     auto errors = project.validate();
     validation->setText(errors.isEmpty() ? QString("✓ Ready to build   ·   %1 prompts   ·   %2").arg(project.prompts.size()).arg(project.target == "gb" ? "Game Boy" : "Game Boy Color") : "Build needs attention:\n" + errors.mid(0, 4).join('\n') + (errors.size() > 4 ? QString("\n…and %1 more issues").arg(errors.size() - 4) : QString()));

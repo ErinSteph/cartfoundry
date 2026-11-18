@@ -34,7 +34,7 @@ typedef struct {uint8_t type,a,b,compare,rhs_variable;int16_t value;} CFConditio
 typedef struct {CFCondition condition;CFProgram actions;} CFChoiceRule;
 typedef struct {uint8_t capacity;const uint16_t *initial;} CFStorageDef;
 typedef struct {uint16_t interval;uint8_t repeat,autostart,pause_dialogue;CFProgram program;} CFTimerDef;
-typedef struct {uint8_t variable_count,item_count,storage_count;const int16_t *initial;const uint8_t *stack_limits;const CFStorageDef *storages;uint16_t seed;uint8_t timer_count;const CFTimerDef *timers;} CFGameDef;
+typedef struct {uint8_t variable_count,item_count,storage_count;const int16_t *initial;const uint8_t *stack_limits;const CFStorageDef *storages;uint16_t seed;uint8_t timer_count;const CFTimerDef *timers;uint8_t sound_count;const CFSoundClip *sounds;} CFGameDef;
 typedef struct {CFSoundState sound;int16_t variables[CF_GAME_VARIABLES];uint16_t counts[CF_GAME_STORAGES][CF_GAME_ITEMS];uint8_t request_storage,request_prompt,request_world,request_readonly,dirty,request_scene,request_area;uint16_t random;uint16_t timer_remaining[8];uint8_t timer_active[8];} CFGameState;
 typedef struct {uint8_t tile,every,chance;CFProgram program;} CFStepRule;
 typedef struct {int16_t cell;uint8_t steps[8];} CFStepState;

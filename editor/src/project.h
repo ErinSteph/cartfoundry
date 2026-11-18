@@ -28,6 +28,19 @@ struct Variable {QString id;int initial=0;};
 struct Item {QString id,name,description,icon;int stackLimit=10;bool consumable=false;QString useScript;};
 struct Storage {QString id,name;int capacity=8;QMap<QString,int> contents;};
 struct GameScript {QString id,name,source;};
+struct SoundNote {int note=60,ticks=15,volume=-1,noise=-1;};
+struct SoundTrack {
+ bool enabled=true,dac=true,envelopeUp=false,sweepDown=false,noiseNarrow=false,drumKit=true;
+ int duty=2,volume=10,pan=3,envelopePace=0,sweepPace=0,sweepShift=0,length=0,waveLevel=1,noiseShift=4,noiseDivider=3;
+ QVector<int> wave{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0};
+ QVector<SoundNote> notes{{0,60}};
+};
+struct SoundClip {QString id,name;int bpm=120,duty=2,volume=10;QVector<SoundNote> notes{{60,15},{64,15},{67,15},{0,15}};QVector<SoundTrack> channels;bool effect=false;int masterLeft=7,masterRight=7;};
+QJsonObject soundJson(const SoundClip &);
+bool readSound(const QJsonObject &,SoundClip &,QString &);
+QStringList validateSound(const SoundClip &);
+void expandSoundChannels(SoundClip &);
+SoundClip foundryDemoSong();
 struct Timer {QString id,name,source;int interval=60;bool repeat=false,autostart=false,pauseDialogue=true;};
 struct NpcTemplate {QString id,name;Actor actor;};
 struct ScreenElement {QString id,name,type="text",text,image,condition,actions;QRect rect{2,2,16,2};int align=0;};
@@ -68,6 +81,7 @@ struct Project {
     QVector<Item> items;
     QVector<Storage> storages{{"inventory","Inventory",8,{}}};
     QVector<GameScript> scripts;
+    QVector<SoundClip> sounds;
     QVector<Timer> timers;int rngSeed=44257;
     QVector<NpcTemplate> npcs;
     QVector<Scene> scenes{{"scene_main","Main Scene"}};

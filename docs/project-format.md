@@ -295,3 +295,29 @@ bounded. Versions 1–5 migrate their legacy start area/dialogue into these fiel
 The legacy `world.enabled` flag is retained for old file compatibility; format 6
 builds use scene kinds and Default Scene. Screen scenes may retain draft map data
 without compiling it as an overworld.
+
+## Sound patterns and four-channel songs
+
+`systems.sounds` is optional (up to 16 entries); older projects retain their
+single-channel patterns. Every entry has `id`, `name`, `bpm` (30–300), legacy
+`duty`, `volume`, `notes`, optional `effect`, `masterLeft`/`masterRight` (0–7), and
+optional `channels`. When present, channels is exactly four entries in hardware
+order: Pulse 1, Pulse 2, Wave, Noise. Each lane has 1–64 notes/rests and instrument
+settings: enabled/DAC flags, duty, volume, pan bitmask (left=1/right=2), envelope
+pace/up, sweep pace/shift/down, hardware length, wave level and 32 four-bit wave
+samples, noise clock shift/divider/narrow and drum-kit flag. Inapplicable hardware
+controls are stored for safe round trips and hidden by the channel inspector.
+
+Notes store MIDI `note` (36–107 or 0 rest), `ticks` (1–255), optional `volume`
+(-1 inherits, 0–15 override), and optional `noise` (-1 inherits kit/instrument,
+0–255 raw NR43 override). Wave does not use the velocity field. Old note objects
+without overrides still load. Song duration is the maximum lane duration;
+shorter lanes wait at the end until the common loop. Effect entries replace only
+their enabled channels. IDs obey the normal unique identifier rule, with the
+five built-in sound names reserved.
+
+The generator banks note arrays and instrument descriptors (including packed
+wave RAM); compact clip descriptors stay fixed. The shared `cf_sound.c` loads
+instrument data safely across ROM banks, sequences all four lanes, and handles
+looping/gating/modulation state. End-user playback does not load external media
+or tools. Preview synthesis and actual mGBA audio are separate output backends.

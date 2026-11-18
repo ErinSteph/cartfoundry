@@ -9,6 +9,8 @@
 #include <QRegularExpression>
 #include <QSaveFile>
 #include <QTemporaryDir>
+#include <cmath>
+#include "sound_compile.h"
 namespace cf {
 QString resourceRoot() {
     const auto app = QCoreApplication::applicationDirPath();
@@ -42,7 +44,13 @@ static QString headerFor(const Project &p,BankWriter *banks,const QString &root)
     for(int i=0;i<p.storages.size();++i){QStringList contents;for(auto &item:p.items)contents<<QString::number(p.storages[i].contents.value(item.id));QString name=QString("cf_storage_initial_%1").arg(i);s+="static const uint16_t "+name+"[]={"+(contents.isEmpty()?QString("0"):contents.join(","))+"};\n";storageDefs<<QString("{%1,%2}").arg(p.storages[i].capacity).arg(name);storageNames<<literal(p.storages[i].name);}
     s+="static const int16_t cf_initial_vars[]={"+(initial.isEmpty()?QString("0"):initial.join(","))+"};\nstatic const uint8_t cf_stack_limits[]={"+(limits.isEmpty()?QString("1"):limits.join(","))+"};\n";
     s+="static const CFStorageDef cf_storage_defs[]={"+storageDefs.join(",")+"};\n";
-    s+=QString("static const CFGameDef cf_game_def={%1,%2,%3,cf_initial_vars,cf_stack_limits,cf_storage_defs,%4,%5,cf_timers};\n").arg(p.variables.size()).arg(p.items.size()).arg(p.storages.size()).arg(p.rngSeed).arg(p.timers.size());
+    QStringList soundDefs;
+    for(int i=0;i<p.sounds.size();++i){auto &clip=p.sounds[i];QString name=QString("cf_sound_%1").arg(i);auto emitNotes=[&](QString id,const QVector<SoundNote> &notes,const SoundTrack &track,int channel){QString data="const CFSoundNote "+id+"[]={";for(auto &n:notes){auto code=compileSoundNote(n,track,channel);data+=QString("{%1,%2,%3},").arg(code.frequency).arg(code.ticks).arg(code.volume);}data+="};";int bank=0;if(banks){bank=banks->add(data,notes.size()*4);s+="extern const CFSoundNote "+id+"[];\n";}else s+="static "+data+"\n";return bank;};
+    if(clip.channels.isEmpty()){SoundTrack legacy;int bank=emitNotes(name,clip.notes,legacy,0);soundDefs<<QString("{%1,%2,%3,%4,%5,0,0,0,0,0}").arg(clip.notes.size()).arg(clip.duty).arg(clip.volume).arg(name).arg(bank);}
+    else{QStringList tracks;int mask=0;for(int ch=0;ch<4;++ch){auto &track=clip.channels[ch];auto code=compileSoundTrack(track);QString noteName=name+"_notes_"+QString::number(ch);int bank=emitNotes(noteName,track.notes,track,ch);QStringList wave;for(auto b:code.wave)wave<<QString::number(b);tracks<<QString("{%1,%2,%3,%4,%5,%6,%7,%8,%9,{%10},%11,%12}").arg(code.count).arg(code.duty).arg(code.volume).arg(code.pan).arg(code.envelope).arg(code.sweep).arg(code.length).arg(code.dac).arg(code.wave_level).arg(wave.join(",")).arg(noteName).arg(bank);if(track.enabled)mask|=1<<ch;}
+    QString trackName=name+"_tracks",data="const CFSoundTrack "+trackName+"[]={"+tracks.join(",")+"};";int bank=0;if(banks){bank=banks->add(data,4*32);s+="extern const CFSoundTrack "+trackName+"[];\n";}else s+="static "+data+"\n";soundDefs<<QString("{0,0,0,0,0,%1,%2,%3,%4,%5,%6}").arg(trackName).arg(bank).arg(mask).arg((clip.masterLeft<<4)|clip.masterRight).arg(soundDuration(clip)).arg(clip.effect?1:0);}}
+    s+="static const CFSoundClip cf_sound_clips[]={"+(soundDefs.isEmpty()?QString("{0}"):soundDefs.join(","))+"};\n";
+    s+=QString("static const CFGameDef cf_game_def={%1,%2,%3,cf_initial_vars,cf_stack_limits,cf_storage_defs,%4,%5,cf_timers,%6,cf_sound_clips};\n").arg(p.variables.size()).arg(p.items.size()).arg(p.storages.size()).arg(p.rngSeed).arg(p.timers.size()).arg(p.sounds.size());
     s+="static const char *const cf_item_names[]={"+(itemNames.isEmpty()?QString("\"\""):itemNames.join(","))+"};\nstatic const char *const cf_storage_names[]={"+storageNames.join(",")+"};\n";
     s+="static const uint8_t cf_item_consumable[]={"+(consumable.isEmpty()?QString("0"):consumable.join(","))+"};\n";
     QMap<QString,QString> textPalettes;for(int i=0;i<p.prompts.size();++i)if(!p.prompts[i].textPalette.isEmpty()){QString id="cf_text_palette_"+QString::number(i);textPalettes[p.prompts[i].id]=id;s+="static const uint16_t "+id+"[]={";for(auto c:p.prompts[i].textPalette)s+=QString::number(c)+",";s+="};\n";}

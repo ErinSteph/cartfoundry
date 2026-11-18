@@ -12,11 +12,12 @@ public:
     bool enabled(int prompt,int choice)const;
     bool run(const QString &);
     const Project &data()const{return project;}
-    void reset();void tick(bool inDialogue);
+    void reset();void tick(bool inDialogue);QByteArray renderAudio(int frames=800);
     void reseed(uint16_t seed){state.random=seed?seed:0xace1;}
 private:
-    AudioOutput audio;double phase[2]={0,0};
+    AudioOutput audio;double phase[4]={0,0,0,0};uint16_t noiseLfsr=0x7fff;
     Project project;QVector<int16_t> initial;QVector<uint8_t> limits;QVector<CFStorageDef> stores;QVector<QVector<uint16_t>> counts;
+    QVector<QVector<CFSoundNote>> soundNotes;QVector<QVector<CFSoundTrack>> soundTracks;QVector<CFSoundClip> soundClips;
     QVector<QVector<CFInstruction>> enterCode,choiceCode,timerCode;QVector<CFTimerDef> timerDefs;
 };
 }

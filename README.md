@@ -103,7 +103,8 @@ and physical hardware have not been validated here yet.
 - `docs/project-format.md`: schema, hardware budgets and testing semantics.
 
 This milestone supports animated sprite sheets and one four-colour tileset per
-area. Scripted built-in sound loops and one-shots play in the preview and ROM
+area. The **Sound & music** tab composes four-channel songs and effects, with
+a piano roll, pulse envelopes/sweep, editable wave RAM, noise drums and stereo controls. Scripted sound loops and one-shots play in the preview and ROM
 emulator (`sound loop pulse`, `sound play chime`, `sound stop`); use **+ Event → Sound**.
 Imported music, game saves, text pagination
 remain future work. Eight named areas are supported with MBC5 banked event and
@@ -237,3 +238,7 @@ Maps gain rectangle/flood filling and Alt-click tile picking.
 
 See [authoring controls and engine coverage](docs/editor-authoring.md) for the full
 UI/function mapping, semantics, references and remaining engine limits.
+
+The **Sound & music → + Demo song** button loads *Foundry After Hours*: an eight-bar
+150 BPM song using both pulse channels, wave bass, and noise percussion. The
+[sound studio example](examples/sound-studio/README.md) includes a playable project.

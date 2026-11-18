@@ -2,9 +2,23 @@
 #include "emulator_core.h"
 #include <QtTest>
 #include <QTemporaryDir>
+#include <QDataStream>
+#include <QFile>
 class EmulatorTests:public QObject{
     Q_OBJECT
 private slots:
+    void fourChannelSong(){auto p=cf::Project::example();p.sounds<<cf::foundryDemoSong();for(auto &scene:p.scenes)scene.onSceneEnter="sound loop foundry_four";p.timers={{"silence","Silence","sound stop",800,false,true,false}};QTemporaryDir dir;
+      for(auto target:{QString("gb"),QString("gbc")}){p.target=target;auto built=fastTestRom(p,dir.filePath("song."+target));QVERIFY2(built.success,qPrintable(built.log));cf::EmulatorCore e;QString error;QVERIFY(e.load(built.romPath,error));bool together=false;QSet<int> noise;QByteArray pcm;
+       for(int f=0;f<900;++f){e.frame();auto audio=e.takeAudio();if(target=="gbc")pcm+=audio;if((e.readByte(0xff26)&15)==15){together=true;QCOMPARE(e.readByte(0xff25),quint8(0xde));QCOMPARE(e.readByte(0xff1c)&0x60,0x20);QCOMPARE(e.readByte(0xff11)&0xc0,0x80);QCOMPARE(e.readByte(0xff16)&0xc0,0x40);}if(e.readByte(0xff26)&8)noise.insert(e.readByte(0xff22));}
+       QVERIFY2(together,"All four hardware sound channels must be active together.");QVERIFY(noise.contains(0x63));QVERIFY(noise.contains(0x35));QVERIFY(noise.contains(0x19));QCOMPARE(e.readByte(0xff26)&15,0);QCOMPARE(e.readByte(0xff30),quint8(0x01));QCOMPARE(e.readByte(0xff37),quint8(0xef));
+       if(target=="gbc"){auto base=QCoreApplication::applicationDirPath();QFile file(base+"/foundry-after-hours.wav");QVERIFY(file.open(QIODevice::WriteOnly));QDataStream wav(&file);wav.setByteOrder(QDataStream::LittleEndian);wav.writeRawData("RIFF",4);wav<<quint32(pcm.size()+36);wav.writeRawData("WAVEfmt ",8);wav<<quint32(16)<<quint16(1)<<quint16(2)<<quint32(48000)<<quint32(192000)<<quint16(4)<<quint16(16);wav.writeRawData("data",4);wav<<quint32(pcm.size());wav.writeRawData(pcm.constData(),pcm.size());}
+      }
+    }
+
+    void customMusic(){auto p=cf::Project::example();cf::SoundClip clip;clip.id="theme";clip.name="Theme";clip.duty=1;clip.volume=6;clip.notes={{69,30},{0,30},{72,30}};p.sounds<<clip;for(auto &scene:p.scenes)scene.onSceneEnter="sound loop theme";QTemporaryDir dir;
+      for(auto target:{QString("gb"),QString("gbc")}){p.target=target;auto built=fastTestRom(p,dir.filePath("music."+target));QVERIFY2(built.success,qPrintable(built.log));cf::EmulatorCore e;QString error;QVERIFY(e.load(built.romPath,error));bool audio=false,silence=false,volume=false;for(int f=0;f<220;++f){e.frame();if(f>40){audio|=(e.readByte(0xff26)&1)!=0;silence|=(e.readByte(0xff26)&1)==0;if(e.readByte(0xff26)&1)volume|=(e.readByte(0xff12)>>4)==6;}}QVERIFY(audio);QVERIFY(silence);QCOMPARE(e.readByte(0xff11)&0xc0,0x40);QVERIFY(volume);}
+    }
+
     void soundEvents(){
         auto p=cf::Project::example();for(auto &scene:p.scenes)scene.onSceneEnter="sound loop pulse\nsound play chime\ntimer start silence";p.timers={{"silence","Silence","sound stop",240,false,false,false}};
         QTemporaryDir dir;

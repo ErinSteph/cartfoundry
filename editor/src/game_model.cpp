@@ -8,7 +8,7 @@ namespace cf {
 int Project::variableIndex(QString id)const{if(id.startsWith('$'))id.remove(0,1);for(int i=0;i<variables.size();++i)if(variables[i].id==id)return i;return -1;}
 int Project::itemIndex(const QString &id)const{for(int i=0;i<items.size();++i)if(items[i].id==id)return i;return -1;}
 int Project::storageIndex(const QString &id)const{for(int i=0;i<storages.size();++i)if(storages[i].id==id)return i;return -1;}
-QJsonObject Project::systemsJson()const{QJsonArray vs,is,ss,ps,ns,sc,ms,ts;
+QJsonObject Project::systemsJson()const{QJsonArray vs,is,ss,ps,ns,sc,ms,ts,so;
 for(auto &v:variables)vs.append(QJsonObject{{"id",v.id},{"initial",v.initial}});
 for(auto &i:items)is.append(QJsonObject{{"id",i.id},{"name",i.name},{"description",i.description},{"icon",i.icon},{"stackLimit",i.stackLimit},{"consumable",i.consumable},{"useScript",i.useScript}});
 for(auto &s:storages){QJsonObject contents;for(auto it=s.contents.begin();it!=s.contents.end();++it)contents[it.key()]=it.value();ss.append(QJsonObject{{"id",s.id},{"name",s.name},{"slots",s.capacity},{"contents",contents}});}
@@ -16,12 +16,14 @@ for(auto &s:scripts)ps.append(QJsonObject{{"id",s.id},{"name",s.name},{"source",
 for(auto &n:npcs)ns.append(QJsonObject{{"id",n.id},{"name",n.name},{"actor",n.actor.toJson()}});
 for(auto &s:scenes){QJsonArray elements;for(auto &e:s.elements)elements.append(QJsonObject{{"id",e.id},{"name",e.name},{"type",e.type},{"text",e.text},{"image",e.image},{"condition",e.condition},{"actions",e.actions},{"rect",QJsonArray{e.rect.x(),e.rect.y(),e.rect.width(),e.rect.height()}},{"align",e.align}});sc.append(QJsonObject{{"id",s.id},{"name",s.name},{"kind",s.kind},{"startArea",s.startArea},{"onSceneEnter",s.onSceneEnter},{"onBack",s.onBack},{"background",s.background},{"elements",elements}});}for(auto &m:maps)ms.append(QJsonObject{{"id",m.id},{"name",m.name},{"scene",m.scene}});
 for(auto &t:timers)ts.append(QJsonObject{{"id",t.id},{"name",t.name},{"source",t.source},{"interval",t.interval},{"repeat",t.repeat},{"autostart",t.autostart},{"pauseDialogue",t.pauseDialogue}});
-return {{"timers",ts},{"rngSeed",rngSeed},{"variables",vs},{"items",is},{"storages",ss},{"scripts",ps},{"npcs",ns},{"scenes",sc},{"maps",ms}};}
+for(auto &s:sounds)so.append(soundJson(s));
+return {{"sounds",so},{"timers",ts},{"rngSeed",rngSeed},{"variables",vs},{"items",is},{"storages",ss},{"scripts",ps},{"npcs",ns},{"scenes",sc},{"maps",ms}};}
 bool Project::readSystems(const QJsonObject &o,Project &p,QString &error){
     auto fail=[&]{error="Invalid game systems data (IDs, integer ranges or library structure).";return false;};
     auto string=[&](QJsonObject v,const char*k){return v[k].isString();};auto integer=[&](QJsonValue v,int min,int max){return v.isDouble()&&v.toInt(min-1)==v.toDouble()&&v.toInt()>=min&&v.toInt()<=max;};
     struct Collection{const char *key;int max;};for(auto c:{Collection{"variables",31},{"items",16},{"storages",8},{"scripts",32},{"npcs",16},{"scenes",32},{"maps",32}})if(!o[c.key].isArray()||o[c.key].toArray().size()>c.max)return fail();
     if(o.contains("rngSeed")){if(!integer(o["rngSeed"],0,65535))return fail();p.rngSeed=o["rngSeed"].toInt();}
+    p.sounds.clear();if(o.contains("sounds")){if(!o["sounds"].isArray()||o["sounds"].toArray().size()>16)return fail();for(auto value:o["sounds"].toArray()){if(!value.isObject())return fail();SoundClip sound;if(!readSound(value.toObject(),sound,error))return false;p.sounds<<sound;}}
     p.timers.clear();if(o.contains("timers")){if(!o["timers"].isArray()||o["timers"].toArray().size()>8)return fail();for(auto value:o["timers"].toArray()){auto v=value.toObject();if(!string(v,"id")||!string(v,"name")||!string(v,"source")||!integer(v["interval"],1,65535)||!v["repeat"].isBool()||!v["autostart"].isBool()||!v["pauseDialogue"].isBool())return fail();p.timers<<Timer{v["id"].toString(),v["name"].toString(),v["source"].toString(),v["interval"].toInt(),v["repeat"].toBool(),v["autostart"].toBool(),v["pauseDialogue"].toBool()};}}
     p.variables.clear();for(auto value:o["variables"].toArray()){auto v=value.toObject();if(!string(v,"id")||!integer(v["initial"],-32768,32767))return fail();p.variables<<Variable{v["id"].toString(),v["initial"].toInt()};}
     p.items.clear();for(auto value:o["items"].toArray()){auto v=value.toObject();for(auto key:{"id","name","description","icon","useScript"})if(!string(v,key))return fail();if(!integer(v["stackLimit"],1,99)||!v["consumable"].isBool())return fail();p.items<<Item{v["id"].toString(),v["name"].toString(),v["description"].toString(),v["icon"].toString(),v["stackLimit"].toInt(),v["consumable"].toBool(),v["useScript"].toString()};}
@@ -35,6 +37,7 @@ bool Project::readSystems(const QJsonObject &o,Project &p,QString &error){
 }
 QStringList Project::validateSystems()const{QStringList errors;QRegularExpression idPattern("^[A-Za-z_][A-Za-z0-9_]{0,31}$");
     auto ids=[&](auto list,QString label,int max){QSet<QString> used;if(list.size()>max)errors<<label+": too many entries.";for(auto &v:list){if(!idPattern.match(v.id).hasMatch()||used.contains(v.id))errors<<label+": use unique identifier names (letters, numbers, underscores).";used.insert(v.id);}return used;};
+    ids(sounds,"Sound library",16);for(auto &s:sounds)errors.append(validateSound(s));
     auto vars=ids(variables,"Variables",31);if(vars.contains("result"))errors<<"result is a reserved read-only variable.";ids(items,"Items",16);ids(storages,"Storage",8);ids(scripts,"Scripts",32);ids(timers,"Timers",8);if(rngSeed<0||rngSeed>65535)errors<<"RNG seed must be 0-65535.";ids(npcs,"NPC library",16);auto sceneIds=ids(scenes,"Scenes",32);auto mapIds=ids(maps,"Maps",32);
     if(scenes.isEmpty()||maps.isEmpty())errors<<"Keep at least one scene and map.";for(auto &m:maps)if(!sceneIds.contains(m.scene))errors<<m.name+": select an existing parent scene.";
     if(storages.isEmpty()||storages[0].id!="inventory")errors<<"The first storage must be the player inventory (id: inventory).";
