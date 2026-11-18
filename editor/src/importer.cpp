@@ -2,7 +2,7 @@
 #include <QtWidgets>
 #include <QImageReader>
 namespace cf {
-bool importAsset(QWidget *parent, const QString &kind, RasterAsset &result) {
+bool importAsset(QWidget *parent, const QString &kind, RasterAsset &result, bool placeAfterImport) {
     auto path = QFileDialog::getOpenFileName(parent, "Import image as " + kind, {}, "Images (*.png *.jpg *.jpeg *.bmp *.gif)");
     if (path.isEmpty()) return false;
     QImageReader reader(path); auto size = reader.size();
@@ -31,7 +31,8 @@ bool importAsset(QWidget *parent, const QString &kind, RasterAsset &result) {
     columns->addLayout(settings); auto *previewColumn = new QVBoxLayout; previewColumn->addWidget(new QLabel("CONVERTED PREVIEW"));
     auto *preview = new QLabel; preview->setMinimumSize(360,360); preview->setAlignment(Qt::AlignCenter); previewColumn->addWidget(preview,1);
     auto *info = new QLabel; info->setWordWrap(true); previewColumn->addWidget(info); columns->addLayout(previewColumn,1); root->addLayout(columns,1);
-    auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel); buttons->button(QDialogButtonBox::Ok)->setText("Import asset"); root->addWidget(buttons);
+    auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel); buttons->button(QDialogButtonBox::Ok)->setText(placeAfterImport?"Import && place":"Import asset"); root->addWidget(buttons);
+    if(placeAfterImport)root->addWidget(new QLabel("Next: click the map to place this sprite. Escape returns to selection."));
     RasterAsset converted;
     auto update = [&] {
         ImportOptions o; o.width=width->value();o.height=height->value();o.transparent=kind=="sprite";o.fit=ImportOptions::Fit(fit->currentIndex());o.smooth=filter->currentIndex()==1;

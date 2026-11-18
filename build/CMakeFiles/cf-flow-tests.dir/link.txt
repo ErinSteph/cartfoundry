@@ -1,1 +1,0 @@
-/usr/bin/c++ -g -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names "CMakeFiles/cf-flow-tests.dir/cf-flow-tests_autogen/mocs_compilation.cpp.o" "CMakeFiles/cf-flow-tests.dir/tests/flow_tests.c.o" "CMakeFiles/cf-flow-tests.dir/runtime/cf_flow.c.o" -o cf-flow-tests

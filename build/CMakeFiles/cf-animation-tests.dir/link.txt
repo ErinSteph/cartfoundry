@@ -1,1 +1,0 @@
-/usr/bin/c++ -g -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names "CMakeFiles/cf-animation-tests.dir/cf-animation-tests_autogen/mocs_compilation.cpp.o" "CMakeFiles/cf-animation-tests.dir/tests/animation_tests.c.o" "CMakeFiles/cf-animation-tests.dir/runtime/cf_animation.c.o" -o cf-animation-tests

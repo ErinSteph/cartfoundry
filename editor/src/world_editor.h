@@ -3,19 +3,21 @@
 #include "cf_world.h"
 #include "cf_flow.h"
 #include "game_session.h"
+#include "map_authoring.h"
 #include <QWidget>
 #include <QSet>
 #include <functional>
-class QLineEdit;class QCheckBox;class QComboBox;class QSpinBox;class QLabel;class QListWidget;class QScrollArea;
+class QTabWidget;class QLineEdit;class QCheckBox;class QComboBox;class QSpinBox;class QLabel;class QListWidget;class QScrollArea;
 namespace cf {
-class SheetCanvas;
+class SheetCanvas;class MapObjects;
 class MapCanvas : public QWidget {
 public:
     explicit MapCanvas(QWidget *parent=nullptr);
     Project project;
     int tool=0,brush=0,zoom=3,brushMode=0;
     std::function<void(int)> onPick,onZoom;
-    QString trigger, exitTarget;
+    QString trigger, exitTarget;MapSelection selected;QImage placementImage;bool placementSprite=false;
+    std::function<void(MapSelection)> onSelect;std::function<void(QPoint)> onPlace;std::function<void(MapSelection,QPoint)> onMove;std::function<void()> onDelete,onDuplicate,onEscape;
     std::function<void(const World &)> onStroke;
     void reload();
 protected:
@@ -24,6 +26,10 @@ protected:
     void mouseMoveEvent(QMouseEvent *) override;
     void mouseReleaseEvent(QMouseEvent *) override;void wheelEvent(QWheelEvent *) override;
 private:
+    void keyPressEvent(QKeyEvent *) override;
+    void leaveEvent(QEvent *) override;QPoint hover{-1,-1};
+    bool draggingInstance=false;QPoint dragAnchor,instanceOrigin;
+    MapSelection hit(QPoint) const;QPoint location(MapSelection) const;
     bool painting=false,changed=false,erasing=false;QPoint strokeStart,strokeEnd;
     void paintCell(QPoint, bool erase);
 };
@@ -54,9 +60,11 @@ public:
     explicit WorldEditor(QWidget *parent=nullptr);
     void setProject(const Project &);
     std::function<void(const Project &)> onEdit, onTestArea;
+    void placeSprite(const QString &id);
     void selectArea(int index){activeArea=index;setProject(project);}
 private:
     Project project;bool filling=false;
+    MapObjects *objects=nullptr;MapBrush placement;QComboBox *tools;QLabel *placementHint;QTabWidget *mapTabs;void beginPlacement(MapBrush);void newMap(bool areaOnly=false,bool copy=false);void selectInstance(MapSelection);
     MapCanvas *canvas;WorldPlay *play;SheetCanvas *tilesheet;
     QCheckBox *enabled;
     QComboBox *tileset,*player,*prompt,*areaSelector,*exitArea;

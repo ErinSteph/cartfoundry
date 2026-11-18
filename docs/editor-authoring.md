@@ -1,6 +1,6 @@
 # Authoring controls and engine coverage
 
-CartFoundry 0.7 exposes the current gameplay commands through editor forms as
+CartFoundry 0.8 exposes the current gameplay commands through editor forms as
 well as source text. New primitives should gain a model field, editor control,
 shared preview/runtime behavior, validation and meaningful verification together.
 
@@ -15,6 +15,12 @@ shared preview/runtime behavior, validation and meaningful verification together
 | Script workspace / references | Scripts tab: element-type list, event selector, live edits, double-click reference browser; live read-only JSON tab |
 | Explicit area loads / object and NPC event calls | + Event → Areas / Load area, Objects / Call event, NPCs / Call event |
 | Project, scene, map, area and object ownership | Project & game data tree; parent selectors; Open map editor |
+| Direct sprite import and placement | Map toolbar Import & place sprite; import automatically selects the brush; double-click existing sprite assets to place |
+| Direct object / sprite selection | Map Select / move tool; click visible sprites or object tiles; instance list; drag with one-step Undo |
+| Reuse existing content | Place / reuse palette: sprite assets, NPC library and all existing instances; search and stamp; Duplicate / Ctrl-Cmd+D |
+| Name and target map instances | Selected / instances inspector: display name, stable target ID, reference field; renames update direct event calls |
+| Create maps from templates | + New map / + Area dialogs: parent scene/map, empty or existing terrain, optional contents, resources and dimensions |
+| Container setup on the map | New container brush creates separate storage; copied containers retain references; Create separate storage button |
 | Areas, exits and spawn points | World tab area selector, size/spawn/link painting and isolated area test |
 | Tile and collision painting | Pencil, rectangle fill and flood fill; right-drag erases; Alt-click picks a tile |
 | Zoom and navigation | Map scale / Ctrl-Cmd wheel, sheet Fit/percent/scrollbars and thumbnail scale |
@@ -162,3 +168,9 @@ They are expanded like reusable script calls and share the recursion/instruction
 limits. Scene/area loads end the current event. The compiler moves event bytecode
 and screen graphics to MBC5 banks; fixed runtime/data sections are checked for
 overflow. Save format 6 adds project startup settings and authored scene contents.
+
+## Map authoring (0.8)
+
+The full recipe is in [Building maps from existing objects](map-authoring.md),
+also available through Help → Map building & reusable objects. Existing project
+format 6 files require no migration. The runtime and cartridge limits are unchanged.

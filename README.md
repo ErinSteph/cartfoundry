@@ -7,17 +7,20 @@ A cross-platform Game Boy / Game Boy Color engine and C++/Qt desktop
 editor. The application bundles a compiler
 and mGBA emulator core.
 
+<img width="600" alt="Screenshot 2026-11-17 at 15 26 15" src="https://github.com/user-attachments/assets/9e046aee-dc4c-4c10-9c8a-175ab9421666" />
+<img width="600" alt="Screenshot 2026-11-17 at 15 26 35" src="https://github.com/user-attachments/assets/0806c60b-b2e0-4f68-927b-dfcdd7674efb" />
+<img width="600" alt="Screenshot 2026-11-17 at 15 26 58" src="https://github.com/user-attachments/assets/61abaa06-8574-4304-b956-9ca253826472" />
+<img width="600" alt="Screenshot 2026-11-17 at 15 27 20" src="https://github.com/user-attachments/assets/6e9364d3-f3a5-4878-a4d5-fa8bf77231ea" />
 
-<img width="600" alt="Screenshot 2026-11-17 at 22 18 47" src="https://github.com/user-attachments/assets/074d0701-2cd4-4a49-992a-2108c83e4064" />
-<img width="600" alt="Screenshot 2026-11-17 at 22 17 25" src="https://github.com/user-attachments/assets/3a03e1bb-696d-4558-a131-d00d56dc2c05" />
-<img width="600" alt="Screenshot 2026-11-17 at 22 18 00" src="https://github.com/user-attachments/assets/5471fd9a-0c8d-48b8-ac36-ed93d5fa812a" />
-<img width="600" alt="Screenshot 2026-11-17 at 22 18 26" src="https://github.com/user-attachments/assets/a62c9882-c4b0-4fb5-837d-98216c2b66d5" />
+## Download
 
-
+The current packaged build is **0.8.1**, for **macOS Apple Silicon (arm64)**.
+See [release notes](releases/README.md) and [SHA-256 checksums](releases/SHA256SUMS).
+Windows is a source portability target, not a tested binary release.
 
 ## Try it
 
-Open `dist/CartFoundry.app`. **File → New Pokemon Example** opens Pocket Meadow,
+Download [CartFoundry 0.8.1 for macOS Apple Silicon](releases/CartFoundry-0.8.1-macOS-arm64.zip), unzip it, and open `CartFoundry.app`. **File → New Pokemon Example** opens Pocket Meadow,
 a small adventure with grass encounters, battles, catching, healing and a party PC.
 **Help → Pokemon example guide** contains the complete editor recipe, including
 all variables, items, scripts, prompts and artwork. See [the guide](examples/pokemon/README.md).
@@ -36,6 +39,10 @@ Garden in two chapters. The original branching conversation is under
 - **Scripts:** choose an element type, element and event; edit source with event
   forms and a reference browser. Double-click references to insert their IDs or
   commands. A second tab shows the live read-only project JSON.
+- **Map selection and placement:** click and drag objects/sprites, edit their
+  properties and script IDs in the map inspector, and stamp entries from a
+  searchable palette of existing objects, sprites and NPCs. **+ New map** supports
+  empty maps and existing-area templates. See [the map guide](docs/map-authoring.md).
 - **Sprites, tilesets & overworld:** choose an area, import/replace images and
   set its tileset/player. Import lets you select dimensions, fit/crop/stretch,
   scaling filter and background removal, with a live four-colour preview.
