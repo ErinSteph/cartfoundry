@@ -21,7 +21,7 @@ QImage textScreenImage(const QStringList &lines, const QRect &box, bool dmg,cons
     return image;
 }
 QColor rgb555(quint16 v) { return QColor((v & 31) * 255 / 31, ((v >> 5) & 31) * 255 / 31, ((v >> 10) & 31) * 255 / 31); }
-quint16 toRgb555(QColor c) { return (c.red() >> 3) | ((c.green() >> 3) << 5) | ((c.blue() >> 3) << 10); }
+quint16 toRgb555(QColor c) { return ((c.red()*31+127)/255) | (((c.green()*31+127)/255) << 5) | (((c.blue()*31+127)/255) << 10); }
 QJsonObject RasterAsset::toJson() const {
     QJsonArray colors; for (auto c : palette) colors.append(int(c));
     QJsonArray clips;for(const auto &c:animations)clips.append(QJsonObject{{"name",c.name},{"first",c.first},{"last",c.last},{"duration",c.duration},{"loop",c.loop},{"reverse",c.reverse},{"flipH",c.flipH},{"flipV",c.flipV}});
@@ -88,11 +88,21 @@ QByteArray RasterAsset::tileData(bool dmg) const {
     }
     return bytes;
 }
+int usedColorCount(const QImage &image, bool transparent) {
+    QSet<quint16> colors;
+    for(int y=0;y<image.height();++y)for(int x=0;x<image.width();++x){
+        auto c=image.pixelColor(x,y);
+        if(!transparent || c.alpha()>=128)colors.insert(toRgb555(c));
+    }
+    return colors.size();
+}
 struct Sample { QColor color; int count; };
-RasterAsset convertImage(const QImage &source, const ImportOptions &requested) {
+RasterAsset convertImage(const QImage &source, const ImportOptions &requested, int *usedColors) {
+    if(usedColors)*usedColors=0;
     ImportOptions opts=requested;if(opts.screen){opts.transparent=false;opts.columns=opts.rows=1;}
     RasterAsset a; a.columns=opts.columns;a.rows=opts.rows;a.width = opts.width*opts.columns; a.height = opts.height*opts.rows; a.kind = opts.screen?"screen":opts.transparent ? "sprite" : "tileset";
     if (source.isNull() || a.width < 8 || a.height < 8 || a.width > (opts.screen?160:opts.transparent?256:128) || a.height > (opts.screen?144:opts.transparent?256:128) || opts.columns<1 || opts.rows<1 || opts.columns>8 || opts.rows>8 || opts.columns*opts.rows>64 || source.width()%opts.columns || source.height()%opts.rows || (opts.transparent&&(opts.width>32||opts.height>32)) || a.width % 8 || a.height % 8) return a;
+    if(opts.fit==ImportOptions::Preserve && (source.width()/opts.columns>opts.width || source.height()/opts.rows>opts.height))return a;
     QImage prepared = source.convertToFormat(QImage::Format_ARGB32);
     if (opts.removeBackground) for (int y = 0; y < prepared.height(); ++y) for (int x = 0; x < prepared.width(); ++x) {
         auto c = prepared.pixelColor(x, y); auto bg = opts.background;
@@ -103,14 +113,15 @@ RasterAsset convertImage(const QImage &source, const ImportOptions &requested) {
     QImage canvas(a.width,a.height,QImage::Format_ARGB32);canvas.fill(opts.transparent?Qt::transparent:opts.background);
     {QPainter p(&canvas);for(int row=0;row<opts.rows;++row)for(int col=0;col<opts.columns;++col){
         auto cell=prepared.copy(col*source.width()/opts.columns,row*source.height()/opts.rows,source.width()/opts.columns,source.height()/opts.rows);
-        auto scaled=cell.scaled(opts.width,opts.height,fit,opts.smooth?Qt::SmoothTransformation:Qt::FastTransformation);
-        p.save();p.setClipRect(col*opts.width,row*opts.height,opts.width,opts.height);p.drawImage(col*opts.width+(opts.width-scaled.width())/2,row*opts.height+(opts.height-scaled.height())/2,scaled);p.restore();
+        auto scaled=opts.fit==ImportOptions::Preserve?cell:cell.scaled(opts.width,opts.height,fit,opts.smooth?Qt::SmoothTransformation:Qt::FastTransformation);
+        p.save();p.setClipRect(col*opts.width,row*opts.height,opts.width,opts.height);p.drawImage(col*opts.width+(opts.fit==ImportOptions::Preserve?0:(opts.width-scaled.width())/2),row*opts.height+(opts.fit==ImportOptions::Preserve?0:(opts.height-scaled.height())/2),scaled);p.restore();
     }}
     QMap<quint16, int> histogram;
     for (int y = 0; y < a.height; ++y) for (int x = 0; x < a.width; ++x) {
         auto c = canvas.pixelColor(x, y); if (opts.transparent && c.alpha() < 128) continue;
         histogram[toRgb555(c)]++;
     }
+    if(usedColors)*usedColors=histogram.size();
     // Weighted median-cut quantization, in the console's actual RGB555 colour space.
     QVector<QVector<Sample>> boxes(1);
     for (auto it = histogram.begin(); it != histogram.end(); ++it) boxes[0].append({rgb555(it.key()), it.value()});
@@ -136,11 +147,15 @@ RasterAsset convertImage(const QImage &source, const ImportOptions &requested) {
         for (auto &s : box) { r += s.color.red() * s.count; g += s.color.green() * s.count; b += s.color.blue() * s.count; count += s.count; }
         palette << toRgb555(count ? QColor(r / count, g / count, b / count) : QColor(Qt::black));
     }
-    std::stable_sort(palette.begin(), palette.end(), [](auto a, auto b) { return qGray(rgb555(a).rgb()) > qGray(rgb555(b).rgb()); });
+    // Do not average or re-encode an already usable palette.
+    if(histogram.size()<=available){palette.clear();for(auto it=histogram.begin();it!=histogram.end();++it)palette<<it.key();}
+    if(histogram.size()>available && !opts.palette.isEmpty() && opts.palette.size()<=available)palette=opts.palette;
+    if(palette.isEmpty())palette<<0;
+    if(opts.palette.isEmpty())std::stable_sort(palette.begin(), palette.end(), [](auto a, auto b) { return qGray(rgb555(a).rgb()) > qGray(rgb555(b).rgb()); });
     if (opts.transparent) palette.prepend(0);
     while (palette.size() < 4) palette << palette.last(); a.palette = palette;
     for (int y = 0; y < a.height; ++y) for (int x = 0; x < a.width; ++x) {
-        auto c = canvas.pixelColor(x, y); int best = opts.transparent ? 1 : 0, distance = std::numeric_limits<int>::max();
+        auto c = rgb555(toRgb555(canvas.pixelColor(x,y))); c.setAlpha(canvas.pixelColor(x,y).alpha()); int best = opts.transparent ? 1 : 0, distance = std::numeric_limits<int>::max();
         if (opts.transparent && c.alpha() < 128) best = 0;
         else for (int i = opts.transparent ? 1 : 0; i < 4; ++i) {
             auto p = rgb555(palette[i]); int r = c.red() - p.red(), g = c.green() - p.green(), b = c.blue() - p.blue(), d = r*r*2 + g*g*4 + b*b;

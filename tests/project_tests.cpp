@@ -54,6 +54,36 @@ private slots:
         cf::ImportOptions options;options.width=8;options.height=8;options.columns=2;options.rows=2;auto imported=cf::convertImage(source,options);QCOMPARE(imported.frameCount(),4);QCOMPARE(imported.frameWidth(),8);QCOMPARE(imported.width,16);QCOMPARE(imported.animations[0].last,3);QCOMPARE(imported.frameImage(3).pixelColor(0,0).alpha(),0);
         auto p=cf::Project::overworldExample();p.world.playerScript+="on_move missing_clip\n";QVERIFY(!p.validate().isEmpty());
     }
+    void minimalImageImport() {
+        // Every console colour must survive decode/encode without cumulative darkening.
+        for(int c=0;c<32768;++c)QCOMPARE(cf::toRgb555(cf::rgb555(c)),quint16(c));
+        QImage source(24,8,QImage::Format_Indexed8);
+        QVector<QRgb> table;for(int i=0;i<256;++i)table<<qRgb(i,255-i,i/2);
+        table[1]=cf::rgb555(1| (7<<5) | (19<<10)).rgb();
+        table[2]=cf::rgb555(17| (3<<5) | (29<<10)).rgb();
+        table[3]=cf::rgb555(30| (22<<5) | (2<<10)).rgb();
+        source.setColorTable(table);source.fill(1);
+        for(int y=0;y<8;++y)for(int x=0;x<24;++x)source.setPixel(x,y,1+x%3);
+        QCOMPARE(cf::usedColorCount(source,true),3);
+        cf::ImportOptions options;options.width=24;options.height=8;options.fit=cf::ImportOptions::Preserve;
+        int colors=0;auto a=cf::convertImage(source,options,&colors);QCOMPARE(colors,3);
+        QCOMPARE(a.image(),source.convertToFormat(QImage::Format_ARGB32));
+        options.width=16;QVERIFY(cf::convertImage(source,options).image().isNull());options.width=24;
+        auto padded=source.convertToFormat(QImage::Format_ARGB32).copy(0,0,23,7);
+        options.width=24;options.height=8;
+        a=cf::convertImage(padded,options);
+        for(int y=0;y<7;++y)for(int x=0;x<23;++x)QCOMPARE(a.image().pixelColor(x,y),padded.pixelColor(x,y));
+        QCOMPARE(a.image().pixelColor(23,7).alpha(),0);
+        QImage hidden(8,8,QImage::Format_ARGB32);hidden.fill(Qt::transparent);
+        hidden.setPixelColor(0,0,Qt::red);hidden.setPixelColor(1,0,QColor(1,2,3,0));
+        QCOMPARE(cf::usedColorCount(hidden,true),1);
+        options.width=options.height=8;options.palette={quint16(31),quint16(31<<5),quint16(31<<10)};
+        a=cf::convertImage(hidden,options);QCOMPARE(a.palette[1],quint16(31));QCOMPARE(a.image().pixelColor(0,0),QColor(Qt::red));
+        for(int y=0;y<8;++y)for(int x=0;x<8;++x)hidden.setPixelColor(x,y,QColor(x*32,y*32,128));
+        a=cf::convertImage(hidden,options,&colors);QVERIFY(colors>3);
+        QCOMPARE(a.palette.mid(1),options.palette);
+        for(auto pixel:a.pixels)QVERIFY(pixel>=1 && pixel<=3);
+    }
     void rasterConversion() {
         QImage source(20,10,QImage::Format_ARGB32); source.fill(Qt::transparent);
         for(int y=1;y<9;++y)for(int x=2;x<18;++x)source.setPixelColor(x,y,QColor(x*12,y*22,140));

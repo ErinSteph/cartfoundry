@@ -262,3 +262,20 @@ bass, and kick/snare/hat percussion, with stereo separation and note velocities.
 | Edit a channel instrument | Channel tab → instrument inspector |
 | Hear one channel | Solo this channel → Play / Loop |
 | Trigger in game | + Event → Sound → select the library entry |
+
+Image import defaults to **Keep original pixels (pad only)** and the source size,
+rounded up to an 8-pixel boundary. It never resamples in this mode; any padding is
+added at the right and bottom. Choose a scale mode explicitly to resize or crop.
+For a sprite sheet, choose the frame grid; each frame keeps its source pixels.
+Current frame limits remain 32×32 for sprites and 128×128 for tilesets. A source
+larger than those limits needs a sheet grid or an explicit resize before import.
+
+Colour counts use colours actually present in visible pixels at GBC RGB555
+precision, ignoring unused indexed-palette entries and transparent sprite pixels
+(alpha below 128). Existing colours are preserved when they fit the shared asset
+palette: three visible colours plus transparency for sprites, four for tilesets.
+Images exceeding that budget show **Reduce visible colours** with a live preview;
+click the palette swatches to tune the reduction or reset to the automatic palette.
+GBC colour precision and binary sprite transparency still apply. Background removal
+and resampling remain explicit choices. Screen-image insertion uses its existing
+160×144 screen conversion.

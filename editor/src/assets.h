@@ -38,13 +38,15 @@ struct ImportOptions {
     int columns=1,rows=1;
     bool screen=false;
     bool smooth = false;
-    enum Fit { Contain, Cover, Stretch } fit = Contain;
+    enum Fit { Contain, Cover, Stretch, Preserve } fit = Contain;
     bool transparent = true;
+    QVector<quint16> palette; // optional user-selected visible colours
     bool removeBackground = false;
     QColor background = Qt::white;
     int tolerance = 24;
 };
-RasterAsset convertImage(const QImage &, const ImportOptions &);
+int usedColorCount(const QImage &, bool transparent);
+RasterAsset convertImage(const QImage &, const ImportOptions &, int *usedColors = nullptr);
 QImage textScreenImage(const QStringList &, const QRect &, bool dmg,const QVector<quint16> &palette={});
 QColor rgb555(quint16 value);
 quint16 toRgb555(QColor value);

@@ -16,12 +16,12 @@ bool importAsset(QWidget *parent, const QString &kind, RasterAsset &result, bool
     auto *name = new QLineEdit(QFileInfo(path).completeBaseName()); settings->addRow("Asset name",name);
     auto *width = new QSpinBox, *height = new QSpinBox; int max = kind == "sprite" ? 32 : 128;
     for (auto *spin : {width,height}) { spin->setRange(8,max); spin->setSingleStep(8); }
-    width->setValue(kind == "sprite" ? 16 : qBound(8,(source.width()/8)*8,128));
-    height->setValue(kind == "sprite" ? 16 : qBound(8,(source.height()/8)*8,128));
+    width->setValue(qBound(8,((source.width()+7)/8)*8,max));
+    height->setValue(qBound(8,((source.height()+7)/8)*8,max));
     auto *sheetColumns=new QSpinBox,*sheetRows=new QSpinBox;sheetColumns->setRange(1,8);sheetRows->setRange(1,8);
     if(kind=="sprite"){settings->addRow("Sheet width (frames)",sheetColumns);settings->addRow("Sheet height (frames)",sheetRows);}
     settings->addRow(kind=="sprite"?"Frame width (pixels)":"Width (pixels)",width);settings->addRow(kind=="sprite"?"Frame height (pixels)":"Height (pixels)",height);
-    auto *fit = new QComboBox; fit->addItems({"Fit inside (keep shape)","Fill and crop","Stretch"}); settings->addRow("Scale mode",fit);
+    auto *fit = new QComboBox; fit->addItems({"Fit inside (keep shape)","Fill and crop","Stretch","Keep original pixels (pad only)"}); fit->setCurrentIndex(3); settings->addRow("Scale mode",fit);
     auto *filter = new QComboBox; filter->addItems({"Nearest neighbour","Smooth downscale"}); settings->addRow("Resampling",filter);
     auto *remove = new QCheckBox("Remove background colour"); remove->setEnabled(kind == "sprite"); settings->addRow(remove);
     QColor key = source.pixelColor(0,0); key.setAlpha(255);
@@ -33,19 +33,45 @@ bool importAsset(QWidget *parent, const QString &kind, RasterAsset &result, bool
     auto *info = new QLabel; info->setWordWrap(true); previewColumn->addWidget(info); columns->addLayout(previewColumn,1); root->addLayout(columns,1);
     auto *buttons = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel); buttons->button(QDialogButtonBox::Ok)->setText(placeAfterImport?"Import && place":"Import asset"); root->addWidget(buttons);
     if(placeAfterImport)root->addWidget(new QLabel("Next: click the map to place this sprite. Escape returns to selection."));
+    auto *reduction=new QGroupBox("Reduce visible colours");
+    auto *reductionLayout=new QVBoxLayout(reduction);
+    auto *colorInfo=new QLabel; colorInfo->setWordWrap(true); reductionLayout->addWidget(colorInfo);
+    auto *paletteRow=new QHBoxLayout; QVector<QPushButton*> paletteButtons;
+    const int available=kind=="sprite"?3:4;
+    for(int i=0;i<available;++i){auto *b=new QPushButton;paletteButtons<<b;paletteRow->addWidget(b);}
+    reductionLayout->addLayout(paletteRow);
+    auto *reset=new QPushButton("Reset to automatic palette");reductionLayout->addWidget(reset);
+    previewColumn->addWidget(reduction);
+    QVector<quint16> customPalette;
     RasterAsset converted;
     auto update = [&] {
         ImportOptions o; o.width=width->value();o.height=height->value();o.transparent=kind=="sprite";o.fit=ImportOptions::Fit(fit->currentIndex());o.smooth=filter->currentIndex()==1;
         if(kind=="sprite"){o.columns=sheetColumns->value();o.rows=sheetRows->value();}
-        o.removeBackground=remove->isChecked();o.background=key;o.tolerance=tolerance->value(); converted=convertImage(source,o);
+        o.palette=customPalette;o.removeBackground=remove->isChecked();o.background=key;o.tolerance=tolerance->value(); int colors=0; converted=convertImage(source,o,&colors);
         auto image=converted.image(); QImage board(360,360,QImage::Format_ARGB32);
         { QPainter p(&board); for(int y=0;y<360;y+=12)for(int x=0;x<360;x+=12)p.fillRect(x,y,12,12,(x/12+y/12)%2?QColor("#889099"):QColor("#bcc2c6"));
           if(!image.isNull()){auto scaled=image.scaled(336,336,Qt::KeepAspectRatio,Qt::FastTransformation);p.drawImage((360-scaled.width())/2,(360-scaled.height())/2,scaled);} }
         preview->setPixmap(QPixmap::fromImage(board));
-        bool valid=!image.isNull() && width->value()%8==0 && height->value()%8==0;
+        bool originalFits=source.width()/o.columns<=o.width && source.height()/o.rows<=o.height;
+        bool valid=!image.isNull() && width->value()%8==0 && height->value()%8==0 && (o.fit!=ImportOptions::Preserve || originalFits);
+        reduction->setVisible(colors>available);
+        colorInfo->setText(QString("%1 visible GBC colours → %2. Click a colour to tune the result. Unused palette entries and transparent pixels do not count.").arg(colors).arg(available));
+        for(int i=0;i<paletteButtons.size();++i){auto c=converted.palette.size()==4?rgb555(converted.palette[i+(o.transparent?1:0)]):QColor(Qt::black);paletteButtons[i]->setText(c.name());paletteButtons[i]->setStyleSheet(QString("background:%1;color:%2").arg(c.name(),c.lightness()<128?"white":"black"));}
         buttons->button(QDialogButtonBox::Ok)->setEnabled(valid);
-        info->setText(valid ? QString("%1 × %2 px per frame · %3 frames · %4 hardware tiles per frame\nSource grid must divide the image evenly. One shared four-colour palette.").arg(o.width).arg(o.height).arg(converted.frameCount()).arg(converted.frameTileCount()) : "Use 8-pixel frame dimensions and a grid that divides the source image evenly.");
+        info->setText(valid ? QString("%1 × %2 px per frame · %3 frames · %4 hardware tiles per frame\nOriginal pixels are kept in pad-only mode. One shared palette; GBC RGB555 precision.").arg(o.width).arg(o.height).arg(converted.frameCount()).arg(converted.frameTileCount()) : "Choose a grid that divides the source evenly and 8-pixel frame dimensions large enough for the original pixels. Resizing requires an explicit scale mode.");
     };
+    for(int i=0;i<paletteButtons.size();++i)QObject::connect(paletteButtons[i],&QPushButton::clicked,&dialog,[&,i]{
+        if(converted.palette.size()!=4)return;
+        auto colors=customPalette;
+        if(colors.isEmpty())for(int j=0;j<available;++j)colors<<converted.palette[j+(kind=="sprite"?1:0)];
+        auto c=QColorDialog::getColor(rgb555(colors[i]),&dialog,"Reduction palette colour");
+        if(c.isValid()){colors[i]=toRgb555(c);customPalette=colors;update();}
+    });
+    QObject::connect(reset,&QPushButton::clicked,&dialog,[&]{customPalette.clear();update();});
+    for(auto *s:{sheetColumns,sheetRows})QObject::connect(s,&QSpinBox::valueChanged,&dialog,[&]{
+        width->setValue(qBound(8,((source.width()/sheetColumns->value()+7)/8)*8,max));
+        height->setValue(qBound(8,((source.height()/sheetRows->value()+7)/8)*8,max));
+    });
     for(auto *s:{width,height,tolerance,sheetColumns,sheetRows}) QObject::connect(s,&QSpinBox::valueChanged,&dialog,update);
     for(auto *c:{fit,filter}) QObject::connect(c,&QComboBox::currentIndexChanged,&dialog,update);
     QObject::connect(remove,&QCheckBox::toggled,&dialog,update);
