@@ -45,6 +45,7 @@ struct ImportOptions {
     QColor background = Qt::white;
     int tolerance = 24;
 };
+ImportOptions guessSpriteSheet(const QImage &, const QString &filename = {});
 int usedColorCount(const QImage &, bool transparent);
 RasterAsset convertImage(const QImage &, const ImportOptions &, int *usedColors = nullptr);
 QImage textScreenImage(const QStringList &, const QRect &, bool dmg,const QVector<quint16> &palette={});

@@ -54,6 +54,15 @@ private slots:
         cf::ImportOptions options;options.width=8;options.height=8;options.columns=2;options.rows=2;auto imported=cf::convertImage(source,options);QCOMPARE(imported.frameCount(),4);QCOMPARE(imported.frameWidth(),8);QCOMPARE(imported.width,16);QCOMPARE(imported.animations[0].last,3);QCOMPARE(imported.frameImage(3).pixelColor(0,0).alpha(),0);
         auto p=cf::Project::overworldExample();p.world.playerScript+="on_move missing_clip\n";QVERIFY(!p.validate().isEmpty());
     }
+    void guessSpriteFrames(){
+        QImage sheet(64,32,QImage::Format_ARGB32);sheet.fill(Qt::red);
+        auto o=cf::guessSpriteSheet(sheet);QCOMPARE(o.width,16);QCOMPARE(o.height,16);QCOMPARE(o.columns,4);QCOMPARE(o.rows,2);QCOMPARE(cf::convertImage(sheet,o).image().size(),sheet.size());
+        o=cf::guessSpriteSheet(sheet,"hero_32x16");QCOMPARE(o.width,32);QCOMPARE(o.height,16);QCOMPARE(o.columns,2);
+        o=cf::guessSpriteSheet(sheet,"hero_2x2");QCOMPARE(o.width,32);QCOMPARE(o.height,16);
+        o=cf::guessSpriteSheet(QImage(24,32,QImage::Format_ARGB32));QCOMPARE(o.columns,1);QCOMPARE(o.rows,1);QCOMPARE(o.width,24);QCOMPARE(o.height,32);
+        o=cf::guessSpriteSheet(QImage(192,128,QImage::Format_ARGB32));QVERIFY(o.columns<=8);QVERIFY(o.rows<=8);QCOMPARE(o.width*o.columns,192);QCOMPARE(o.height*o.rows,128);
+        o=cf::guessSpriteSheet(QImage(31,17,QImage::Format_ARGB32));QCOMPARE(o.columns,1);QCOMPARE(o.rows,1);QCOMPARE(o.width,32);QCOMPARE(o.height,24);
+    }
     void minimalImageImport() {
         // Every console colour must survive decode/encode without cumulative darkening.
         for(int c=0;c<32768;++c)QCOMPARE(cf::toRgb555(cf::rgb555(c)),quint16(c));

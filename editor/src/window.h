@@ -42,6 +42,7 @@ private:
     QVector<Project> undo, redo;
     bool filling = false, building = false, runAfterBuild = false;
     EmulatorWidget *emulator;
+    int previewScene=-1,previewCursor=-1;void previewChoose(int);
     int previewPrompt = 0, previewChoice = 0, previewMenu=-1, previewSide=0, previewItem=0;bool previewReadOnly=false;
     GraphView *graph;
     QListWidget *promptList;

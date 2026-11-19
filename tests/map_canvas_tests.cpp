@@ -3,12 +3,23 @@
 #include "event_tools.h"
 #include "importer.h"
 #include "animation_editor.h"
+#include "screen_builder.h"
+#include "menu_model.h"
+#include "menu_tools.h"
+#include "pixel_editor.h"
 #include "sound_editor.h"
 #include "piano_roll.h"
 #include <QtWidgets>
 class MapCanvasTests:public QObject {
  Q_OBJECT
 private slots:
+ void menuAndKeyboardBuilders(){
+  auto p=cf::Project::blank();cf::ScreenBuilder editor;editor.onEdit=[&](const cf::Project &next){p=next;editor.setProject(p);};editor.setProject(p);
+  QPushButton *preset=nullptr;for(auto *button:editor.findChildren<QPushButton*>())if(button->text()=="+ Menu preset…")preset=button;QVERIFY(preset);
+  QTimer::singleShot(0,[]{if(auto *dialog=qobject_cast<QInputDialog*>(QApplication::activeModalWidget()))dialog->accept();});preset->click();QCOMPARE(p.pauseMenu,QString("pause_menu"));QVERIFY(p.saveConfig.enabled);QVERIFY2(p.validate().isEmpty(),qPrintable(p.validate().join('\n')));
+  bool changed=false;QTimer::singleShot(0,[&]{auto *dialog=qobject_cast<QDialog*>(QApplication::activeModalWidget());if(!dialog)return;auto *tabs=dialog->findChild<QTabWidget*>();tabs->setCurrentIndex(1);auto *keys=dialog->findChild<QTableWidget*>("keyboardTable");keys->item(0,2)->setText("ABC123");auto *cols=qobject_cast<QSpinBox*>(keys->cellWidget(0,3));cols->setValue(3);tabs->setCurrentIndex(2);auto *detected=dialog->findChild<QListWidget*>("detectedSaveFields");changed=detected&&detected->count()>=3;dialog->findChild<QDialogButtonBox*>()->button(QDialogButtonBox::Ok)->click();});QVERIFY(cf::menuBuilders(nullptr,p));QVERIFY(changed);QCOMPARE(p.keyboards[0].characters,QString("ABC123"));QCOMPARE(p.keyboards[0].columns,3);
+  cf::PixelEditor pixels;bool sprite=false,tiles=false;for(auto *button:pixels.findChildren<QPushButton*>()){sprite|=button->text()=="Import sprite / sheet…";tiles|=button->text()=="Import tileset…";}QVERIFY(sprite);QVERIFY(tiles);
+ }
  void removeSpriteSheet(){
   cf::AnimationEditor editor;auto p=cf::Project::overworldExample();
   auto asset=p.assets.last();asset.id="unused_sprite";asset.name="Unused sprite";asset.kind="sprite";p.assets<<asset;

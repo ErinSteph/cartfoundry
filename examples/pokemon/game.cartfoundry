@@ -25,23 +25,32 @@
                 {
                     "duration": 30,
                     "first": 0,
+                    "flipH": false,
+                    "flipV": false,
                     "last": 0,
                     "loop": true,
-                    "name": "idle"
+                    "name": "idle",
+                    "reverse": false
                 },
                 {
                     "duration": 24,
                     "first": 0,
+                    "flipH": false,
+                    "flipV": false,
                     "last": 3,
                     "loop": true,
-                    "name": "walk"
+                    "name": "walk",
+                    "reverse": false
                 },
                 {
                     "duration": 30,
                     "first": 1,
+                    "flipH": false,
+                    "flipV": false,
                     "last": 3,
                     "loop": false,
-                    "name": "wave"
+                    "name": "wave",
+                    "reverse": false
                 }
             ],
             "columns": 2,
@@ -159,6 +168,19 @@
                 0
             ],
             "text": "Pikachu is yours!\nCatch 3 wild Pokemon\nin the long grass.\nNurse heals north.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -197,6 +219,19 @@
                 0
             ],
             "text": "Wild HP {wild_hp}\nPikachu HP {hp}\nWeaken, then catch!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -223,6 +258,19 @@
                 0
             ],
             "text": "Bulbasaur joins\nyour party!\nCaught {caught} of 3",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -249,6 +297,19 @@
                 0
             ],
             "text": "A wild friend from\nthe meadow.\nUse the PC to view\nyour collection.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -287,6 +348,19 @@
                 280
             ],
             "text": "Wild HP {wild_hp}\nPikachu HP {hp}\nWeaken, then catch!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -313,6 +387,19 @@
                 280
             ],
             "text": "Charmander joins\nyour party!\nCaught {caught} of 3",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -339,6 +426,19 @@
                 280
             ],
             "text": "A wild friend from\nthe meadow.\nUse the PC to view\nyour collection.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -377,6 +477,19 @@
                 280
             ],
             "text": "Wild HP {wild_hp}\nPikachu HP {hp}\nWeaken, then catch!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -403,6 +516,19 @@
                 560
             ],
             "text": "Squirtle joins\nyour party!\nCaught {caught} of 3",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -429,6 +555,19 @@
                 560
             ],
             "text": "A wild friend from\nthe meadow.\nUse the PC to view\nyour collection.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -449,6 +588,19 @@
                 560
             ],
             "text": "Pikachu attacks!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -469,6 +621,19 @@
                 560
             ],
             "text": "Throwing a ball...",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -489,6 +654,19 @@
                 840
             ],
             "text": "A wild Pokemon!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -515,6 +693,19 @@
                 840
             ],
             "text": "The wild Pokemon\nfled after battle.\nWins {wins}\nTry catching next!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -541,6 +732,19 @@
                 840
             ],
             "text": "You escaped safely.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -567,6 +771,19 @@
                 840
             ],
             "text": "Pikachu needs rest.\nGo north to Nurse\nfor free healing.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -593,6 +810,19 @@
                 1120
             ],
             "text": "The ball broke open!\nThe wild attacked.\nPikachu HP {hp}",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -619,6 +849,19 @@
                 1120
             ],
             "text": "Ask Nurse for more\nPoke Balls.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -645,6 +888,19 @@
                 1120
             ],
             "text": "This Pokemon is\nalready in your\nparty. Find another!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -671,6 +927,19 @@
                 1120
             ],
             "text": "Your party is full.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -709,6 +978,19 @@
                 1400
             ],
             "text": "Free healing and\nPoke Ball refills.\nCaught all 3 yet?",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -735,6 +1017,19 @@
                 1400
             ],
             "text": "Pikachu has 20 HP.\nYour bag has fresh\nPoke Balls. Good luck!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -761,6 +1056,19 @@
                 1400
             ],
             "text": "Caught {caught} of 3\nFind Bulbasaur,\nCharmander and\nSquirtle in grass.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -787,6 +1095,19 @@
                 1400
             ],
             "text": "You caught all 3!\nYour tiny adventure\nis complete. Keep\nexploring for fun.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -813,6 +1134,19 @@
                 1680
             ],
             "text": "Pikachu HP {hp}\nReady to explore!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -839,6 +1173,19 @@
                 1680
             ],
             "text": "Use Catch during\nbattle. Weaken wild\nPokemon to 4 HP\nfor a sure catch.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -865,6 +1212,19 @@
                 1680
             ],
             "text": "Your loyal starter!\nBattle with Fight;\nrest with Nurse.\nHP {hp} of 20",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -891,6 +1251,19 @@
                 1680
             ],
             "text": "Grass may hide wild\nPokemon. Weaken to\n4 HP before Catch.\nSelect opens Bag.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
             "textbox": [
                 0,
                 5,
@@ -900,6 +1273,10 @@
             "title": "LONG GRASS"
         }
     ],
+    "settings": {
+        "defaultScene": "scene_main",
+        "splashTicks": 120
+    },
     "systems": {
         "items": [
             {
@@ -957,6 +1334,8 @@
                 "useScript": "dialogue dex_squirtle"
             }
         ],
+        "keyboards": [
+        ],
         "maps": [
             {
                 "id": "map_main",
@@ -983,10 +1362,36 @@
                 "name": "Nurse"
             }
         ],
+        "pauseMenu": "",
+        "rngSeed": 44257,
+        "save": {
+            "enabled": false,
+            "excludedStorages": [
+            ],
+            "excludedText": [
+            ],
+            "excludedVariables": [
+            ],
+            "id": "",
+            "position": true,
+            "random": true,
+            "slots": 3,
+            "storages": true,
+            "text": true,
+            "timers": true,
+            "variables": true
+        },
         "scenes": [
             {
+                "background": 26557,
+                "elements": [
+                ],
                 "id": "scene_main",
-                "name": "Main Scene"
+                "kind": "world",
+                "name": "Main Scene",
+                "onBack": "",
+                "onSceneEnter": "sound loop song_1\ndialogue intro",
+                "startArea": "meadow"
             }
         ],
         "scripts": [
@@ -1031,6 +1436,1156 @@
                 "source": "if has party bulbasaur >= 1\n if has party charmander >= 1\n  if has party squirtle >= 1\n   dialogue complete\n  else\n   dialogue progress\n  end\n else\n  dialogue progress\n end\nelse\n dialogue progress\nend"
             }
         ],
+        "sounds": [
+            {
+                "bpm": 120,
+                "channels": [
+                    {
+                        "dac": true,
+                        "drumKit": true,
+                        "duty": 2,
+                        "enabled": true,
+                        "envelopePace": 0,
+                        "envelopeUp": false,
+                        "length": 0,
+                        "noiseDivider": 3,
+                        "noiseNarrow": false,
+                        "noiseShift": 4,
+                        "notes": [
+                            {
+                                "noise": -1,
+                                "note": 68,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 68,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 71,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 69,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 68,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 45,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 60,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 63,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 69,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 68,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 68,
+                                "ticks": 45,
+                                "volume": -1
+                            }
+                        ],
+                        "pan": 3,
+                        "sweepDown": false,
+                        "sweepPace": 0,
+                        "sweepShift": 0,
+                        "volume": 10,
+                        "wave": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            15,
+                            14,
+                            13,
+                            12,
+                            11,
+                            10,
+                            9,
+                            8,
+                            7,
+                            6,
+                            5,
+                            4,
+                            3,
+                            2,
+                            1,
+                            0
+                        ],
+                        "waveLevel": 1
+                    },
+                    {
+                        "dac": true,
+                        "drumKit": true,
+                        "duty": 0,
+                        "enabled": true,
+                        "envelopePace": 2,
+                        "envelopeUp": false,
+                        "length": 8,
+                        "noiseDivider": 3,
+                        "noiseNarrow": false,
+                        "noiseShift": 4,
+                        "notes": [
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            }
+                        ],
+                        "pan": 3,
+                        "sweepDown": false,
+                        "sweepPace": 0,
+                        "sweepShift": 0,
+                        "volume": 10,
+                        "wave": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            15,
+                            14,
+                            13,
+                            12,
+                            11,
+                            10,
+                            9,
+                            8,
+                            7,
+                            6,
+                            5,
+                            4,
+                            3,
+                            2,
+                            1,
+                            0
+                        ],
+                        "waveLevel": 1
+                    },
+                    {
+                        "dac": true,
+                        "drumKit": true,
+                        "duty": 2,
+                        "enabled": true,
+                        "envelopePace": 0,
+                        "envelopeUp": false,
+                        "length": 0,
+                        "noiseDivider": 3,
+                        "noiseNarrow": false,
+                        "noiseShift": 4,
+                        "notes": [
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 49,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 49,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            }
+                        ],
+                        "pan": 3,
+                        "sweepDown": false,
+                        "sweepPace": 0,
+                        "sweepShift": 0,
+                        "volume": 10,
+                        "wave": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            15,
+                            14,
+                            13,
+                            12,
+                            11,
+                            10,
+                            9,
+                            8,
+                            7,
+                            6,
+                            5,
+                            4,
+                            3,
+                            2,
+                            1,
+                            0
+                        ],
+                        "waveLevel": 1
+                    },
+                    {
+                        "dac": true,
+                        "drumKit": true,
+                        "duty": 2,
+                        "enabled": true,
+                        "envelopePace": 0,
+                        "envelopeUp": false,
+                        "length": 14,
+                        "noiseDivider": 3,
+                        "noiseNarrow": false,
+                        "noiseShift": 4,
+                        "notes": [
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 76,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 29,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 76,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 29,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 76,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 29,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 76,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            }
+                        ],
+                        "pan": 3,
+                        "sweepDown": false,
+                        "sweepPace": 0,
+                        "sweepShift": 0,
+                        "volume": 10,
+                        "wave": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            15,
+                            14,
+                            13,
+                            12,
+                            11,
+                            10,
+                            9,
+                            8,
+                            7,
+                            6,
+                            5,
+                            4,
+                            3,
+                            2,
+                            1,
+                            0
+                        ],
+                        "waveLevel": 1
+                    }
+                ],
+                "duty": 2,
+                "effect": false,
+                "id": "song_1",
+                "masterLeft": 7,
+                "masterRight": 7,
+                "name": "New song",
+                "notes": [
+                    {
+                        "noise": -1,
+                        "note": 68,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 64,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 68,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 71,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 0,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 69,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 0,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 68,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 64,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 66,
+                        "ticks": 45,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 0,
+                        "ticks": 60,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 66,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 63,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 66,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 69,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 0,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 66,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 0,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 68,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 64,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 68,
+                        "ticks": 45,
+                        "volume": -1
+                    }
+                ],
+                "volume": 10
+            }
+        ],
         "storages": [
             {
                 "contents": {
@@ -1049,6 +2604,10 @@
                 "name": "Pokemon party",
                 "slots": 4
             }
+        ],
+        "textFields": [
+        ],
+        "timers": [
         ],
         "variables": [
             {
@@ -1083,7 +2642,7 @@
     },
     "target": "gbc",
     "title": "Pocket Meadow",
-    "version": 4,
+    "version": 6,
     "world": {
         "actors": [
             {
@@ -1131,9 +2690,9 @@
                 "y": 5
             }
         ],
-        "onStart": "dialogue intro",
+        "onStart": "",
         "player": "trainer",
-        "playerScript": "behavior top_down\nspeed 1\nevery 1\nanimation idle\non_move walk\non_idle idle\n",
+        "playerScript": "behavior top_down\nspeed 1\nevery 1\naxis x\nrange 32\nsight 80\non_touch none\nanimation idle\non_move walk\non_idle idle\non_interact none\nflip_h no\nflip_v no\nmirror_facing no\n",
         "spawnX": 4,
         "spawnY": 8,
         "terrainEvents": [

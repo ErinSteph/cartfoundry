@@ -11,6 +11,7 @@
 #include <QTemporaryDir>
 #include <cmath>
 #include "sound_compile.h"
+#include "menu_model.h"
 namespace cf {
 QString resourceRoot() {
     const auto app = QCoreApplication::applicationDirPath();
@@ -50,7 +51,13 @@ static QString headerFor(const Project &p,BankWriter *banks,const QString &root)
     else{QStringList tracks;int mask=0;for(int ch=0;ch<4;++ch){auto &track=clip.channels[ch];auto code=compileSoundTrack(track);QString noteName=name+"_notes_"+QString::number(ch);int bank=emitNotes(noteName,track.notes,track,ch);QStringList wave;for(auto b:code.wave)wave<<QString::number(b);tracks<<QString("{%1,%2,%3,%4,%5,%6,%7,%8,%9,{%10},%11,%12}").arg(code.count).arg(code.duty).arg(code.volume).arg(code.pan).arg(code.envelope).arg(code.sweep).arg(code.length).arg(code.dac).arg(code.wave_level).arg(wave.join(",")).arg(noteName).arg(bank);if(track.enabled)mask|=1<<ch;}
     QString trackName=name+"_tracks",data="const CFSoundTrack "+trackName+"[]={"+tracks.join(",")+"};";int bank=0;if(banks){bank=banks->add(data,4*32);s+="extern const CFSoundTrack "+trackName+"[];\n";}else s+="static "+data+"\n";soundDefs<<QString("{0,0,0,0,0,%1,%2,%3,%4,%5,%6}").arg(trackName).arg(bank).arg(mask).arg((clip.masterLeft<<4)|clip.masterRight).arg(soundDuration(clip)).arg(clip.effect?1:0);}}
     s+="static const CFSoundClip cf_sound_clips[]={"+(soundDefs.isEmpty()?QString("{0}"):soundDefs.join(","))+"};\n";
-    s+=QString("static const CFGameDef cf_game_def={%1,%2,%3,cf_initial_vars,cf_stack_limits,cf_storage_defs,%4,%5,cf_timers,%6,cf_sound_clips};\n").arg(p.variables.size()).arg(p.items.size()).arg(p.storages.size()).arg(p.rngSeed).arg(p.timers.size()).arg(p.sounds.size());
+    QStringList texts,keys;for(auto &t:p.textFields)texts<<QString("{%1,%2}").arg(literal(t.initial)).arg(t.limit);
+    for(auto &k:p.keyboards)keys<<QString("{%1,%2,%3,%4,%5,%6}").arg(literal(k.name),literal(k.characters)).arg(k.characters.size()).arg(k.columns).arg(k.x).arg(k.y);
+    s+="static const CFTextDef cf_text_defs[]={"+(texts.isEmpty()?QString("{0}"):texts.join(","))+"};\nstatic const CFKeyboardDef cf_keyboards[]={"+(keys.isEmpty()?QString("{0}"):keys.join(","))+"};\n";
+    auto save=saveDefinition(p);QString saveData=QString("{%1UL,%2UL,%3,%4,%5,%6}").arg(save.schema).arg(save.variables).arg(save.texts).arg(save.storages).arg(save.flags).arg(save.slot_count);
+    s+=QString("static const CFGameDef cf_game_def={%1,%2,%3,cf_initial_vars,cf_stack_limits,cf_storage_defs,%4,%5,cf_timers,%6,cf_sound_clips,%7,%8,cf_text_defs,cf_keyboards,%9};\n").arg(p.variables.size()).arg(p.items.size()).arg(p.storages.size()).arg(p.rngSeed).arg(p.timers.size()).arg(p.sounds.size()).arg(p.textFields.size()).arg(p.keyboards.size()).arg(saveData);
+    s+=QString("#define CF_SAVE_ENABLED %1\n#define CF_PAUSE_MENU %2\n").arg(p.saveConfig.enabled?1:0).arg(p.sceneIndex(p.pauseMenu)<0?255:p.sceneIndex(p.pauseMenu));
+    s+="static const CFProgram cf_pause_program="+program(p.pauseMenu.isEmpty()?QString():"menu "+p.pauseMenu)+";\n";
     s+="static const char *const cf_item_names[]={"+(itemNames.isEmpty()?QString("\"\""):itemNames.join(","))+"};\nstatic const char *const cf_storage_names[]={"+storageNames.join(",")+"};\n";
     s+="static const uint8_t cf_item_consumable[]={"+(consumable.isEmpty()?QString("0"):consumable.join(","))+"};\n";
     QMap<QString,QString> textPalettes;for(int i=0;i<p.prompts.size();++i)if(!p.prompts[i].textPalette.isEmpty()){QString id="cf_text_palette_"+QString::number(i);textPalettes[p.prompts[i].id]=id;s+="static const uint16_t "+id+"[]={";for(auto c:p.prompts[i].textPalette)s+=QString::number(c)+",";s+="};\n";}
@@ -83,7 +90,7 @@ static QString headerFor(const Project &p,BankWriter *banks,const QString &root)
     if (p.hasWorldScenes()) {
         auto code=[&](const QString &script){BehaviorSpec b;QString error;parseBehavior(script,b,error);return QString("{%1,%2,%3,%4,%5,%6,%7,%8}").arg(b.code.kind).arg(b.code.speed).arg(b.code.interval).arg(b.code.axis).arg(b.code.range).arg(b.code.sight).arg(b.prompt.isEmpty()?255:p.indexOf(b.prompt)).arg(b.code.flags);};
         auto animations=[&](const QString &name,const RasterAsset &asset){s+="static const CFAnimation "+name+"[]={";for(auto clip:asset.clips())s+=QString("{%1,%2,%3,%4,%5},").arg(clip.first).arg(clip.last).arg(clip.duration).arg(clip.loop).arg(clip.flags);s+="};\n";};
-        auto bindings=[&](const QString &script,const RasterAsset &asset){BehaviorSpec b;QString error;parseBehavior(script,b,error);auto v=animationBindings(b,asset);return QString("{%1,%2,%3,%4}").arg(v.base).arg(v.move).arg(v.idle).arg(v.action);};
+        auto bindings=[&](const QString &script,const RasterAsset &asset){BehaviorSpec b;QString error;parseBehavior(script,b,error);auto v=animationBindings(b,asset);return QString("{%1,%2,%3,%4,%5,{%6,%7,%8,%9},{%10,%11,%12,%13}}").arg(v.base).arg(v.move).arg(v.idle).arg(v.action).arg(v.directional).arg(v.move_dir[0]).arg(v.move_dir[1]).arg(v.move_dir[2]).arg(v.move_dir[3]).arg(v.idle_dir[0]).arg(v.idle_dir[1]).arg(v.idle_dir[2]).arg(v.idle_dir[3]);};
         auto maps=p.runtimeAreas();QStringList descriptors,ids;for(const auto&w:maps)ids<<w.id;
         for(int index=0;index<maps.size();++index){
             const auto &w=maps[index];const auto *ts=p.asset(w.tileset),*sp=p.asset(w.player);QString prefix=QString("cf_area_%1_").arg(index);
@@ -106,7 +113,7 @@ static QString headerFor(const Project &p,BankWriter *banks,const QString &root)
     }
     s+="#pragma constseg HOME\n";
     auto bitmap=[&](const QString &name,const QImage &image,int base){auto b=screenBitmap(image,p.target=="gb",base);QString definition="const uint8_t "+name+"_tiles[]={";for(auto byte:b.tiles)definition+=QString::number(quint8(byte))+",";definition+="};\nconst uint8_t "+name+"_map[]={";for(auto byte:b.map)definition+=QString::number(quint8(byte))+",";definition+="};\nconst uint16_t "+name+"_palette[]={";for(auto color:b.palette)definition+=QString::number(color)+",";definition+="};";int bank=0;if(banks){bank=banks->add(definition,b.tiles.size()+368);s+="extern const uint8_t "+name+"_tiles[],"+name+"_map[];\nextern const uint16_t "+name+"_palette[];\n";}else s+=definition+"\n";s+=QString("static const CFBitmap %1={%2,%3,%1_tiles,%1_map,%1_palette};\n").arg(name).arg(bank).arg(b.tiles.size()/16);};
-    bitmap("cf_splash",QImage(root+"/images/splash_"+p.target+".png"),0);
+    bitmap("cf_splash",QImage(root+"/images/splash_2_"+p.target+".png"),0);
     QStringList sceneDefs;auto areas=p.runtimeAreas();for(int index=0;index<p.scenes.size();++index){auto &scene=p.scenes[index];QString name="cf_scene_"+QString::number(index);bool image=false;for(auto &e:scene.elements)if(e.type=="image")image=true;if(image)bitmap(name+"_image",sceneBackdrop(p,scene),128);QStringList elements;for(auto &e:scene.elements){CFCondition c{};QString error;compiler.condition(e.condition,c,error);elements<<QString("{%1,%2,%3,%4,%5,%6,%7,{%8,%9,%10,%11,%12,%13},%14}").arg(e.type=="button"?1:e.type=="panel"?2:e.type=="image"?3:0).arg(e.rect.x()).arg(e.rect.y()).arg(e.rect.width()).arg(e.rect.height()).arg(e.align).arg(literal(encodeGameText(p,e.text))).arg(c.type).arg(c.a).arg(c.b).arg(c.compare).arg(c.rhs_variable).arg(c.value).arg(program(e.actions));}s+="static const CFScreenElement "+name+"_elements[]={"+(elements.isEmpty()?QString("{0}"):elements.join(","))+"};\n";int area=255;for(int i=0;i<areas.size();++i)if(areas[i].id==scene.startArea)area=i;sceneDefs<<QString("{%1,%2,%3,%4,%5,%6_elements,%7,%8}").arg(scene.kind=="world"?1:0).arg(area).arg(scene.elements.size()).arg(scene.background).arg(image?"&"+name+"_image":"0").arg(name).arg(program(scene.onSceneEnter),program(scene.onBack));}
     s+=QString("#define CF_DEFAULT_SCENE %1\n#define CF_SCENE_COUNT %2\n#define CF_SPLASH_TICKS %3\nstatic const CFScene cf_scenes[]={%4};\n").arg(qMax(0,p.sceneIndex(p.defaultScene))).arg(p.scenes.size()).arg(p.splashTicks).arg(sceneDefs.join(","));
     QStringList owners;for(auto &a:areas)owners<<QString::number(p.sceneIndex(p.areaScene(a.id)));s+="static const uint8_t cf_area_scene[]={"+(owners.isEmpty()?QString("0"):owners.join(","))+"};\n";
@@ -124,12 +131,12 @@ BuildResult buildRom(const Project &p, const QString &output, const QString &res
     const QString compiler = root + "/tools/gbdk/bin/lcc";
 #endif
     if (!QFileInfo::exists(compiler)) { r.log = "Bundled GBDK compiler is missing: " + compiler; return r; }
-    QImage splash(root+"/images/splash_"+p.target+".png");if(splash.size()!=QSize(160,144)||screenBitmap(splash,p.target=="gb").tiles.size()>256*16){r.log="Bundled platform splash must be 160×144 and fit 256 unique tiles.";return r;}
+    QImage splash(root+"/images/splash_2_"+p.target+".png");if(splash.size()!=QSize(160,144)||screenBitmap(splash,p.target=="gb").tiles.size()>256*16){r.log="Bundled platform splash must be 160×144 and fit 256 unique tiles.";return r;}
     QTemporaryDir temp;
     if (!temp.isValid()) { r.log = "Cannot create build workspace."; return r; }
     const auto work = temp.path();
     if(qEnvironmentVariableIsSet("CF_DEBUG_BUILD"))temp.setAutoRemove(false);
-    for (auto f : {"main.c", "cf_flow.c", "cf_flow.h", "cf_world.c", "cf_world.h", "cf_font.h", "cf_area.h", "cf_behavior.c", "cf_behavior.h", "cf_animation.c", "cf_animation.h", "cf_game.c", "cf_game.h", "cf_sound.c", "cf_sound.h", "cf_raycast.c", "cf_raycast.h", "cf_bank.h", "cf_bank.c", "cf_scene.h"}) {
+    for (auto f : {"main.c", "cf_flow.c", "cf_flow.h", "cf_world.c", "cf_world.h", "cf_font.h", "cf_area.h", "cf_behavior.c", "cf_behavior.h", "cf_animation.c", "cf_animation.h", "cf_game.c", "cf_save.c", "cf_game.h", "cf_sound.c", "cf_sound.h", "cf_raycast.c", "cf_raycast.h", "cf_bank.h", "cf_bank.c", "cf_scene.h"}) {
         if (!QFile::copy(root + "/runtime/" + f, work + "/" + f)) { r.log = "Cannot copy runtime: " + QString(f); return r; }
     }
     QFile header(work + "/project.h");
@@ -140,11 +147,12 @@ BuildResult buildRom(const Project &p, const QString &output, const QString &res
     QStringList bankFiles;for(auto i=banks.files.begin();i!=banks.files.end();++i){QString filename="bank_"+QString::number(i.key())+".c";QFile file(work+"/"+filename);if(!file.open(QIODevice::WriteOnly)){r.log=file.errorString();return r;}file.write((QString("#pragma bank %1\n#include \"cf_game.h\"\n").arg(i.key())+i.value()).toUtf8());bankFiles<<filename;}int romBanks=4;while(romBanks<=banks.bank)romBanks*=2;
     QProcess process; process.setWorkingDirectory(work); process.setProcessChannelMode(QProcess::MergedChannels);
     // MBC5: fixed gameplay tables, banked event code and screen resources.
-    QStringList flags{"-msm83:gb", "-Wf--opt-code-size", "-Wm-ynCARTFOUNDRY", "-Wl-yt0x19", "-Wl-yo"+QString::number(romBanks), "-Wl-m", "-Wl-b_MAIN=0x4000", "-o", "game.gbc", "main.c", "cf_flow.c", "cf_world.c", "cf_behavior.c", "cf_animation.c", "cf_game.c", "cf_sound.c", "cf_raycast.c", "cf_bank.c"};flags+=bankFiles;
+    QStringList flags{"-msm83:gb", "-Wf--opt-code-size", "-Wm-ynCARTFOUNDRY", "-Wl-yt0x19", "-Wl-yo"+QString::number(romBanks), "-Wl-m", "-Wl-b_MAIN=0x4000", "-o", "game.gbc", "main.c", "cf_flow.c", "cf_world.c", "cf_behavior.c", "cf_animation.c", "cf_game.c", "cf_save.c", "cf_sound.c", "cf_raycast.c", "cf_bank.c"};flags+=bankFiles;
+    if(p.saveConfig.enabled){flags[flags.indexOf("-Wl-yt0x19")]="-Wl-yt0x1b";flags<<"-Wl-ya1";}
     if (p.target == "gbc") flags.prepend("-Wm-yC");
     process.start(compiler, flags);
     if (!process.waitForStarted(10000)) { r.log = process.errorString(); return r; }
-    if (!process.waitForFinished(60000)) { process.kill(); process.waitForFinished(); r.log = "Compiler timed out.\n" + QString::fromLocal8Bit(process.readAll()); return r; }
+    if (!process.waitForFinished(180000)) { process.kill(); process.waitForFinished(); r.log = "Compiler timed out.\n" + QString::fromLocal8Bit(process.readAll()); return r; }
     r.log = QString::fromLocal8Bit(process.readAll());if(qEnvironmentVariableIsSet("CF_DEBUG_BUILD"))r.log+="\nBuild workspace: "+work+"\n";
     if(r.log.contains("spans into the next")||r.log.contains("Multiple write")||r.log.contains("Possible overflow")){r.log.prepend("ROM bank overflow; reduce project resources.\n");return r;}
     if (process.exitStatus() != QProcess::NormalExit || process.exitCode() != 0) { r.log.prepend("ROM compilation failed.\n"); return r; }

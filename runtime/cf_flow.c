@@ -22,3 +22,6 @@ uint8_t cf_step(CFState *state, const CFPrompt *prompts, uint8_t count, uint8_t 
 }
 
 void cf_text_layout(const CFPrompt *p,CFTextLayout *out) CF_FLOW_CALL {int16_t cols=p->box_w-2*p->padding,body=p->padding+((p->text_flags&2)?2:0),footer=p->box_h-1-p->padding,choice=footer+((p->text_flags&4)?0:1)-p->choice_count*p->choice_spacing,rows=choice-1-body;out->columns=cols>0?cols:1;out->body_rows=rows>0?rows:0;out->body_row=body;out->choice_row=choice>0?choice:0;out->footer_row=footer>0?footer:0;}
+
+uint8_t cf_menu_push(CFMenuStack *s,const CFMenuFrame *frame) CF_FLOW_CALL {if(s->depth>=4)return 0;s->frames[s->depth++]=*frame;return 1;}
+uint8_t cf_menu_pop(CFMenuStack *s,CFMenuFrame *frame) CF_FLOW_CALL {if(!s->depth)return 0;*frame=s->frames[--s->depth];return 1;}

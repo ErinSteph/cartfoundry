@@ -19,12 +19,13 @@ void cf_animation_init(CFAnimationController *c,const CFAnimation *clips,uint8_t
     c->clip=b.base<count?b.base:0;c->action_active=0;
     if(count)cf_animation_play(&c->state,&clips[c->clip]);else{c->state.frame=0;c->state.playing=0;c->state.finished=1;c->state.elapsed=c->state.phase=0;}
 }
-uint8_t cf_animation_update(CFAnimationController *c,const CFAnimation *clips,uint8_t count,CFAnimationBindings b,uint8_t moving,uint8_t fire){
-    uint8_t desired,old=c->state.frame;
+uint8_t cf_animation_update_facing(CFAnimationController *c,const CFAnimation *clips,uint8_t count,const CFAnimationBindings *bp,uint8_t moving,uint8_t fire,int8_t facing_x,int8_t facing_y){
+    uint8_t desired,move=bp->move,idle=bp->idle,base=bp->base,action=bp->action,old=c->state.frame;
+    if(bp->directional){uint8_t d=facing_x<0?CF_DIR_LEFT:facing_x>0?CF_DIR_RIGHT:facing_y<0?CF_DIR_UP:CF_DIR_DOWN;if(bp->move_dir[d]<count)move=bp->move_dir[d];if(bp->idle_dir[d]<count)idle=bp->idle_dir[d];}
     if(!count)return 0;
-    if(fire && b.action<count){c->clip=b.action;c->action_active=1;cf_animation_play(&c->state,&clips[c->clip]);return old!=c->state.frame;}
+    if(fire && action<count){c->clip=action;c->action_active=1;cf_animation_play(&c->state,&clips[c->clip]);return old!=c->state.frame;}
     if(c->action_active && (c->state.finished || (moving && clips[c->clip].loop)))c->action_active=0;
-    desired=moving && b.move<count?b.move:!moving && b.idle<count?b.idle:b.base<count?b.base:0;
+    desired=moving && move<count?move:!moving && idle<count?idle:base<count?base:0;
     if(!c->action_active && desired!=c->clip){c->clip=desired;cf_animation_play(&c->state,&clips[desired]);}
     else cf_animation_tick(&c->state,&clips[c->clip]);
     return old!=c->state.frame;

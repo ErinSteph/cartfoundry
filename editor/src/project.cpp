@@ -1,4 +1,5 @@
 #include "project.h"
+#include "menu_model.h"
 #include "game_script.h"
 #include <QFile>
 #include <QJsonArray>
@@ -155,7 +156,7 @@ QStringList Project::validate() const {
         for(auto c:p.textPalette)if(c>32767)errors<<prefix+": text colours must be RGB555.";
         if(p.showFooter&&!p.footer.isEmpty()&&p.footer.size()>layout.columns)errors<<prefix+": footer exceeds textbox width.";
         if (layout.bodyRows < 1) errors << prefix + ": textbox is too short for its choices.";
-        CFGameState worst{};for(auto &v:worst.variables)v=-32768;const auto lines = renderGameText(*this,worst,p.text,qMax(1,layout.columns)).split('\n');
+        CFGameState worst{};fillWorstText(*this,worst);const auto lines = renderGameText(*this,worst,p.text,qMax(1,layout.columns)).split('\n');
         if (lines.size() > layout.bodyRows) errors << prefix + QString(": text needs %1 lines; the textbox fits %2.").arg(lines.size()).arg(qMax(0, layout.bodyRows));
         for (const auto &line : lines) if (line.size() > layout.columns) { errors << prefix + ": a word exceeds the textbox width."; break; }
         if (p.choices.size() > 3) errors << prefix + ": use at most 3 choices.";
@@ -201,7 +202,7 @@ QStringList Project::validate() const {
         BehaviorSpec playerBehavior;QString scriptError;
         if(!parseBehavior(w.playerScript,playerBehavior,scriptError)||playerBehavior.code.kind!=CF_BEHAVIOR_PLAYER)errors<<w.name+": player script needs top_down behavior. "+scriptError;
         if(!playerBehavior.prompt.isEmpty())errors<<w.name+": on_touch belongs on an enemy/character script, not the player.";
-        auto validateAnimations=[&](const BehaviorSpec &b,const RasterAsset *sprite,const QString &label){if(!sprite)return;for(auto name:{b.animation,b.moveAnimation,b.idleAnimation,b.actionAnimation})if(!name.isEmpty()&&sprite->animationIndex(name)<0)errors<<label+": animation not found: "+name;};
+        auto validateAnimations=[&](const BehaviorSpec &b,const RasterAsset *sprite,const QString &label){if(!sprite)return;QStringList clipNames{b.animation,b.moveAnimation,b.idleAnimation,b.actionAnimation};for(int d=0;d<4;++d)clipNames<<b.moveDir[d]<<b.idleDir[d];for(auto name:clipNames)if(!name.isEmpty()&&sprite->animationIndex(name)<0)errors<<label+": animation not found: "+name;};
         validateAnimations(playerBehavior,sp,w.name+" player");
         int hardwareSprites=sp?sp->frameTileCount():0;QSet<QString>actorIds;
         if(w.actors.size()>4)errors<<"Use at most 4 actors per area.";

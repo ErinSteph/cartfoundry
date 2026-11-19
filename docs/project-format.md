@@ -258,6 +258,16 @@ reversal is a playback flag. Pixel data stays frame-major and unchanged.
 Behavior source adds `flip_h yes/no`, `flip_v yes/no`, `mirror_facing yes/no`.
 Character and clip transforms combine with XOR.
 
+Behavior source also accepts `movement_sprites single|directional` (default
+`single`, so existing projects are unchanged). In `directional` mode the
+commands `on_move_up|down|left|right` and `on_idle_up|down|left|right` each
+name a clip. A direction left as `none` falls back to `on_move`/`on_idle`, then
+to `animation`. The direction is the last facing direction, so an idle
+character keeps facing the way it last moved. The directional commands are an
+error unless `movement_sprites directional` is set. `on_interact` stays a single
+clip. To reuse one side-view clip for both sides, set `mirror_facing yes`, point
+`on_move_left`/`on_idle_left` at the same clip as the right-facing slot.
+
 `systems` adds rngSeed (0–65535, default 44257) and up to eight timers with
 `id,name,source,interval,repeat,autostart,pauseDialogue`. Intervals are 1–65535
 nominal 60 Hz ticks. Timer callbacks compile as ordinary bounded events.

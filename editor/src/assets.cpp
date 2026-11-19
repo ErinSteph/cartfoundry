@@ -88,6 +88,22 @@ QByteArray RasterAsset::tileData(bool dmg) const {
     }
     return bytes;
 }
+ImportOptions guessSpriteSheet(const QImage &source,const QString &filename) {
+    ImportOptions best;best.fit=ImportOptions::Preserve;
+    best.width=qBound(8,((source.width()+7)/8)*8,32);best.height=qBound(8,((source.height()+7)/8)*8,32);
+    if(source.isNull())return best;
+    auto fits=[&](int w,int h){return w>=8&&w<=32&&h>=8&&h<=32&&w%8==0&&h%8==0&&source.width()%w==0&&source.height()%h==0&&source.width()/w<=8&&source.height()/h<=8;};
+    auto use=[&](int w,int h){best.width=w;best.height=h;best.columns=source.width()/w;best.rows=source.height()/h;};
+    QRegularExpression hint("(?:^|[^0-9])([0-9]{1,3})[xX]([0-9]{1,3})(?:[^0-9]|$)");auto match=hint.match(filename);
+    if(match.hasMatch()){int w=match.captured(1).toInt(),h=match.captured(2).toInt();if(fits(w,h)){use(w,h);return best;}if(w>=1&&w<=8&&h>=1&&h<=8&&source.width()%w==0&&source.height()%h==0&&fits(source.width()/w,source.height()/h)){use(source.width()/w,source.height()/h);return best;}}
+    if(source.width()<=32&&source.height()<=32)return best; // Preserve static assets as one frame.
+    int score=std::numeric_limits<int>::max();
+    for(int w=8;w<=32;w+=8)for(int h=8;h<=32;h+=8)if(fits(w,h)){
+        int candidate=qAbs(w-16)+qAbs(h-16)+qAbs(w-h);
+        if(candidate<score){score=candidate;use(w,h);}
+    }
+    return best;
+}
 int usedColorCount(const QImage &image, bool transparent) {
     QSet<quint16> colors;
     for(int y=0;y<image.height();++y)for(int x=0;x<image.width();++x){

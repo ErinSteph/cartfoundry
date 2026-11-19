@@ -4,6 +4,9 @@
 #include <mgba/core/log.h>
 #include <mgba-util/vfs.h>
 #include <QFile>
+#include <QFileInfo>
+#include <QDir>
+#include <fcntl.h>
 #include <vector>
 namespace cf {
 struct EmulatorCore::Impl {
@@ -24,6 +27,11 @@ bool EmulatorCore::load(const QString &path,QString &error){
     mCoreConfigSetDefaultIntValue(&core->config,"mute",0);
     mCoreLoadConfig(core);core->setVideoBuffer(core,next->pixels.data(),256);
     if(!mCoreLoadFile(core,bytes.constData())){error="Could not load ROM into mGBA.";return false;}
+    QFile cartridge(path);if(cartridge.open(QIODevice::ReadOnly)&&cartridge.seek(0x147)&&cartridge.read(1)==QByteArray(1,char(0x1b))){
+        auto savePath=QFileInfo(path).dir().filePath(QFileInfo(path).completeBaseName()+".sav");auto saveName=QFile::encodeName(savePath);auto *save=VFileOpen(saveName.constData(),O_CREAT|O_RDWR);
+        if(!save){error="Could not open cartridge save file: "+savePath;return false;}
+        if(!core->loadSave(core,save)){save->close(save);error="mGBA could not attach cartridge save data.";return false;}
+    }
     core->setAudioBufferSize(core,4096);core->reset(core);
     for(int i=0;i<2;++i)blip_set_rates(core->getAudioChannel(core,i),core->frequency(core),48000);
     impl=std::move(next);return true;

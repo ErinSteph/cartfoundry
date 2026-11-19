@@ -42,6 +42,29 @@ private slots:
         // Loading a bad file preserves the running core.
         QVERIFY(!emu.load(dir.filePath("missing.gbc"),error));QVERIFY(emu.loaded());
     }
+    void directionalSprites(){
+        auto p=cf::Project::overworldExample().isolatedArea(0);auto &w=p.world;w.actors.clear();w.objects.clear();w.interactions.clear();w.exits.clear();w.collision.fill(0);w.spawnX=20;w.spawnY=16;
+        cf::RasterAsset *sheet=nullptr;for(auto &a:p.assets)if(a.id==w.player)sheet=&a;QVERIFY(sheet);
+        // one single-frame clip per slot; moving and idle use different frames so a wrong slot is caught
+        const int moving[4]={1,2,3,0},idling[4]={3,0,1,2};const char *dirs[4]={"up","down","left","right"};sheet->animations.clear();
+        for(int d=0;d<4;++d){cf::SpriteAnimation m;m.name=QString("move_")+dirs[d];m.first=m.last=moving[d];m.duration=30;m.loop=true;sheet->animations<<m;cf::SpriteAnimation i;i.name=QString("idle_")+dirs[d];i.first=i.last=idling[d];i.duration=30;i.loop=true;sheet->animations<<i;}
+        QString script="behavior top_down\nanimation move_down\nmovement_sprites directional\n";for(auto *d:dirs)script+=QString("on_move_%1 move_%1\non_idle_%1 idle_%1\n").arg(d);w.playerScript=script;
+        QTemporaryDir dir;
+        auto pattern=[](cf::EmulatorCore &e){QByteArray bytes;for(int i=0;i<64;++i)bytes.append(char(e.readByte(0x8000+i)));return bytes;};
+        for(auto target:{QString("gbc"),QString("gb")}){
+            p.target=target;auto build=fastTestRom(p,dir.filePath("directional."+target));QVERIFY2(build.success,qPrintable(build.log));cf::EmulatorCore e;QString error;QVERIFY(e.load(build.romPath,error));
+            auto tileData=p.asset(w.player)->tileData(target=="gb");auto frame=[&](int f){return tileData.mid(f*64,64);};
+            QSet<QByteArray> distinct;for(int f=0;f<4;++f)distinct.insert(frame(f));QVERIFY2(distinct.size()==4,"Test sheet frames must differ");
+            for(int i=0;i<100;++i)e.frame();
+            const int keys[4]={1<<6,1<<7,1<<5,1<<4};
+            for(int pass=0;pass<2;++pass)for(int d=0;d<4;++d){
+                for(int i=0;i<20;++i)e.frame(keys[d]);
+                QVERIFY2(pattern(e)==frame(moving[d]),qPrintable(QString("%1 moving %2").arg(target,dirs[d])));
+                for(int i=0;i<20;++i)e.frame(0);
+                QVERIFY2(pattern(e)==frame(idling[d]),qPrintable(QString("%1 idle %2 (last facing is kept)").arg(target,dirs[d])));
+            }
+        }
+    }
     void animatedSprites(){
         auto p=cf::Project::overworldExample().isolatedArea(0);p.world.actors.clear();p.world.interactions.clear();p.world.playerScript="behavior top_down\nanimation walk\n";QTemporaryDir dir;
         auto pattern=[](cf::EmulatorCore &e){QByteArray bytes;for(int i=0;i<64;++i)bytes.append(char(e.readByte(0x8000+i)));return bytes;};

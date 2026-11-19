@@ -13,6 +13,9 @@
 #define CF_KEY_DOWN 2
 #define CF_KEY_ACCEPT 4
 #define CF_KEY_RESET 8
+#define CF_KEY_LEFT 16
+#define CF_KEY_RIGHT 32
+#define CF_KEY_CANCEL 64
 typedef struct {uint8_t width,height;const uint8_t *tiles;const uint16_t *palette;} CFPortrait;
 typedef struct {
     const char *title;
@@ -25,6 +28,16 @@ typedef struct {
     uint8_t text_flags,padding,choice_spacing,text_align;char cursor,disabled_marker;const char *footer;const uint16_t *text_palette;
 } CFPrompt;
 typedef struct { uint8_t prompt, choice; } CFState;
+typedef struct {uint8_t scene,cursor,dialog,storage,side,item,readonly;} CFMenuFrame;
+typedef struct {uint8_t depth;CFMenuFrame frames[4];} CFMenuStack;
+#ifdef __cplusplus
+extern "C" {
+#endif
+uint8_t cf_menu_push(CFMenuStack *,const CFMenuFrame *) CF_FLOW_CALL;
+uint8_t cf_menu_pop(CFMenuStack *,CFMenuFrame *) CF_FLOW_CALL;
+#ifdef __cplusplus
+}
+#endif
 typedef struct {uint8_t columns,body_rows,body_row,choice_row,footer_row;} CFTextLayout;
 #ifdef __cplusplus
 extern "C"

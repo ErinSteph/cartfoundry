@@ -79,6 +79,11 @@ Boy hardware sprite flips. Multi-tile frames also reverse tile positions, so
 16×16 and 32×32 characters mirror as a complete image. Facing mirroring flips a
 right-facing base when horizontal facing is left.
 
+Directional characters: in Behavior & animation fields, set Movement sprites to
+Directional to bind separate moving and idle clips to up, down, left and right.
+Single mode (the default) uses On moving / On idle as before. These fields write
+the `movement_sprites` and `on_move_<dir>` / `on_idle_<dir>` commands.
+
 Duplicate a clip to make a left-facing or reversed variant of the same frame
 range. The generator also shares identical image/map/collision byte arrays across
 references rather than emitting another copy for each actor/area.
@@ -156,8 +161,8 @@ project format, compiler pipeline and shared C runtime.
 
 See [Scenes & Screens](../examples/scenes/README.md) for the complete editor recipe
 and entry semantics. The conversation preview start no longer controls game boot.
-The GB/GBC splash uses the artwork shipped in `images/splash_gb.png` and
-`images/splash_gbc.png`, quantized to the target's four-colour display. Default
+The GB/GBC splash uses the artwork shipped in `images/splash_2_gb.png` and
+`images/splash_2_gbc.png`, quantized to the target's four-colour display. Default
 splash duration is 120 video frames (about two seconds).
 
 Public additions: `scene scene_id`, `area area_id`,
@@ -288,3 +293,87 @@ to players, characters, NPC library entries, portraits, item icons, tilesets, or
 scene images cannot be removed until those uses are changed or removed; the dialog
 lists the remaining uses. To delete only a placed character, select it on the map
 and use **Selected / instances → Delete** or the Delete key.
+
+## Menus, keyboards and saves
+
+**Scenes & menu builder → + Menu preset…** installs editable screen scenes for
+pause menus and save/load slots. The pause preset also creates a naming keyboard,
+`player_name` and `save_name` text fields, and save event scripts. It assigns the
+Start button to the pause menu. Existing scenes with the preset IDs are retained;
+customize their panels, text, buttons, positions, colors and events in the same
+scene inspector. Use **Text, keyboard & save builders…** to manage input and saves.
+**File → New Menus & Saves Example** demonstrates the complete flow; the project is
+also in `examples/menu-saves`.
+
+| UI / function | Event command / behavior |
+| --- | --- |
+| + Event → Menus / Open menu | `menu scene_id` opens a screen and pauses the calling event |
+| + Event → Menus / Return | `return` restores the calling menu/world/dialogue and continues its event |
+| + Event → Input / Keyboard | `keyboard layout_id text_field maximum_chars` pauses until OK or Cancel |
+| + Event → Saves / Write slot | `save write 1` writes a slot; `result` is 1 on success, 0 on failure |
+| + Event → Saves / Load slot | `save read 1` restores selected data; with position enabled, resumes the saved scene/area |
+| + Event → Saves / Check slot | `save check 1` sets `result` to whether a valid compatible slot exists |
+| + Event → Saves / Erase slot | `save erase 1` invalidates both recovery copies of that slot |
+| + Event → Text / Clear field | `text clear player_name` clears a text field |
+| + Event → Text / Copy field | `text copy save_name player_name` copies, bounded by the destination capacity |
+| Text fields tab | Declare up to eight fields, each with an initial value and a capacity of 1–20 characters |
+| Keyboard builder tab | Name/digits presets, editable character order, title, columns and grid origin, with a live preview |
+| Save builder tab | Automatically detects variables, text fields and storages; check fields to include, and choose timers, RNG and player position |
+
+Text fields use `{field_id}` in dialogue bodies and scene text, just like numeric
+variables. A keyboard returns its text into the chosen field only when accepted;
+cancelling preserves the previous value and returns `result = 0`. The event
+continues after the keyboard, so it can test `result`, copy input or open another
+menu. A dialogue choice waits for input before following its target. Keyboards
+can also be called from a prompt's onEnter event. Use printable ASCII characters
+from the built-in font. Each layout supports up to 80 unique characters, arranged
+in a grid of up to ten columns; `<` deletes, `!` accepts and `X` cancels. Space is
+a supported character key. Arrows move the selection; A activates a key and B
+cancels. Editor previews also accept Escape to cancel and Backspace to delete.
+Menu calls nest up to four levels; input/events use the same bounded wait stack.
+Timers and world movement pause while these modal interfaces are open.
+
+The save builder includes newly added fields automatically unless excluded. Its
+optional generated scripts are `save_write_1`, `save_read_1`, `save_check_1` and
+`save_erase_1` (and corresponding scripts for other slots). It adds missing scripts
+without overwriting authored scripts. `{save_status}` displays messages such as
+`Saved`, `Loaded`, `Save failed` or `No valid save`. `result` and `save_status` are
+reserved names. Save slots are 1-based in scripts. Save names are ordinary saved
+text fields: they label the game data and do not rename the host emulator's file.
+
+ROM saves use battery-backed MBC5 RAM (8 KiB) and up to three slots. Each slot has
+two 768-byte journal records, with a checksum and a last-written commit marker;
+a damaged or incomplete newest copy falls back to the previous valid copy. The
+format is explicit little-endian bytes, independent of C struct layout. A project
+identity and schema fingerprint prevent loading data from unrelated or incompatible
+layouts. Changing field IDs, capacities, order, selections or scene/area structure
+can invalidate previous saves; no automatic migration is attempted.
+
+Position saving includes scene, area, player coordinates and facing. Loading a
+position does not run scene/area entry events again. Variables, chosen text fields,
+chosen storages, timers and RNG state are saved according to the builder selections.
+Actor motion/health, sound playback and open menus are transient. Represent lasting
+story outcomes in variables. ROM emulators retain battery RAM in a `.sav` file;
+the embedded mGBA wrapper attaches a `.sav` alongside battery-backed ROMs. Keep it
+alongside the ROM between launches. The editor's native preview uses a separate
+file per save identity and schema under its application-data `preview-saves`
+directory; the builder shows the path. Isolated area tests therefore use separate
+preview saves from the complete project. Preview and ROM saves are independent.
+
+## Import frame detection
+
+Sprite import guesses an initial sheet grid without resampling the image. A
+filename size hint such as `hero_16x16.png` takes priority; a grid hint such as
+`hero_4x2.png` is also supported. Otherwise the dimensions are used to choose
+8-pixel frame sizes and an evenly dividing grid, preferring common 16×16 frames.
+Small images without a hint retain a static 1×1 grid. **Guess frames again** resets
+the controls to that guess. Frame size and row/column counts remain editable.
+Current sprite sheets support up to 8×8 frames, with 8–32 pixel frame dimensions.
+If no valid conversion is available, the full source remains visible in the
+preview while import stays disabled until the dimensions/grid are corrected.
+
+**Pixel art → Import sprite / sheet…** and **Import tileset…** use the same importer.
+Newly imported pixel-art assets are selected automatically and large sheets start
+at a zoom that makes them visible. Images that exceed the existing asset limits
+need a supported grid or an explicitly selected resize mode; guessing does not
+silently resize or crop them.

@@ -1,5 +1,12 @@
 #include "game_session.h"
 #include <cmath>
+#include "menu_model.h"
+#include <QStandardPaths>
+#include <QSaveFile>
+#include <QFile>
+#include <QFileInfo>
+#include <QDir>
+#include <QCryptographicHash>
 #include "sound_compile.h"
 namespace cf {
 void GameSession::configure(const Project &p,bool restart){project=p;initial.clear();for(auto &v:p.variables)initial<<int16_t(v.initial);limits.clear();for(auto &i:p.items)limits<<uint8_t(i.stackLimit);counts.resize(p.storages.size());stores.resize(p.storages.size());for(int s=0;s<p.storages.size();++s){counts[s].fill(0,p.items.size());for(auto i=p.storages[s].contents.begin();i!=p.storages[s].contents.end();++i){int index=p.itemIndex(i.key());if(index>=0)counts[s][index]=i.value();}stores[s]={uint8_t(p.storages[s].capacity),counts[s].data()};}definition={uint8_t(initial.size()),uint8_t(limits.size()),uint8_t(stores.size()),initial.data(),limits.data(),stores.data()};GameCompiler compiler(p);QString error;timerCode.resize(p.timers.size());timerDefs.resize(p.timers.size());for(int i=0;i<p.timers.size();++i){auto &t=p.timers[i];if(!compiler.program(t.source,timerCode[i],error))timerCode[i].clear();timerDefs[i]={uint16_t(t.interval),uint8_t(t.repeat),uint8_t(t.autostart),uint8_t(t.pauseDialogue),{uint8_t(timerCode[i].size()),timerCode[i].data()}};}cf_sound_stop(&state.sound);soundNotes.resize(p.sounds.size()*4);soundTracks.resize(p.sounds.size());soundClips.resize(p.sounds.size());for(int i=0;i<p.sounds.size();++i){auto &c=p.sounds[i];CFSoundClip out{};out.count=c.notes.size();out.duty=c.duty;out.volume=c.volume;
@@ -7,12 +14,24 @@ void GameSession::configure(const Project &p,bool restart){project=p;initial.cle
  else{soundTracks[i].resize(4);for(int ch=0;ch<4;++ch){auto &t=c.channels[ch];auto &notes=soundNotes[i*4+ch];notes.clear();for(auto &n:t.notes)notes<<compileSoundNote(n,t,ch);auto track=compileSoundTrack(t);track.notes=notes.data();soundTracks[i][ch]=track;if(t.enabled)out.mask|=1<<ch;}out.tracks=soundTracks[i].data();out.duration=soundDuration(c);out.master=(c.masterLeft<<4)|c.masterRight;out.effect=c.effect;}soundClips[i]=out;}
  definition.sound_count=soundClips.size();definition.sounds=soundClips.data();state.sound.clips=definition.sounds;state.sound.count=definition.sound_count;definition.seed=p.rngSeed;definition.timer_count=timerDefs.size();definition.timers=timerDefs.data();prompts.fill({},p.prompts.size());rules.fill({},p.prompts.size()*3);enter.resize(p.prompts.size());enterCode.resize(p.prompts.size());choiceCode.resize(p.prompts.size()*3);
 for(int i=0;i<p.prompts.size();++i){auto &prompt=p.prompts[i];prompts[i].choice_count=prompt.choices.size();if(!compiler.program(prompt.onEnter,enterCode[i],error))enterCode[i].clear();enter[i]={uint8_t(enterCode[i].size()),enterCode[i].data()};for(int c=0;c<prompt.choices.size();++c){int index=i*3+c;compiler.condition(prompt.choices[c].condition,rules[index].condition,error);if(!compiler.program(prompt.choices[c].actions,choiceCode[index],error))choiceCode[index].clear();rules[index].actions={uint8_t(choiceCode[index].size()),choiceCode[index].data()};int target=p.indexOf(prompt.choices[c].target);prompts[i].targets[c]=target<0?255:target;}}
+textInitial.resize(p.textFields.size());textDefs.resize(p.textFields.size());for(int i=0;i<p.textFields.size();++i){textInitial[i]=p.textFields[i].initial.toLatin1();textDefs[i]={textInitial[i].constData(),uint8_t(p.textFields[i].limit)};}
+keyboardTitles.resize(p.keyboards.size());keyboardChars.resize(p.keyboards.size());keyboardDefs.resize(p.keyboards.size());for(int i=0;i<p.keyboards.size();++i){auto &k=p.keyboards[i];keyboardTitles[i]=k.name.toLatin1();keyboardChars[i]=k.characters.toLatin1();keyboardDefs[i]={keyboardTitles[i].constData(),keyboardChars[i].constData(),uint8_t(k.characters.size()),uint8_t(k.columns),uint8_t(k.x),uint8_t(k.y)};}
+definition.text_count=textDefs.size();definition.texts=textDefs.data();definition.keyboard_count=keyboardDefs.size();definition.keyboards=keyboardDefs.data();definition.save=saveDefinition(p);
 if(restart)reset();}
-void GameSession::reset(){cf_game_init(&state,&definition);for(auto &p:phase)p=0;noiseLfsr=0x7fff;lastNoiseTrigger=0;}
+void GameSession::reset(){runPrograms.clear();cf_game_init(&state,&definition);for(auto &p:phase)p=0;noiseLfsr=0x7fff;lastNoiseTrigger=0;}
 void GameSession::enterPrompt(CFState &flow,int index){if(index>=0&&index<prompts.size()){cf_story_enter(&flow,index,&state,&definition,enter.data());cf_story_normalize(&flow,prompts.data(),rules.data(),&state);}}
 bool GameSession::step(CFState &flow,int key){return cf_story_step(&flow,prompts.data(),prompts.size(),qMax(0,project.indexOf(project.entry)),key,&state,&definition,rules.data(),enter.data());}
 bool GameSession::enabled(int p,int c)const{return p>=0&&p<prompts.size()&&c>=0&&c<prompts[p].choice_count&&cf_game_condition(&state,&rules[p*3+c].condition);}
-bool GameSession::run(const QString &source){QVector<CFInstruction> code;QString error;if(!GameCompiler(project).program(source,code,error))return false;CFProgram p{uint8_t(code.size()),code.data()};return cf_game_execute(&state,&definition,&p);}
+bool GameSession::run(const QString &source){QVector<CFInstruction> code;QString error;if(!GameCompiler(project).program(source,code,error))return false;if(!state.continuation_count)runPrograms.clear();runPrograms<<code;CFProgram p{uint8_t(runPrograms.last().size()),runPrograms.last().data()};return cf_game_execute(&state,&definition,&p);}
+QString GameSession::previewSavePath()const{auto id=QCryptographicHash::hash(project.saveConfig.id.toUtf8()+":"+QByteArray::number(definition.save.schema),QCryptographicHash::Sha256).toHex();return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)+"/preview-saves/"+QString::fromLatin1(id)+".sav";}
+bool GameSession::processSave(){if(state.request_save==255)return false;auto action=state.request_save,slot=state.save_slot;state.request_save=255;saveError.clear();
+ QByteArray memory(CF_SAVE_BYTES,char(255));QFile file(previewSavePath());if(file.exists()){if(!file.open(QIODevice::ReadOnly)){saveError=file.errorString();cf_game_save_result(&state,&definition,action,0);return true;}auto data=file.readAll();if(data.size()==CF_SAVE_BYTES)memory=data;file.close();}
+ bool ok=cf_save_action(&state,&definition,reinterpret_cast<volatile uint8_t *>(memory.data()),action,slot);
+ if(ok&&(action==0||action==3)){QDir().mkpath(QFileInfo(file).absolutePath());QSaveFile out(file.fileName());ok=out.open(QIODevice::WriteOnly)&&out.write(memory)==memory.size()&&out.commit();if(!ok)saveError=out.errorString();}
+ cf_game_save_result(&state,&definition,action,ok);return true;
+}
+QStringList GameSession::keyboardLines()const{char cells[360];cf_keyboard_render(&state,&definition,cells);QStringList lines;for(int y=0;y<18;++y)lines<<QString::fromLatin1(cells+y*20,20);return lines;}
+
 }
 
 namespace cf {

@@ -84,7 +84,7 @@ Project Project::isolatedArea(int index) const {
     for(auto &a:p.world.actors){required.insert(a.sprite);BehaviorSpec behavior;QString error;if(parseBehavior(a.script,behavior,error)&&!behavior.prompt.isEmpty())roots<<behavior.prompt;}
     p.prompts=hasEvents(*this)?prompts:reachablePrompts(p,roots);p.npcs.clear();if(p.prompts.isEmpty()){Prompt n;n.id="area_test";n.title="AREA TEST";n.text="Explore this area.";p.prompts<<n;}p.entry=p.prompts[0].id;
     for(auto &item:p.items)if(!item.icon.isEmpty())required.insert(item.icon);
-    for(auto &s:p.scenes){s.kind="screen";s.startArea.clear();s.elements.clear();s.onSceneEnter.clear();s.onBack.clear();}p.defaultScene=p.areaScene(p.world.id);if(p.sceneIndex(p.defaultScene)<0)p.defaultScene=p.scenes[0].id;auto &testScene=p.scenes[p.sceneIndex(p.defaultScene)];testScene.kind="world";testScene.startArea=p.world.id;
+    for(auto &s:p.scenes){if(s.kind=="screen"){for(auto &e:s.elements)if(e.type=="image")required.insert(e.image);continue;}s.kind="screen";s.startArea.clear();s.elements.clear();s.onSceneEnter.clear();s.onBack.clear();}p.defaultScene=p.areaScene(p.world.id);if(p.sceneIndex(p.defaultScene)<0)p.defaultScene=p.scenes[0].id;auto &testScene=p.scenes[p.sceneIndex(p.defaultScene)];testScene.kind="world";testScene.startArea=p.world.id;
     QVector<RasterAsset> assets;for(auto &a:p.assets)if(required.contains(a.id))assets<<a;p.assets=assets;return p;
 }
 Project Project::overworldExample() {

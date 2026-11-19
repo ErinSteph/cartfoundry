@@ -42,10 +42,12 @@ bool importAsset(QWidget *parent, const QString &kind, RasterAsset &result, bool
     auto *name = new QLineEdit(QFileInfo(path).completeBaseName()); settings->addRow("Asset name",name);
     auto *width = new QSpinBox, *height = new QSpinBox; int max = kind == "sprite" ? 32 : 128;
     for (auto *spin : {width,height}) { spin->setRange(8,max); spin->setSingleStep(8); }
+    auto guessed=guessSpriteSheet(source,QFileInfo(path).completeBaseName());
     width->setValue(qBound(8,((source.width()+7)/8)*8,max));
     height->setValue(qBound(8,((source.height()+7)/8)*8,max));
     auto *sheetColumns=new QSpinBox,*sheetRows=new QSpinBox;sheetColumns->setRange(1,8);sheetRows->setRange(1,8);
-    if(kind=="sprite"){settings->addRow("Sheet width (frames)",sheetColumns);settings->addRow("Sheet height (frames)",sheetRows);}
+    if(kind=="sprite"){width->setValue(guessed.width);height->setValue(guessed.height);sheetColumns->setValue(guessed.columns);sheetRows->setValue(guessed.rows);settings->addRow("Sheet width (frames)",sheetColumns);settings->addRow("Sheet height (frames)",sheetRows);}
+    auto *detect=new QPushButton("Guess frames again",&dialog);detect->setVisible(kind=="sprite");if(kind=="sprite")settings->addRow(detect);
     settings->addRow(kind=="sprite"?"Frame width (pixels)":"Width (pixels)",width);settings->addRow(kind=="sprite"?"Frame height (pixels)":"Height (pixels)",height);
     auto *fit = new QComboBox; fit->addItems({"Fit inside (keep shape)","Fill and crop","Stretch","Keep original pixels (pad only)"}); fit->setCurrentIndex(3); settings->addRow("Scale mode",fit);
     auto *filter = new QComboBox; filter->addItems({"Nearest neighbour","Smooth downscale"}); settings->addRow("Resampling",filter);
@@ -74,9 +76,9 @@ bool importAsset(QWidget *parent, const QString &kind, RasterAsset &result, bool
         ImportOptions o; o.width=width->value();o.height=height->value();o.transparent=kind=="sprite";o.fit=ImportOptions::Fit(fit->currentIndex());o.smooth=filter->currentIndex()==1;
         if(kind=="sprite"){o.columns=sheetColumns->value();o.rows=sheetRows->value();}
         o.palette=customPalette;o.removeBackground=remove->isChecked();o.background=key;o.tolerance=tolerance->value(); int colors=0; converted=convertImage(source,o,&colors);
-        auto image=converted.image(); QImage board(360,360,QImage::Format_ARGB32);
+        auto image=converted.image();auto visible=image.isNull()?source:image; QImage board(360,360,QImage::Format_ARGB32);
         { QPainter p(&board); for(int y=0;y<360;y+=12)for(int x=0;x<360;x+=12)p.fillRect(x,y,12,12,(x/12+y/12)%2?QColor("#889099"):QColor("#bcc2c6"));
-          if(!image.isNull()){auto scaled=image.scaled(336,336,Qt::KeepAspectRatio,Qt::FastTransformation);p.drawImage((360-scaled.width())/2,(360-scaled.height())/2,scaled);} }
+          if(!visible.isNull()){auto scaled=visible.scaled(336,336,Qt::KeepAspectRatio,Qt::FastTransformation);p.drawImage((360-scaled.width())/2,(360-scaled.height())/2,scaled);} }
         preview->setPixmap(QPixmap::fromImage(board));
         bool originalFits=source.width()/o.columns<=o.width && source.height()/o.rows<=o.height;
         bool valid=!image.isNull() && width->value()%8==0 && height->value()%8==0 && (o.fit!=ImportOptions::Preserve || originalFits);
@@ -84,8 +86,13 @@ bool importAsset(QWidget *parent, const QString &kind, RasterAsset &result, bool
         colorInfo->setText(QString("%1 visible GBC colours → %2. Click a colour to tune the result. Unused palette entries and transparent pixels do not count.").arg(colors).arg(available));
         for(int i=0;i<paletteButtons.size();++i){auto c=converted.palette.size()==4?rgb555(converted.palette[i+(o.transparent?1:0)]):QColor(Qt::black);paletteButtons[i]->setText(c.name());paletteButtons[i]->setStyleSheet(QString("background:%1;color:%2").arg(c.name(),c.lightness()<128?"white":"black"));}
         buttons->button(QDialogButtonBox::Ok)->setEnabled(valid);
-        info->setText(valid ? QString("%1 × %2 px per frame · %3 frames · %4 hardware tiles per frame\nOriginal pixels are kept in pad-only mode. One shared palette; GBC RGB555 precision.").arg(o.width).arg(o.height).arg(converted.frameCount()).arg(converted.frameTileCount()) : "Choose a grid that divides the source evenly and 8-pixel frame dimensions large enough for the original pixels. Resizing requires an explicit scale mode.");
+        info->setText(valid ? QString("%1 × %2 px per frame · %3 frames · %4 hardware tiles per frame\nOriginal pixels are kept in pad-only mode. One shared palette; GBC RGB555 precision.").arg(o.width).arg(o.height).arg(converted.frameCount()).arg(converted.frameTileCount()) : "Source preview: adjust the guessed grid or frame size to fit. The source must divide evenly; frames are 8–32 px in multiples of 8. Choose a scale mode explicitly to resize.");
     };
+    QObject::connect(detect,&QPushButton::clicked,&dialog,[&]{
+        auto guess=guessSpriteSheet(source,QFileInfo(path).completeBaseName());
+        QSignalBlocker a(width),b(height),c(sheetColumns),d(sheetRows);width->setValue(guess.width);height->setValue(guess.height);sheetColumns->setValue(guess.columns);sheetRows->setValue(guess.rows);update();
+    });
+    if(kind=="sprite")settings->addRow(new QLabel("Frame guesses are editable.\nFilename hints: 16x16 or 4x2.\nThe preview keeps the full sheet."));
     for(int i=0;i<paletteButtons.size();++i)QObject::connect(paletteButtons[i],&QPushButton::clicked,&dialog,[&,i]{
         if(converted.palette.size()!=4)return;
         auto colors=customPalette;

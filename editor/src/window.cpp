@@ -10,6 +10,7 @@
 #include "pixel_editor.h"
 #include "event_tools.h"
 #include "screen_builder.h"
+#include "screen_model.h"
 #include "script_workspace.h"
 #include <QtWidgets>
 #include <QtConcurrent>
@@ -18,7 +19,7 @@ namespace cf {
 class PreviewScreen : public QLabel {
 public:
     using QLabel::QLabel;
-    bool dmg = false;QImage portraitImage;QVector<quint16> palette;
+    bool dmg = false;QImage portraitImage,pageImage;QVector<quint16> palette;
 protected:
     void paintEvent(QPaintEvent *) override {
         QPainter painter(this); painter.fillRect(rect(), QColor("#44515c"));
@@ -26,7 +27,7 @@ protected:
         painter.setViewport(inner); painter.setWindow(0, 0, 160, 144);
         painter.fillRect(0, 0, 160, 144, (dmg ? QColor("#e0edc4") : QColor("#efefce")));
         auto image = textScreenImage(text().split('\n'),QRect(0,0,20,18),dmg,palette);
-        painter.drawImage(0,0,image);if(!portraitImage.isNull())painter.drawImage(152-portraitImage.width(),0,portraitImage);
+        painter.drawImage(0,0,pageImage.isNull()?image:pageImage);if(pageImage.isNull()&&!portraitImage.isNull())painter.drawImage(152-portraitImage.width(),0,portraitImage);
     }
 };
 static QLabel *caption(const QString &text) {
@@ -77,7 +78,7 @@ Window::Window() {
     dataEditor = new DataEditor; workspace->addTab(dataEditor,"Project & game data"); dataEditor->onEdit=[this](const Project &p){mutate([&]{project=p;});};
     dataEditor->onOpenArea=[this](int i){worldEditor->selectArea(i);workspace->setCurrentWidget(worldEditor);};
     pixels=new PixelEditor;workspace->addTab(pixels,"Pixel art");pixels->onEdit=[this](const Project &p){mutate([&]{project=p;});};
-    screens=new ScreenBuilder;workspace->addTab(screens,"Scenes & screen builder");screens->onEdit=[this](const Project&p){mutate([&]{project=p;});};screens->onTest=[this](const Project&p){buildAndPlay(p);};
+    screens=new ScreenBuilder;workspace->addTab(screens,"Scenes & menu builder");screens->onEdit=[this](const Project&p){mutate([&]{project=p;});};screens->onTest=[this](const Project&p){buildAndPlay(p);};
     scriptWorkspace=new ScriptWorkspace;workspace->addTab(scriptWorkspace,"Scripts");scriptWorkspace->onEdit=[this](const Project&p){mutate([&]{project=p;});};
     dataEditor->onOpenScene=[this](int i){screens->selectScene(i);workspace->setCurrentWidget(screens);};
     soundEditor=new SoundEditor;workspace->addTab(soundEditor,"Sound & music");soundEditor->onEdit=[this](const Project &p){mutate([&]{project=p;});};
@@ -88,6 +89,7 @@ Window::Window() {
     auto *worldAction = file->addAction("New Overworld Example");
     connect(worldAction, &QAction::triggered, this, [this] { if (!mayDiscard()) return; project = Project::overworldExample(); path.clear(); selected = project.entry; undo.clear(); redo.clear(); saved = bytes(); resetPreview(); refresh(); workspace->setCurrentIndex(1); });
     auto *scenesAction=file->addAction("New Scenes & Screens Example");connect(scenesAction,&QAction::triggered,this,[this]{if(!mayDiscard())return;project=Project::scenesExample();path.clear();selected=project.entry;undo.clear();redo.clear();saved=bytes();resetPreview();refresh();screens->selectScene(0);workspace->setCurrentWidget(screens);});
+    auto *menusAction=file->addAction("New Menus & Saves Example");connect(menusAction,&QAction::triggered,this,[this]{if(!mayDiscard())return;project=Project::menusExample();path.clear();selected=project.entry;undo.clear();redo.clear();saved=bytes();resetPreview();refresh();screens->selectScene(project.sceneIndex(project.pauseMenu));workspace->setCurrentWidget(screens);});
     auto *pokemonAction=file->addAction("New Pokemon Example");connect(pokemonAction,&QAction::triggered,this,[this]{if(!mayDiscard())return;project=Project::pokemonExample();path.clear();selected=project.entry;undo.clear();redo.clear();saved=bytes();resetPreview();refresh();workspace->setCurrentWidget(worldEditor);});
     auto *helpMenu=menuBar()->addMenu("&Help");auto *guide=helpMenu->addAction("Pokemon example guide");connect(guide,&QAction::triggered,this,[this]{QFile file(resourceRoot()+"/examples/pokemon/README.md");if(!file.open(QIODevice::ReadOnly)){QMessageBox::warning(this,"Guide unavailable",file.errorString());return;}QDialog dialog(this);dialog.setWindowTitle("Pocket Meadow — build it by hand");dialog.resize(950,800);auto *layout=new QVBoxLayout(&dialog);auto *browser=new QTextBrowser;browser->setOpenExternalLinks(true);browser->setMarkdown(QString::fromUtf8(file.readAll()));layout->addWidget(browser);auto *buttons=new QDialogButtonBox(QDialogButtonBox::Close);layout->addWidget(buttons);connect(buttons,&QDialogButtonBox::rejected,&dialog,&QDialog::reject);dialog.exec();});
     auto *mapGuide=helpMenu->addAction("Map building & reusable objects");connect(mapGuide,&QAction::triggered,this,[this]{QFile file(resourceRoot()+"/docs/map-authoring.md");if(!file.open(QIODevice::ReadOnly)){QMessageBox::warning(this,"Guide unavailable",file.errorString());return;}QDialog dialog(this);dialog.setWindowTitle("Building maps from existing objects");dialog.resize(950,800);auto *layout=new QVBoxLayout(&dialog);auto *browser=new QTextBrowser;browser->setMarkdown(QString::fromUtf8(file.readAll()));layout->addWidget(browser);auto *buttons=new QDialogButtonBox(QDialogButtonBox::Close);layout->addWidget(buttons);connect(buttons,&QDialogButtonBox::rejected,&dialog,&QDialog::reject);dialog.exec();});
@@ -138,6 +140,7 @@ Window::Window() {
     QFont mono("Courier New"); mono.setStyleHint(QFont::Monospace); mono.setPixelSize(14); screen->setFont(mono);
     screen->setFixedSize(300, 272); rl->addWidget(screen, 0, Qt::AlignHCenter);
     auto *controls = new QHBoxLayout;
+    button("←",controls,[this]{if(session.state.keyboard_active)previewInput(16);});button("→",controls,[this]{if(session.state.keyboard_active)previewInput(32);});
     button("↑", controls, [this] { previewInput(1); }); button("↓", controls, [this] { previewInput(2); });
     auto *accept = button("A", controls, [this] { previewInput(4); }); accept->setToolTip("Choose the highlighted option");
     button("B / Reset", controls, [this] { previewInput(8); }); button("Select",controls,[this]{previewInput(16);}); rl->addLayout(controls);
@@ -175,7 +178,7 @@ void Window::closeEvent(QCloseEvent *e) {
     if (building) { QMessageBox::information(this, "Build in progress", "Wait for the ROM build to finish before closing CartFoundry."); e->ignore(); return; }
     if (mayDiscard()) e->accept(); else e->ignore();
 }
-void Window::projectSettings(){QDialog dialog(this);dialog.setWindowTitle("Project Settings");dialog.resize(560,340);auto *form=new QFormLayout(&dialog);auto *title=new QLineEdit(project.title);form->addRow("Game title",title);auto *target=new QComboBox;target->addItem("Game Boy","gb");target->addItem("Game Boy Color","gbc");target->setCurrentIndex(target->findData(project.target));form->addRow("Target",target);auto *scene=new QComboBox;for(auto &s:project.scenes)scene->addItem(s.name+" ["+s.id+"]",s.id);scene->setCurrentIndex(scene->findData(project.defaultScene));form->addRow("Default Scene",scene);auto *duration=new QDoubleSpinBox;duration->setRange(1.0/60,10);duration->setDecimals(3);duration->setValue(project.splashTicks/60.0);duration->setSuffix(" seconds");form->addRow("Platform splash duration",duration);auto *help=new QLabel("Startup order: GB/GBC splash → Default Scene → onSceneEnter.\nWorld scenes first load their Initial Area and its onAreaEnter script.\nDialogue starts only from an explicit dialogue event.\nSelect a scene in Scenes & screen builder to edit its entry script.");help->setWordWrap(true);form->addRow(help);auto *buttons=new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);form->addRow(buttons);connect(buttons,&QDialogButtonBox::accepted,&dialog,&QDialog::accept);connect(buttons,&QDialogButtonBox::rejected,&dialog,&QDialog::reject);if(dialog.exec()==QDialog::Accepted)mutate([&]{project.title=title->text();project.target=target->currentData().toString();project.defaultScene=scene->currentData().toString();project.splashTicks=qBound(1,qRound(duration->value()*60),600);});}
+void Window::projectSettings(){QDialog dialog(this);dialog.setWindowTitle("Project Settings");dialog.resize(560,340);auto *form=new QFormLayout(&dialog);auto *title=new QLineEdit(project.title);form->addRow("Game title",title);auto *target=new QComboBox;target->addItem("Game Boy","gb");target->addItem("Game Boy Color","gbc");target->setCurrentIndex(target->findData(project.target));form->addRow("Target",target);auto *scene=new QComboBox;for(auto &s:project.scenes)scene->addItem(s.name+" ["+s.id+"]",s.id);scene->setCurrentIndex(scene->findData(project.defaultScene));form->addRow("Default Scene",scene);auto *duration=new QDoubleSpinBox;duration->setRange(1.0/60,10);duration->setDecimals(3);duration->setValue(project.splashTicks/60.0);duration->setSuffix(" seconds");form->addRow("Platform splash duration",duration);auto *help=new QLabel("Startup order: GB/GBC splash → Default Scene → onSceneEnter.\nWorld scenes first load their Initial Area and its onAreaEnter script.\nDialogue starts only from an explicit dialogue event.\nSelect a scene in Scenes & menu builder to edit its entry script.");help->setWordWrap(true);form->addRow(help);auto *buttons=new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);form->addRow(buttons);connect(buttons,&QDialogButtonBox::accepted,&dialog,&QDialog::accept);connect(buttons,&QDialogButtonBox::rejected,&dialog,&QDialog::reject);if(dialog.exec()==QDialog::Accepted)mutate([&]{project.title=title->text();project.target=target->currentData().toString();project.defaultScene=scene->currentData().toString();project.splashTicks=qBound(1,qRound(duration->value()*60),600);});}
 void Window::fresh() {
     project = Project::blank(); path.clear(); selected = project.entry; undo.clear(); redo.clear(); saved = bytes(); resetPreview(); refresh();workspace->setCurrentWidget(screens);
 }
@@ -287,13 +290,21 @@ void Window::buildAndPlay(const Project &snapshot) {
     statusBar()->showMessage("Building a test ROM for the embedded emulator…");
     const auto resources=resourceRoot();watcher.setFuture(QtConcurrent::run([snapshot,output,resources]{return buildRom(snapshot,output,resources);}));
 }
-void Window::previewRequests(){if(session.state.request_world){session.state.request_world=0;previewMenu=-1;session.state.request_prompt=session.state.request_storage=255;}
+void Window::previewChoose(int delta){if(previewScene<0||previewScene>=project.scenes.size())return;auto &s=project.scenes[previewScene];int next=previewCursor;for(int i=0;i<s.elements.size();++i){next=next<0?(delta<0?s.elements.size()-1:0):(next+s.elements.size()+delta)%s.elements.size();CFCondition c{};QString error;if(s.elements[next].type=="button"&&GameCompiler(project).condition(s.elements[next].condition,c,error)&&cf_game_condition(&session.state,&c)){previewCursor=next;return;}}previewCursor=-1;}
+void Window::previewRequests(){
+ for(int i=0;i<8;++i){auto &g=session.state;if(g.request_save!=255){session.processSave();continue;}if(g.request_menu!=255){int id=g.request_menu;g.request_menu=255;CFMenuFrame f{uint8_t(previewScene<0?255:previewScene),uint8_t(previewCursor<0?255:previewCursor),1,uint8_t(previewMenu<0?255:previewMenu),uint8_t(previewSide),uint8_t(previewItem),uint8_t(previewReadOnly)};if(id<project.scenes.size()&&cf_menu_push(&g.menus,&f)){previewScene=id;previewCursor=-1;previewMenu=-1;previewChoose(1);session.run(project.scenes[id].onSceneEnter);}else{g.variables[31]=0;cf_game_continue(&g,&session.definition);}continue;}
+ if(g.request_return){g.request_return=0;CFMenuFrame f{};if(cf_menu_pop(&g.menus,&f)){previewScene=f.scene==255?-1:f.scene;previewCursor=f.cursor==255?-1:f.cursor;previewMenu=f.storage==255?-1:f.storage;previewSide=f.side;previewItem=f.item;previewReadOnly=f.readonly;g.variables[31]=1;cf_game_continue(&g,&session.definition);}else g.variables[31]=0;continue;}break;}
+ if(session.state.request_scene<project.scenes.size()){int id=session.state.request_scene;session.state.request_scene=255;previewScene=project.scenes[id].kind=="screen"?id:-1;previewCursor=-1;if(previewScene>=0){previewChoose(1);if(!session.state.restoring)session.run(project.scenes[id].onSceneEnter);}session.state.restoring=0;}
+if(session.state.request_world){session.state.request_world=0;previewMenu=-1;session.state.request_prompt=session.state.request_storage=255;}
     for(int i=0;i<4&&session.state.request_prompt<project.prompts.size();++i){int target=session.state.request_prompt;session.state.request_prompt=255;CFState state{};session.enterPrompt(state,target);previewPrompt=state.prompt;previewChoice=state.choice;previewMenu=-1;}
     session.state.request_prompt=255;
     if(session.state.request_storage<project.storages.size()){previewMenu=session.state.request_storage;previewReadOnly=session.state.request_readonly;session.state.request_readonly=0;session.state.request_storage=255;previewSide=previewItem=0;}
 }
-void Window::resetPreview() { previewMenu=-1;session.configure(project);CFState state{};session.enterPrompt(state,project.indexOf(project.entry));previewPrompt=project.prompts.isEmpty()?-1:state.prompt;previewChoice=state.choice;previewRequests(); }
+void Window::resetPreview() { previewScene=previewCursor=-1;previewMenu=-1;session.configure(project);CFState state{};session.enterPrompt(state,project.indexOf(project.entry));previewPrompt=project.prompts.isEmpty()?-1:state.prompt;previewChoice=state.choice;previewRequests(); }
 void Window::previewInput(int input) {
+    if(session.state.keyboard_active){cf_keyboard_input(&session.state,&session.definition,input==8?CF_KEY_CANCEL:input);updatePreview();return;}
+    if(previewScene>=0){if(input==1)previewChoose(-1);if(input==2)previewChoose(1);auto &s=project.scenes[previewScene];if(input==4&&previewCursor>=0)session.run(s.elements[previewCursor].actions);if(input==8)session.run(s.onBack);updatePreview();return;}
+
     if(previewMenu<0&&previewPrompt>=0&&previewPrompt<project.prompts.size()&&project.prompts[previewPrompt].modal&&(input==8||input==16))return;
     if(previewMenu>=0){
         if(input==8){previewMenu=-1;updatePreview();return;}
@@ -316,6 +327,7 @@ void Window::updatePreview() {
         lines.fill(QString(20,' '),18);lines[0]=lines[17]="+------------------+";for(int y=1;y<17;++y){lines[y][0]='|';lines[y][19]='|';}
         auto write=[&](int row,QString value){value=value.left(18);for(int i=0;i<value.size();++i)lines[row][i+1]=value[i];};int source=previewMenu&&previewSide?0:previewMenu;write(1,project.storages[source].name);QVector<int> ids;for(int i=0;i<project.items.size();++i)if(session.state.counts[source][i])ids<<i;previewItem=qBound(0,previewItem,qMax(0,int(ids.size())-1));if(ids.isEmpty())write(4,"Empty");int start=qMax(0,previewItem-9);for(int i=start;i<ids.size()&&i<start+10;++i)write(3+i-start,QString("%1%2 %3").arg(i==previewItem?">":" ").arg(project.items[ids[i]].name.left(12)).arg(session.state.counts[source][ids[i]]));write(15,previewReadOnly?"A:inspect":previewMenu?"A:move Select:swap":"A:use");write(16,"B:close");
     }
+    preview->pageImage={};if(previewScene>=0&&previewScene<project.scenes.size())preview->pageImage=sceneImage(project,project.scenes[previewScene],&session.state,previewCursor);if(session.state.keyboard_active)preview->pageImage=textScreenImage(session.keyboardLines(),{0,0,20,18},project.target=="gb");
     screen->setText(lines.join('\n'));screen->update();session.state.dirty=0;
     previewLabel->setText(previewPrompt >= 0 && previewPrompt < project.prompts.size() ? "Now playing: " + project.prompts[previewPrompt].title : "Conversation preview only — game startup is in Project Settings");
 }
