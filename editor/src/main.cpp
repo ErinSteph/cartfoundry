@@ -1,6 +1,12 @@
 #include "window.h"
+#include "builder.h"
+#include "startup_splash.h"
 #include <QApplication>
+#include <QElapsedTimer>
 #include <QFileInfo>
+#include <QScreen>
+#include <QSplashScreen>
+#include <QTimer>
 int main(int argc, char **argv) {
     QApplication::setAttribute(Qt::AA_DontUseNativeDialogs);
     QApplication app(argc, argv); app.setApplicationName("CartFoundry"); app.setOrganizationName("CartFoundry");
@@ -31,6 +37,17 @@ int main(int argc, char **argv) {
         QStatusBar { color: #a9b7c7; }
         QToolTip { color: #fff; background: #39495b; border: 1px solid #7c8a9b; }
     )");
+    // Start-up splash: the Emerald Softlab logo on the editor's dark blue for about two seconds.
+    // It is skipped silently if images/em_2_glow.png is missing.
+    constexpr int splashMilliseconds = 2000;
+    QElapsedTimer splashClock; QSplashScreen *splash = nullptr;
+    const qreal dpr = app.primaryScreen() ? app.primaryScreen()->devicePixelRatio() : 1.0;
+    const QPixmap splashArt = cf::startupSplashPixmap(cf::resourceRoot() + "/images/em_2_glow.png", QSize(600, 580), dpr, QSize(520, 500));
+    if (!splashArt.isNull()) { splash = new QSplashScreen(splashArt, Qt::WindowStaysOnTopHint); splash->show(); app.processEvents(); splashClock.start(); }
     cf::Window window; if (argc > 1 && QFileInfo::exists(QString::fromLocal8Bit(argv[1]))) window.openProject(QString::fromLocal8Bit(argv[1]));
-    window.show(); return app.exec();
+    if (!splash) { window.show(); return app.exec(); }
+    // The window finished loading while the splash was up; wait out whatever is left of the two seconds.
+    const int remaining = qMax(0, splashMilliseconds - int(splashClock.elapsed()));
+    QTimer::singleShot(remaining, &app, [&window, splash] { window.show(); splash->finish(&window); delete splash; });
+    return app.exec();
 }
