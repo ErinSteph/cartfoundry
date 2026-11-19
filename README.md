@@ -14,13 +14,12 @@ and mGBA emulator core.
 
 ## Download
 
-The current packaged build is **0.8.1**, for **macOS Apple Silicon (arm64)**.
-See [release notes](releases/README.md) and [SHA-256 checksums](releases/SHA256SUMS).
+The current packaged build is for **macOS Apple Silicon (arm64)**.
 Windows is a source portability target, not a tested binary release.
 
 ## Try it
 
-Download [CartFoundry 0.8.1 for macOS Apple Silicon](releases/CartFoundry-0.8.1-macOS-arm64.zip), unzip it, and open `CartFoundry.app`. **File → New Pokemon Example** opens Pocket Meadow,
+Download [CartFoundry 0.8.1 for macOS Apple Silicon](https://github.com/ErinSteph/cartfoundry/raw/refs/heads/main/compiled/AppleSilicon.zip), unzip it, and open `CartFoundry.app`. **File → New Pokemon Example** opens Pocket Meadow,
 a small adventure with grass encounters, battles, catching, healing and a party PC.
 **Help → Pokemon example guide** contains the complete editor recipe, including
 all variables, items, scripts, prompts and artwork. See [the guide](examples/pokemon/README.md).
