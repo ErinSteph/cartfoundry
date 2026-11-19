@@ -1,12 +1,52 @@
 #include "world_editor.h"
 #include <QtTest>
 #include "event_tools.h"
+#include "importer.h"
+#include "animation_editor.h"
 #include "sound_editor.h"
 #include "piano_roll.h"
 #include <QtWidgets>
 class MapCanvasTests:public QObject {
  Q_OBJECT
 private slots:
+ void removeSpriteSheet(){
+  cf::AnimationEditor editor;auto p=cf::Project::overworldExample();
+  auto asset=p.assets.last();asset.id="unused_sprite";asset.name="Unused sprite";asset.kind="sprite";p.assets<<asset;
+  const auto original=p;
+  editor.onEdit=[&](const cf::Project &next){p=next;editor.setProject(p);};editor.setProject(p);
+  QListWidget *sprites=nullptr;for(auto *list:editor.findChildren<QListWidget *>())for(int i=0;i<list->count();++i)if(list->item(i)->data(Qt::UserRole).toString()==asset.id){sprites=list;list->setCurrentRow(i);break;}
+  QVERIFY(sprites);QPushButton *remove=nullptr;for(auto *button:editor.findChildren<QPushButton *>())if(button->text()=="Remove sprite sheet…")remove=button;
+  QVERIFY(remove);QVERIFY(remove->isEnabled());
+  auto answer=[](QMessageBox::StandardButton choice){QTimer::singleShot(0,[choice]{auto *box=qobject_cast<QMessageBox *>(QApplication::activeModalWidget());if(box)box->button(choice)->click();});};
+  answer(QMessageBox::No);remove->click();QVERIFY(p.asset(asset.id));
+  answer(QMessageBox::Yes);remove->click();QVERIFY(!p.asset(asset.id));QCOMPARE(p.assets.size(),original.assets.size()-1);QVERIFY(p.validate().isEmpty());
+  editor.setProject(original);bool restored=false;for(int i=0;i<sprites->count();++i)if(sprites->item(i)->data(Qt::UserRole).toString()==asset.id)restored=true;QVERIFY(restored);
+  editor.setProject(cf::Project::blank());QVERIFY(!remove->isEnabled());
+ }
+ void removedSpriteClearsPlacement(){
+  cf::WorldEditor editor;auto p=cf::Project::overworldExample();
+  auto asset=p.assets.last();asset.id="unused_sprite";p.assets<<asset;editor.setProject(p);editor.placeSprite(asset.id);
+  cf::MapCanvas *canvas=nullptr;for(auto *widget:editor.findChildren<QWidget *>())if(auto *map=dynamic_cast<cf::MapCanvas *>(widget))canvas=map;QVERIFY(canvas);QCOMPARE(canvas->tool,6);QVERIFY(!canvas->placementImage.isNull());
+  p.assets.removeLast();editor.setProject(p);QCOMPARE(canvas->tool,5);QVERIFY(canvas->placementImage.isNull());QVERIFY(!canvas->placementSprite);
+ }
+ void blockAssetRemovalReferences(){
+  for(int use=0;use<8;++use){
+   auto p=cf::Project::overworldExample();auto asset=p.assets.last();asset.id="used_asset";p.assets<<asset;
+   switch(use){
+    case 0:p.world.player=asset.id;break;
+    case 1:p.world.tileset=asset.id;break;
+    case 2:p.areas[0].actors<<cf::Actor{"used","Used character",asset.id};break;
+    case 3:p.npcs<<cf::NpcTemplate{"used","Used NPC",cf::Actor{"used","Used",asset.id}};break;
+    case 4:p.prompts[0].portrait=asset.id;break;
+    case 5:{cf::Item item;item.icon=asset.id;p.items<<item;break;}
+    case 6:{cf::ScreenElement image;image.type="image";image.image=asset.id;p.scenes[0].elements<<image;break;}
+    case 7:p.areas[0].player=asset.id;break;
+   }
+   const auto before=p.toJson();cf::Project result;bool warned=false;
+   QTimer::singleShot(0,[&]{auto *box=qobject_cast<QMessageBox *>(QApplication::activeModalWidget());if(box){warned=box->icon()==QMessageBox::Information && box->text().contains("Change or remove these uses") && !box->informativeText().isEmpty();box->accept();}});
+   QVERIFY(!cf::removeAsset(nullptr,p,asset.id,result));QVERIFY(warned);QCOMPARE(p.toJson(),before);
+  }
+ }
  void editAllSongChannels(){cf::SoundEditor editor;auto p=cf::Project::example();editor.onEdit=[&](const cf::Project &next){p=next;editor.setProject(p);};editor.setProject(p);auto click=[&](QString name){for(auto *b:editor.findChildren<QPushButton *>())if(b->text()==name){b->click();return true;}return false;};QVERIFY(click("+ Demo song"));QCOMPARE(p.sounds[0].channels.size(),4);for(auto &t:p.sounds[0].channels)QVERIFY(t.enabled);auto *tabs=editor.findChild<QTabBar *>();QVERIFY(tabs);for(int ch=0;ch<4;++ch){tabs->setCurrentIndex(ch);auto *roll=editor.findChild<cf::PianoRoll *>();QVERIFY(roll);QVERIFY(click("▶ Play"));QVERIFY(click("■ Stop"));}tabs->setCurrentIndex(2);auto *table=editor.findChild<QTableWidget *>();QVERIFY(table);qobject_cast<QSpinBox *>(table->cellWidget(0,0))->setValue(7);QCOMPARE(p.sounds[0].channels[2].wave[0],7);tabs->setCurrentIndex(3);QVERIFY(click("+ Effect"));QVERIFY(p.sounds[1].effect);QVERIFY(p.sounds[1].channels[1].enabled);}
 
  void pianoRollGestures(){cf::PianoRoll roll;cf::SoundClip clip;clip.notes={{60,15},{0,15},{64,15}};roll.setPattern(clip);QVector<cf::SoundNote> result;roll.onEdit=[&](const QVector<cf::SoundNote> &n){result=n;};auto point=[](int tick,int note){return QPoint(64+tick*4,26+(107-note)*18+8);};

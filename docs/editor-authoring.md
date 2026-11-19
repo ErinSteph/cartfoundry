@@ -279,3 +279,12 @@ click the palette swatches to tune the reduction or reset to the automatic palet
 GBC colour precision and binary sprite transparency still apply. Background removal
 and resampling remain explicit choices. Screen-image insertion uses its existing
 160×144 screen conversion.
+
+Remove a sprite asset with **Sprite animations → Remove sprite sheet…**, or select
+an asset under **Sprites, tilesets / overworld → Remove selected asset…**. This
+removes the entire asset and its animation clips; **Delete animation** only removes
+one clip. Removal supports **Edit → Undo project change**. Assets still assigned
+to players, characters, NPC library entries, portraits, item icons, tilesets, or
+scene images cannot be removed until those uses are changed or removed; the dialog
+lists the remaining uses. To delete only a placed character, select it on the map
+and use **Selected / instances → Delete** or the Delete key.

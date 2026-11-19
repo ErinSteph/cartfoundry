@@ -1,7 +1,33 @@
 #include "importer.h"
+#include "project.h"
 #include <QtWidgets>
 #include <QImageReader>
 namespace cf {
+bool removeAsset(QWidget *parent, const Project &project, const QString &id, Project &result) {
+    const auto *asset=project.asset(id);
+    if(!asset)return false;
+    QStringList uses;
+    for(const auto &world:project.allAreas()){
+        if(world.player==id)uses<<world.name+": player sprite";
+        if(world.tileset==id)uses<<world.name+": tileset";
+        for(const auto &actor:world.actors)if(actor.sprite==id)uses<<world.name+" / "+actor.name+": character sprite";
+    }
+    for(const auto &npc:project.npcs)if(npc.actor.sprite==id)uses<<"NPC library / "+npc.name;
+    for(const auto &prompt:project.prompts)if(prompt.portrait==id)uses<<"Portrait / "+prompt.title;
+    for(const auto &item:project.items)if(item.icon==id)uses<<"Item icon / "+item.name;
+    for(const auto &scene:project.scenes)for(const auto &element:scene.elements)
+        if(element.image==id)uses<<scene.name+" / "+element.name+": image";
+    if(!uses.isEmpty()){
+        QMessageBox message(QMessageBox::Information,"Asset is still in use",
+            "Change or remove these uses before removing “"+asset->name+"”.",QMessageBox::Ok,parent);
+        message.setInformativeText(uses.join('\n'));message.exec();return false;
+    }
+    if(QMessageBox::question(parent,"Remove asset", "Remove “"+asset->name+"” and its animations from this project?\nYou can undo this project change.",QMessageBox::Yes|QMessageBox::No,QMessageBox::No)!=QMessageBox::Yes)return false;
+    result=project;
+    for(int i=0;i<result.assets.size();++i)if(result.assets[i].id==id){result.assets.removeAt(i);break;}
+    return true;
+}
+
 bool importAsset(QWidget *parent, const QString &kind, RasterAsset &result, bool placeAfterImport) {
     auto path = QFileDialog::getOpenFileName(parent, "Import image as " + kind, {}, "Images (*.png *.jpg *.jpeg *.bmp *.gif)");
     if (path.isEmpty()) return false;

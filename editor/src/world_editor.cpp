@@ -141,6 +141,15 @@ WorldEditor::WorldEditor(QWidget *parent):QWidget(parent){
     auto *resize=new QPushButton("Resize map (keep overlapping tiles)");side->addWidget(resize);
     auto *importSprite=new QPushButton("Import && place sprite…"),*importTiles=new QPushButton("Import tileset…"),*replace=new QPushButton("Replace selected asset…");side->addWidget(importSprite);side->addWidget(importTiles);
     assetList=new QListWidget;assetList->setMaximumHeight(130);side->addWidget(assetList);side->addWidget(replace);
+    auto *removeAssetButton=new QPushButton("Remove selected asset…");side->addWidget(removeAssetButton);
+    removeAssetButton->setEnabled(false);
+    connect(assetList,&QListWidget::currentRowChanged,removeAssetButton,[removeAssetButton](int row){removeAssetButton->setEnabled(row>=0);});
+    connect(removeAssetButton,&QPushButton::clicked,this,[this]{
+        auto *item=assetList->currentItem();if(!item)return;
+        const auto id=item->data(Qt::UserRole).toString();Project p;
+        if(!removeAsset(this,project,id,p))return;
+        if(onEdit)onEdit(p);else setProject(p);
+    });
     tools=new QComboBox;auto *tool=tools;tool->addItems({"Paint tiles","Paint collision (red = solid)","Place player spawn","Place prompt interaction","Place area exit","Select / move objects & sprites","Place selected reusable entry"});side->addWidget(tool);auto *brushMode=new QComboBox;brushMode->addItems({"Pencil","Rectangle fill","Flood fill"});side->addWidget(brushMode);connect(brushMode,&QComboBox::activated,this,[this](int i){canvas->brushMode=i;});
     prompt=new QComboBox;side->addWidget(prompt);exitArea=new QComboBox;side->addWidget(exitArea);side->addWidget(new QLabel("Drag paints · Right drag erases · Alt-click picks"));
     tileList=new QListWidget;tileList->setViewMode(QListView::IconMode);tileList->setIconSize({48,48});tileList->setGridSize({66,76});tileList->setMinimumWidth(250);side->addWidget(tileList,1);
@@ -173,7 +182,9 @@ Project WorldEditor::viewingProject() const {auto p=project;auto maps=p.allAreas
 void WorldEditor::editWorld(const std::function<void(World &)> &f){if(filling)return;auto snapshot=project;f(activeArea>0?snapshot.areas[activeArea-1]:snapshot.world);if(onEdit)onEdit(snapshot);}
 void WorldEditor::selectInstance(MapSelection item){canvas->selected=item;objects->setSelection(item);canvas->update();}
 void WorldEditor::setProject(const Project &p){
-    filling=true;QString currentPrompt=prompt->currentData().toString();int currentAsset=assetList->currentRow(),currentTile=tileList->currentRow();project=p;activeArea=qBound(0,activeArea,p.areas.size());auto &w=activeWorld();
+    filling=true;QString currentPrompt=prompt->currentData().toString();int currentAsset=assetList->currentRow(),currentTile=tileList->currentRow();project=p;
+    if(placement.kind=="sprite"&&!p.asset(placement.id)){placement={};canvas->placementImage={};canvas->placementSprite=false;tools->setCurrentIndex(5);placementHint->setText("Import & place a sprite, or double-click an existing sprite asset below the import buttons.");}
+    activeArea=qBound(0,activeArea,p.areas.size());auto &w=activeWorld();
     areaSelector->clear();exitArea->clear();for(auto a:p.allAreas()){areaSelector->addItem(a.chapter+" / "+a.name,a.id);exitArea->addItem(a.name,a.id);}areaSelector->setCurrentIndex(activeArea);
     areaName->setText(w.name);chapter->setText(w.chapter);canvas->exitTarget=exitArea->currentData().toString();
     enabled->setChecked(p.world.enabled);width->setValue(w.width);height->setValue(w.height);tileset->clear();player->clear();tileset->addItem("Choose tileset",QString());player->addItem("Choose player",QString());assetList->clear();
