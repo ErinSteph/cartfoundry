@@ -1,0 +1,3479 @@
+{
+    "areas": [
+    ],
+    "assets": [
+        {
+            "animations": [
+            ],
+            "columns": 1,
+            "height": 8,
+            "id": "meadow_tiles",
+            "kind": "tileset",
+            "name": "Meadow tiles",
+            "palette": [
+                27645,
+                12082,
+                13974,
+                7395
+            ],
+            "pixels": "AAAAAAAAAAADAwMDAwMDAwACAgICAgIAAAMDAwMDAwABAQEBAQEBAQMDAwMDAwMDAwMDAwMDAwMCAgMDAwMCAgAAAAAAAAAAAwEBAQEBAQECAgICAgIAAgACAgICAgIAAQEBAQEBAQEDAwMDAwMDAwICAgICAgICAgIDAwMDAgIAAAAAAAAAAAMBAQEBAQEBAgICAgIAAgIAAgICAgICAAMBAQMBAQMBAAAAAAAAAAACAgICAgICAgICAwMDAwICAAAAAAAAAAADAQEBAQEBAQICAgIAAgICAAICAgICAgADAQEDAQEDAQMDAwMDAwMDAwMDAwMDAwMCAgMDAwMCAgAAAAAAAAAAAwEBAQEBAQECAgIAAgICAgADAwMDAwMAAwEBAwEBAwEDAwMDAwMDAwICAgICAgICAgIDAwMDAgIAAAEAAAAAAAMBAQEBAQEBAgIAAgICAgIAAAADAwAAAAMBAQMBAQMBAwMDAwMDAwMCAgICAgICAgICAwMDAwICAAAAAAAAAAADAQEBAQEBAQIAAgICAgICAAAAAwMAAAADAwEDAQMDAwAAAAAAAAAAAwMDAwMDAwMCAgMDAwMCAgAAAAAAAAAAAwEBAQEBAQEAAgICAgICAAAAAAMDAAAAAwEBAwEBAwEDAwMDAwMDAwICAgICAgICAgIDAwMDAgI=",
+            "rows": 1,
+            "width": 64
+        },
+        {
+            "animations": [
+                {
+                    "duration": 30,
+                    "first": 0,
+                    "flipH": false,
+                    "flipV": false,
+                    "last": 0,
+                    "loop": true,
+                    "name": "idle",
+                    "reverse": false
+                },
+                {
+                    "duration": 24,
+                    "first": 0,
+                    "flipH": false,
+                    "flipV": false,
+                    "last": 3,
+                    "loop": true,
+                    "name": "walk",
+                    "reverse": false
+                },
+                {
+                    "duration": 30,
+                    "first": 1,
+                    "flipH": false,
+                    "flipV": false,
+                    "last": 3,
+                    "loop": false,
+                    "name": "wave",
+                    "reverse": false
+                }
+            ],
+            "columns": 2,
+            "height": 32,
+            "id": "trainer",
+            "kind": "sprite",
+            "name": "Trainer",
+            "palette": [
+                0,
+                22398,
+                10780,
+                10468
+            ],
+            "pixels": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgICAgICAgIAAAAAAAAAAAICAgICAgICAAAAAAAAAAACAgICAgICAgAAAAAAAAAAAgICAgICAgIAAAAAAAAAAAEBAQEBAQEBAAAAAAAAAAABAQEBAQEBAQAAAAAAAAAAAQEBAQEBAQEAAAAAAAAAAAEBAQEBAQEBAAAAAAAAAAABAQMBAQEDAQAAAAAAAAAAAQEDAQEBAwEAAAAAAAAAAAEBAQEBAQEBAAAAAAAAAAABAQEBAQEBAQAAAAAAAAAAAQEBAQEBAQEAAAAAAAAAAAEBAQEBAQEBAAAAAAAAAAICAgICAgICAgIAAAAAAAACAgICAgICAgICAAAAAAAAAgICAgICAgICAgAAAAAAAAICAgICAgICAgIAAAAAAAACAgICAgICAgICAAAAAAAAAgICAgICAgICAgAAAAAAAAICAgICAgICAgIAAAAAAAACAgICAgICAgICAAAAAAAAAgICAgICAgICAgAAAAAAAAICAgICAgICAgIAAAAAAAAAAwMDAAADAwMAAAAAAAAAAwMDAAAAAAMDAwAAAAAAAAADAwMAAAMDAwAAAAAAAAADAwMAAAAAAwMDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDAwAAAAADAwMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAgICAgICAgAAAAAAAAAAAgICAgICAgIAAAAAAAAAAAICAgICAgICAAAAAAAAAAACAgICAgICAgAAAAAAAAAAAQEBAQEBAQEAAAAAAAAAAAEBAQEBAQEBAAAAAAAAAAABAQEBAQEBAQAAAAAAAAAAAQEBAQEBAQEAAAAAAAAAAAEBAwEBAQMBAAAAAAAAAAABAQMBAQEDAQAAAAAAAAEAAQEBAQEBAQEAAQAAAAAAAAEBAQEBAQEBAAAAAAAAAQABAQEBAQEBAQABAAAAAAAAAQEBAQEBAQEAAAAAAAABAgICAgICAgICAgEAAAAAAAICAgICAgICAgIAAAAAAAACAgICAgICAgICAAAAAAAAAgICAgICAgICAgAAAAAAAAICAgICAgICAgIAAAAAAAACAgICAgICAgICAAAAAAAAAgICAgICAgICAgAAAAAAAAICAgICAgICAgIAAAAAAAACAgICAgICAgICAAAAAAAAAgICAgICAgICAgAAAAAAAAADAwMAAAMDAwAAAAAAAAAAAAMDAwMDAwAAAAAAAAAAAAMDAwAAAwMDAAAAAAAAAAAAAwMDAwMDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAwMDAwMAAAAAAA==",
+            "rows": 2,
+            "width": 32
+        },
+        {
+            "animations": [
+            ],
+            "columns": 1,
+            "height": 16,
+            "id": "pikachu",
+            "kind": "sprite",
+            "name": "Pikachu",
+            "palette": [
+                27645,
+                10111,
+                7613,
+                7395
+            ],
+            "pixels": "AAAAAwAAAAAAAAADAAAAAAAAAwEDAAAAAAADAQMAAAAAAAMBAQAAAAAAAQEDAAAAAAADAQEAAAAAAAEBAwAAAAAAAAEBAQEBAQEBAQAAAAAAAAEBAQEBAQEBAQEBAAAAAAABAQMBAQEBAQMBAQAAAAAAAQEBAQEBAQEBAQEAAAAAAAEBAgEDAwECAQEBAAMDAAAAAQEBAQEBAQEBAAADAQAAAAABAQEBAQEBAAADAQAAAAABAQEBAQEBAQEDAQAAAAAAAQEBAQEBAQEBAAAAAAAAAAEBAQEBAQEBAQAAAAAAAAAAAwEBAAABAQMAAAAAAAAAAAMDAwAAAwMDAAAAAA==",
+            "rows": 1,
+            "width": 16
+        },
+        {
+            "animations": [
+            ],
+            "columns": 1,
+            "height": 16,
+            "id": "bulbasaur",
+            "kind": "sprite",
+            "name": "Bulbasaur",
+            "palette": [
+                27645,
+                12082,
+                13864,
+                7395
+            ],
+            "pixels": "AAAAAAAAAAICAgAAAAAAAAAAAAAAAgICAgICAAAAAAAAAAAAAgICAwIDAgIAAAAAAAAAAAICAgICAgICAAAAAAAAAAEBAQECAgEBAQAAAAAAAAEBAQEBAQEBAQEBAAAAAAEBAQEBAQEBAQEBAQEAAAABAQMBAQEBAQEDAQEBAAAAAQEDAQEBAQEBAwEBAQAAAAEBAQEBAwMBAQEBAQEAAAAAAQEBAQEBAQEBAQEAAAAAAAABAQEBAQEBAQEAAAAAAAAAAQECAQEBAgEBAAAAAAAAAAEBAQAAAAEBAQAAAAAAAAADAQMAAAADAQMAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+            "rows": 1,
+            "width": 16
+        },
+        {
+            "animations": [
+            ],
+            "columns": 1,
+            "height": 16,
+            "id": "charmander",
+            "kind": "sprite",
+            "name": "Charmander",
+            "palette": [
+                27645,
+                7741,
+                16223,
+                7395
+            ],
+            "pixels": "AAAAAAAAAQEBAQAAAAAAAAAAAAAAAQEBAQEBAAAAAAAAAAAAAQEBAQEBAQEAAAAAAAAAAAEBAwEBAwEBAAAAAAAAAAABAQEBAQEBAQAAAAAAAAAAAAEBAwMBAQAAAAAAAAAAAAAAAQEBAQAAAAAAAAAAAAABAQEBAQEBAQAAAAAAAAABAQEBAgIBAQEAAAAAAAABAQABAgICAgEBAAADAAAAAAAAAQICAgIBAQADAgMAAAAAAAEBAgIBAQADAgIDAAAAAAABAQEBAQEBAQECAAAAAAABAQEAAAEBAQEAAAAAAAAAAwMDAAADAwMAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+            "rows": 1,
+            "width": 16
+        },
+        {
+            "animations": [
+            ],
+            "columns": 1,
+            "height": 16,
+            "id": "squirtle",
+            "kind": "sprite",
+            "name": "Squirtle",
+            "palette": [
+                27645,
+                28397,
+                11897,
+                7395
+            ],
+            "pixels": "AAAAAAAAAQEBAQAAAAAAAAAAAAAAAQEBAQEBAAAAAAAAAAAAAQEBAQEBAQEAAAAAAAAAAAEBAwEBAwEBAAAAAAAAAAABAQEBAQEBAQAAAAAAAAAAAAEBAwMBAQAAAAAAAAAAAAACAQEBAQICAAAAAAAAAAECAgICAgICAgEAAAAAAAEBAQICAwMCAgEBAQAAAAAAAQECAgICAgIBAQAAAAAAAAABAgIDAwICAQAAAQEAAAAAAQICAgICAgEAAQEBAAAAAAABAQEBAQEBAQEBAAAAAAABAQEAAAEBAQEAAAAAAAAAAwMDAAADAwMAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+            "rows": 1,
+            "width": 16
+        }
+    ],
+    "controls": {
+        "close": 32,
+        "interact": 16,
+        "inventory": 64,
+        "restart": 128
+    },
+    "entry": "intro",
+    "format": "cartfoundry",
+    "prompts": [
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "intro",
+            "modal": false,
+            "onEnter": "",
+            "portrait": "pikachu",
+            "position": [
+                0,
+                0
+            ],
+            "text": "Pikachu is yours!\nCatch 3 wild Pokemon\nin the long grass.\nNurse heals north.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "POCKET MEADOW"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "",
+                    "condition": "",
+                    "target": "resolve_fight",
+                    "text": "Fight"
+                },
+                {
+                    "actions": "",
+                    "condition": "has inventory pokeball >= 1",
+                    "target": "resolve_catch",
+                    "text": "Catch"
+                },
+                {
+                    "actions": "",
+                    "condition": "",
+                    "target": "escaped",
+                    "text": "Run"
+                }
+            ],
+            "id": "battle_bulbasaur",
+            "modal": true,
+            "onEnter": "",
+            "portrait": "bulbasaur",
+            "position": [
+                330,
+                0
+            ],
+            "text": "Wild HP {wild_hp}\nPikachu HP {hp}\nWeaken, then catch!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "WILD BULBASAUR"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "caught_bulbasaur",
+            "modal": true,
+            "onEnter": "",
+            "portrait": "bulbasaur",
+            "position": [
+                660,
+                0
+            ],
+            "text": "Bulbasaur joins\nyour party!\nCaught {caught} of 3",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "CAUGHT BULBASAUR"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "dex_bulbasaur",
+            "modal": false,
+            "onEnter": "",
+            "portrait": "bulbasaur",
+            "position": [
+                990,
+                0
+            ],
+            "text": "A wild friend from\nthe meadow.\nUse the PC to view\nyour collection.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "BULBASAUR"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "",
+                    "condition": "",
+                    "target": "resolve_fight",
+                    "text": "Fight"
+                },
+                {
+                    "actions": "",
+                    "condition": "has inventory pokeball >= 1",
+                    "target": "resolve_catch",
+                    "text": "Catch"
+                },
+                {
+                    "actions": "",
+                    "condition": "",
+                    "target": "escaped",
+                    "text": "Run"
+                }
+            ],
+            "id": "battle_charmander",
+            "modal": true,
+            "onEnter": "",
+            "portrait": "charmander",
+            "position": [
+                0,
+                280
+            ],
+            "text": "Wild HP {wild_hp}\nPikachu HP {hp}\nWeaken, then catch!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "WILD CHARMANDER"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "caught_charmander",
+            "modal": true,
+            "onEnter": "",
+            "portrait": "charmander",
+            "position": [
+                330,
+                280
+            ],
+            "text": "Charmander joins\nyour party!\nCaught {caught} of 3",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "CAUGHT CHARMANDER"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "dex_charmander",
+            "modal": false,
+            "onEnter": "",
+            "portrait": "charmander",
+            "position": [
+                660,
+                280
+            ],
+            "text": "A wild friend from\nthe meadow.\nUse the PC to view\nyour collection.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "CHARMANDER"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "",
+                    "condition": "",
+                    "target": "resolve_fight",
+                    "text": "Fight"
+                },
+                {
+                    "actions": "",
+                    "condition": "has inventory pokeball >= 1",
+                    "target": "resolve_catch",
+                    "text": "Catch"
+                },
+                {
+                    "actions": "",
+                    "condition": "",
+                    "target": "escaped",
+                    "text": "Run"
+                }
+            ],
+            "id": "battle_squirtle",
+            "modal": true,
+            "onEnter": "",
+            "portrait": "squirtle",
+            "position": [
+                990,
+                280
+            ],
+            "text": "Wild HP {wild_hp}\nPikachu HP {hp}\nWeaken, then catch!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "WILD SQUIRTLE"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "caught_squirtle",
+            "modal": true,
+            "onEnter": "",
+            "portrait": "squirtle",
+            "position": [
+                0,
+                560
+            ],
+            "text": "Squirtle joins\nyour party!\nCaught {caught} of 3",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "CAUGHT SQUIRTLE"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "dex_squirtle",
+            "modal": false,
+            "onEnter": "",
+            "portrait": "squirtle",
+            "position": [
+                330,
+                560
+            ],
+            "text": "A wild friend from\nthe meadow.\nUse the PC to view\nyour collection.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "SQUIRTLE"
+        },
+        {
+            "choices": [
+            ],
+            "id": "resolve_fight",
+            "modal": true,
+            "onEnter": "call attack_turn",
+            "portrait": "pikachu",
+            "position": [
+                660,
+                560
+            ],
+            "text": "Pikachu attacks!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "BATTLE"
+        },
+        {
+            "choices": [
+            ],
+            "id": "resolve_catch",
+            "modal": true,
+            "onEnter": "call throw_ball",
+            "portrait": "pikachu",
+            "position": [
+                990,
+                560
+            ],
+            "text": "Throwing a ball...",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "POKE BALL"
+        },
+        {
+            "choices": [
+            ],
+            "id": "battle_router",
+            "modal": true,
+            "onEnter": "call show_battle",
+            "portrait": "pikachu",
+            "position": [
+                0,
+                840
+            ],
+            "text": "A wild Pokemon!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "BATTLE"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "victory",
+            "modal": true,
+            "onEnter": "",
+            "portrait": "pikachu",
+            "position": [
+                330,
+                840
+            ],
+            "text": "The wild Pokemon\nfled after battle.\nWins {wins}\nTry catching next!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "VICTORY"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "escaped",
+            "modal": true,
+            "onEnter": "",
+            "portrait": "pikachu",
+            "position": [
+                660,
+                840
+            ],
+            "text": "You escaped safely.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "GOT AWAY"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "fainted",
+            "modal": true,
+            "onEnter": "",
+            "portrait": "pikachu",
+            "position": [
+                990,
+                840
+            ],
+            "text": "Pikachu needs rest.\nGo north to Nurse\nfor free healing.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "PIKACHU FAINTED"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "",
+                    "condition": "",
+                    "target": "battle_router",
+                    "text": "Try again"
+                }
+            ],
+            "id": "catch_failed",
+            "modal": true,
+            "onEnter": "",
+            "portrait": "pikachu",
+            "position": [
+                0,
+                1120
+            ],
+            "text": "The ball broke open!\nThe wild attacked.\nPikachu HP {hp}",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "BROKE FREE"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "",
+                    "condition": "",
+                    "target": "battle_router",
+                    "text": "Back to battle"
+                }
+            ],
+            "id": "no_balls",
+            "modal": true,
+            "onEnter": "",
+            "portrait": "pikachu",
+            "position": [
+                330,
+                1120
+            ],
+            "text": "Ask Nurse for more\nPoke Balls.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "NO POKE BALLS"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "already_owned",
+            "modal": true,
+            "onEnter": "",
+            "portrait": "pikachu",
+            "position": [
+                660,
+                1120
+            ],
+            "text": "This Pokemon is\nalready in your\nparty. Find another!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "ALREADY CAUGHT"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "party_full",
+            "modal": true,
+            "onEnter": "",
+            "portrait": "pikachu",
+            "position": [
+                990,
+                1120
+            ],
+            "text": "Your party is full.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "PARTY FULL"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "",
+                    "condition": "",
+                    "target": "healed",
+                    "text": "Heal / refill"
+                },
+                {
+                    "actions": "call report",
+                    "condition": "",
+                    "target": "progress",
+                    "text": "Check collection"
+                },
+                {
+                    "actions": "view party",
+                    "condition": "",
+                    "target": "lab",
+                    "text": "View party"
+                }
+            ],
+            "id": "lab",
+            "modal": false,
+            "onEnter": "",
+            "portrait": "pikachu",
+            "position": [
+                0,
+                1400
+            ],
+            "text": "Free healing and\nPoke Ball refills.\nCaught all 3 yet?",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "NURSE"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "healed",
+            "modal": false,
+            "onEnter": "call heal",
+            "portrait": "pikachu",
+            "position": [
+                330,
+                1400
+            ],
+            "text": "Pikachu has 20 HP.\nYour bag has fresh\nPoke Balls. Good luck!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "ALL BETTER"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "progress",
+            "modal": false,
+            "onEnter": "",
+            "portrait": "pikachu",
+            "position": [
+                660,
+                1400
+            ],
+            "text": "Caught {caught} of 3\nFind Bulbasaur,\nCharmander and\nSquirtle in grass.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "KEEP EXPLORING"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "complete",
+            "modal": false,
+            "onEnter": "",
+            "portrait": "pikachu",
+            "position": [
+                990,
+                1400
+            ],
+            "text": "You caught all 3!\nYour tiny adventure\nis complete. Keep\nexploring for fun.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "WELL DONE!"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "potion_used",
+            "modal": false,
+            "onEnter": "",
+            "portrait": "pikachu",
+            "position": [
+                0,
+                1680
+            ],
+            "text": "Pikachu HP {hp}\nReady to explore!",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "POTION USED"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "ball_help",
+            "modal": false,
+            "onEnter": "",
+            "portrait": "",
+            "position": [
+                330,
+                1680
+            ],
+            "text": "Use Catch during\nbattle. Weaken wild\nPokemon to 4 HP\nfor a sure catch.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "POKE BALLS"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "dex_pikachu",
+            "modal": false,
+            "onEnter": "",
+            "portrait": "pikachu",
+            "position": [
+                660,
+                1680
+            ],
+            "text": "Your loyal starter!\nBattle with Fight;\nrest with Nurse.\nHP {hp} of 20",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "PIKACHU"
+        },
+        {
+            "choices": [
+                {
+                    "actions": "resume",
+                    "condition": "",
+                    "target": "intro",
+                    "text": "Back to trail"
+                }
+            ],
+            "id": "sign",
+            "modal": false,
+            "onEnter": "",
+            "portrait": "",
+            "position": [
+                990,
+                1680
+            ],
+            "text": "Grass may hide wild\nPokemon. Weaken to\n4 HP before Catch.\nSelect opens Bag.",
+            "textStyle": {
+                "align": 0,
+                "border": true,
+                "choiceSpacing": 1,
+                "cursor": ">",
+                "disabledMarker": "x",
+                "footer": "",
+                "padding": 1,
+                "palette": [
+                ],
+                "showFooter": true,
+                "showTitle": true
+            },
+            "textbox": [
+                0,
+                5,
+                20,
+                13
+            ],
+            "title": "LONG GRASS"
+        }
+    ],
+    "settings": {
+        "defaultScene": "scene_main",
+        "splashTicks": 120
+    },
+    "systems": {
+        "items": [
+            {
+                "consumable": false,
+                "description": "Throw from the battle Catch choice.",
+                "icon": "",
+                "id": "pokeball",
+                "name": "Poke Ball",
+                "stackLimit": 20,
+                "useScript": "dialogue ball_help"
+            },
+            {
+                "consumable": true,
+                "description": "Restores Pikachu to 20 HP.",
+                "icon": "",
+                "id": "potion",
+                "name": "Potion",
+                "stackLimit": 10,
+                "useScript": "set hp 20\ndialogue potion_used"
+            },
+            {
+                "consumable": false,
+                "description": "Your electric starter.",
+                "icon": "pikachu",
+                "id": "pikachu",
+                "name": "Pikachu",
+                "stackLimit": 1,
+                "useScript": "dialogue dex_pikachu"
+            },
+            {
+                "consumable": false,
+                "description": "A small grass Pokemon.",
+                "icon": "bulbasaur",
+                "id": "bulbasaur",
+                "name": "Bulbasaur",
+                "stackLimit": 1,
+                "useScript": "dialogue dex_bulbasaur"
+            },
+            {
+                "consumable": false,
+                "description": "A small fire Pokemon.",
+                "icon": "charmander",
+                "id": "charmander",
+                "name": "Charmander",
+                "stackLimit": 1,
+                "useScript": "dialogue dex_charmander"
+            },
+            {
+                "consumable": false,
+                "description": "A small water Pokemon.",
+                "icon": "squirtle",
+                "id": "squirtle",
+                "name": "Squirtle",
+                "stackLimit": 1,
+                "useScript": "dialogue dex_squirtle"
+            }
+        ],
+        "keyboards": [
+        ],
+        "maps": [
+            {
+                "id": "map_main",
+                "name": "Overworld",
+                "scene": "scene_main"
+            }
+        ],
+        "npcs": [
+            {
+                "actor": {
+                    "health": 3,
+                    "id": "nurse",
+                    "libraryId": "",
+                    "name": "Nurse",
+                    "onDefeat": "",
+                    "onHit": "",
+                    "onInteract": "dialogue lab",
+                    "script": "behavior idle\nanimation idle\n",
+                    "sprite": "trainer",
+                    "x": 6,
+                    "y": 5
+                },
+                "id": "nurse_template",
+                "name": "Nurse"
+            }
+        ],
+        "pauseMenu": "",
+        "rngSeed": 44257,
+        "save": {
+            "enabled": false,
+            "excludedStorages": [
+            ],
+            "excludedText": [
+            ],
+            "excludedVariables": [
+            ],
+            "id": "",
+            "position": true,
+            "random": true,
+            "slots": 3,
+            "storages": true,
+            "text": true,
+            "timers": true,
+            "variables": true
+        },
+        "scenes": [
+            {
+                "background": 26557,
+                "elements": [
+                ],
+                "id": "scene_main",
+                "kind": "world",
+                "name": "Main Scene",
+                "onBack": "",
+                "onSceneEnter": "sound loop song_1\ndialogue intro",
+                "startArea": "meadow"
+            }
+        ],
+        "scripts": [
+            {
+                "id": "show_battle",
+                "name": "Show the wild Pokemon",
+                "source": "if species == 1\n dialogue battle_bulbasaur\nelse\n if species == 2\n  dialogue battle_charmander\n else\n  dialogue battle_squirtle\n end\nend"
+            },
+            {
+                "id": "wild_encounter",
+                "name": "Start a wild encounter",
+                "source": "if hp > 0\n set wild_hp 10\n random species 1 3\n call show_battle\nend"
+            },
+            {
+                "id": "hurt_player",
+                "name": "Wild Pokemon attacks",
+                "source": "random damage 1 3\nsub hp damage\nif hp < 0\n set hp 0\nend"
+            },
+            {
+                "id": "attack_turn",
+                "name": "Pikachu attacks",
+                "source": "random damage 2 4\nsub wild_hp damage\nif wild_hp <= 0\n set wild_hp 0\n add wins 1\n dialogue victory\nelse\n call hurt_player\n if hp == 0\n  dialogue fainted\n else\n  call show_battle\n end\nend"
+            },
+            {
+                "id": "store_capture",
+                "name": "Store a caught Pokemon",
+                "source": "if species == 1\nif has party bulbasaur >= 1\n dialogue already_owned\nelse\n give party bulbasaur 1\n if result == 1\n  add caught 1\n  dialogue caught_bulbasaur\n else\n  dialogue party_full\n end\nend\nelse\nif species == 2\nif has party charmander >= 1\n dialogue already_owned\nelse\n give party charmander 1\n if result == 1\n  add caught 1\n  dialogue caught_charmander\n else\n  dialogue party_full\n end\nend\nelse\nif has party squirtle >= 1\n dialogue already_owned\nelse\n give party squirtle 1\n if result == 1\n  add caught 1\n  dialogue caught_squirtle\n else\n  dialogue party_full\n end\nend\nend\nend\n"
+            },
+            {
+                "id": "throw_ball",
+                "name": "Try to catch the wild Pokemon",
+                "source": "take inventory pokeball 1\nif result == 1\n random roll 1 100\n if wild_hp <= 4\n  set roll 1\n end\n if roll <= 35\n  call store_capture\n else\n  call hurt_player\n  if hp == 0\n   dialogue fainted\n  else\n   dialogue catch_failed\n  end\n end\nelse\n dialogue no_balls\nend"
+            },
+            {
+                "id": "heal",
+                "name": "Heal and refill balls",
+                "source": "set hp 20\nif has inventory pokeball < 5\n give inventory pokeball 5\nend"
+            },
+            {
+                "id": "report",
+                "name": "Check the collection",
+                "source": "if has party bulbasaur >= 1\n if has party charmander >= 1\n  if has party squirtle >= 1\n   dialogue complete\n  else\n   dialogue progress\n  end\n else\n  dialogue progress\n end\nelse\n dialogue progress\nend"
+            }
+        ],
+        "sounds": [
+            {
+                "bpm": 120,
+                "channels": [
+                    {
+                        "dac": true,
+                        "drumKit": true,
+                        "duty": 2,
+                        "enabled": true,
+                        "envelopePace": 0,
+                        "envelopeUp": false,
+                        "length": 0,
+                        "noiseDivider": 3,
+                        "noiseNarrow": false,
+                        "noiseShift": 4,
+                        "notes": [
+                            {
+                                "noise": -1,
+                                "note": 68,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 68,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 71,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 69,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 68,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 45,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 60,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 63,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 69,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 68,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 68,
+                                "ticks": 45,
+                                "volume": -1
+                            }
+                        ],
+                        "pan": 3,
+                        "sweepDown": false,
+                        "sweepPace": 0,
+                        "sweepShift": 0,
+                        "volume": 10,
+                        "wave": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            15,
+                            14,
+                            13,
+                            12,
+                            11,
+                            10,
+                            9,
+                            8,
+                            7,
+                            6,
+                            5,
+                            4,
+                            3,
+                            2,
+                            1,
+                            0
+                        ],
+                        "waveLevel": 1
+                    },
+                    {
+                        "dac": true,
+                        "drumKit": true,
+                        "duty": 0,
+                        "enabled": true,
+                        "envelopePace": 2,
+                        "envelopeUp": false,
+                        "length": 8,
+                        "noiseDivider": 3,
+                        "noiseNarrow": false,
+                        "noiseShift": 4,
+                        "notes": [
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 66,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 64,
+                                "ticks": 15,
+                                "volume": -1
+                            }
+                        ],
+                        "pan": 3,
+                        "sweepDown": false,
+                        "sweepPace": 0,
+                        "sweepShift": 0,
+                        "volume": 10,
+                        "wave": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            15,
+                            14,
+                            13,
+                            12,
+                            11,
+                            10,
+                            9,
+                            8,
+                            7,
+                            6,
+                            5,
+                            4,
+                            3,
+                            2,
+                            1,
+                            0
+                        ],
+                        "waveLevel": 1
+                    },
+                    {
+                        "dac": true,
+                        "drumKit": true,
+                        "duty": 2,
+                        "enabled": true,
+                        "envelopePace": 0,
+                        "envelopeUp": false,
+                        "length": 0,
+                        "noiseDivider": 3,
+                        "noiseNarrow": false,
+                        "noiseShift": 4,
+                        "notes": [
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 49,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 54,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 49,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 52,
+                                "ticks": 15,
+                                "volume": -1
+                            }
+                        ],
+                        "pan": 3,
+                        "sweepDown": false,
+                        "sweepPace": 0,
+                        "sweepShift": 0,
+                        "volume": 10,
+                        "wave": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            15,
+                            14,
+                            13,
+                            12,
+                            11,
+                            10,
+                            9,
+                            8,
+                            7,
+                            6,
+                            5,
+                            4,
+                            3,
+                            2,
+                            1,
+                            0
+                        ],
+                        "waveLevel": 1
+                    },
+                    {
+                        "dac": true,
+                        "drumKit": true,
+                        "duty": 2,
+                        "enabled": true,
+                        "envelopePace": 0,
+                        "envelopeUp": false,
+                        "length": 14,
+                        "noiseDivider": 3,
+                        "noiseNarrow": false,
+                        "noiseShift": 4,
+                        "notes": [
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 76,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 29,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 76,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 29,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 76,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 29,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 76,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 15,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 53,
+                                "ticks": 1,
+                                "volume": -1
+                            },
+                            {
+                                "noise": -1,
+                                "note": 0,
+                                "ticks": 14,
+                                "volume": -1
+                            }
+                        ],
+                        "pan": 3,
+                        "sweepDown": false,
+                        "sweepPace": 0,
+                        "sweepShift": 0,
+                        "volume": 10,
+                        "wave": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            15,
+                            14,
+                            13,
+                            12,
+                            11,
+                            10,
+                            9,
+                            8,
+                            7,
+                            6,
+                            5,
+                            4,
+                            3,
+                            2,
+                            1,
+                            0
+                        ],
+                        "waveLevel": 1
+                    }
+                ],
+                "duty": 2,
+                "effect": false,
+                "id": "song_1",
+                "masterLeft": 7,
+                "masterRight": 7,
+                "name": "New song",
+                "notes": [
+                    {
+                        "noise": -1,
+                        "note": 68,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 64,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 68,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 71,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 0,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 69,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 0,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 68,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 64,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 66,
+                        "ticks": 45,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 0,
+                        "ticks": 60,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 66,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 63,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 66,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 69,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 0,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 66,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 0,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 68,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 64,
+                        "ticks": 15,
+                        "volume": -1
+                    },
+                    {
+                        "noise": -1,
+                        "note": 68,
+                        "ticks": 45,
+                        "volume": -1
+                    }
+                ],
+                "volume": 10
+            }
+        ],
+        "storages": [
+            {
+                "contents": {
+                    "pokeball": 8,
+                    "potion": 3
+                },
+                "id": "inventory",
+                "name": "Bag",
+                "slots": 8
+            },
+            {
+                "contents": {
+                    "pikachu": 1
+                },
+                "id": "party",
+                "name": "Pokemon party",
+                "slots": 4
+            }
+        ],
+        "textFields": [
+        ],
+        "timers": [
+        ],
+        "variables": [
+            {
+                "id": "hp",
+                "initial": 20
+            },
+            {
+                "id": "wild_hp",
+                "initial": 10
+            },
+            {
+                "id": "species",
+                "initial": 1
+            },
+            {
+                "id": "damage",
+                "initial": 0
+            },
+            {
+                "id": "roll",
+                "initial": 0
+            },
+            {
+                "id": "wins",
+                "initial": 0
+            },
+            {
+                "id": "caught",
+                "initial": 0
+            }
+        ]
+    },
+    "target": "gbc",
+    "title": "Pocket Meadow",
+    "version": 6,
+    "world": {
+        "actors": [
+            {
+                "health": 3,
+                "id": "nurse",
+                "libraryId": "",
+                "name": "Nurse",
+                "onDefeat": "",
+                "onHit": "",
+                "onInteract": "dialogue lab",
+                "script": "behavior idle\nanimation idle\n",
+                "sprite": "trainer",
+                "x": 6,
+                "y": 5
+            }
+        ],
+        "attackRange": 24,
+        "chapter": "Tiny adventure",
+        "collision": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAEBAQEBAAAAAAAAAAAAAAAAAQEBAQEBAQEAAAABAQAAAQEBAQEAAAAAAAAAAAAAAAABAQEBAQEBAQAAAAEBAAABAQEBAQAAAAAAAAAAAAAAAAEBAQEBAQEBAAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEB",
+        "enabled": true,
+        "exits": [
+        ],
+        "height": 24,
+        "id": "meadow",
+        "interactionRange": 16,
+        "interactions": [
+            {
+                "cell": 233,
+                "prompt": "sign"
+            }
+        ],
+        "mapId": "map_main",
+        "name": "Pocket Meadow",
+        "objects": [
+            {
+                "id": "party_pc",
+                "kind": "storage",
+                "name": "Party PC",
+                "onHit": "",
+                "onInteract": "view party",
+                "solid": true,
+                "storage": "party",
+                "tile": 3,
+                "x": 3,
+                "y": 5
+            }
+        ],
+        "onStart": "",
+        "player": "trainer",
+        "playerScript": "behavior top_down\nspeed 1\nevery 1\naxis x\nrange 32\nsight 80\non_touch none\nanimation idle\non_move walk\non_idle idle\non_interact none\nflip_h no\nflip_v no\nmirror_facing no\n",
+        "spawnX": 4,
+        "spawnY": 8,
+        "terrainEvents": [
+            {
+                "chance": 35,
+                "every": 2,
+                "script": "call wild_encounter",
+                "tile": 4
+            }
+        ],
+        "tiles": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            6,
+            6,
+            6,
+            6,
+            6,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            6,
+            6,
+            6,
+            6,
+            6,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            7,
+            7,
+            7,
+            7,
+            7,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            3,
+            0,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            1,
+            1,
+            0,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+        ],
+        "tileset": "meadow_tiles",
+        "width": 32
+    }
+}
