@@ -1,9 +1,12 @@
 name: Desktop packages
 on:
   push:
-    branches: [main, 'codex/release-*']
+    branches: ['codex/release-*']
     tags: ['v*']
   workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

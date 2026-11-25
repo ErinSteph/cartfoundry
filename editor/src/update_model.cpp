@@ -155,7 +155,15 @@ bool installationIsRunning(const QString &root){
  int size=proc_listallpids(nullptr,0);if(size<=0)return true;QVector<pid_t> pids(size+256);int count=proc_listallpids(pids.data(),int(pids.size()*sizeof(pid_t)));if(count<0)return true;
  for(int i=0;i<qMin(count,int(pids.size()));++i){char path[PROC_PIDPATHINFO_MAXSIZE];int n=proc_pidpath(pids[i],path,sizeof path);if(n>0&&QFileInfo(QString::fromUtf8(path)).canonicalFilePath()==exe)return true;}return false;
 #elif defined(Q_OS_LINUX)
- QDir proc("/proc");if(!proc.exists())return true;for(const auto &entry:proc.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot)){bool numeric;entry.fileName().toLongLong(&numeric);if(!numeric||entry.ownerId()!=getuid())continue;auto path=QFileInfo(entry.filePath()+"/exe").symLinkTarget();if(path.endsWith(" (deleted)"))path.chop(10);if(QDir::cleanPath(path)==exe)return true;}return false;
+ QDir proc("/proc");if(!proc.exists())return true;for(const auto &entry:proc.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot)){bool numeric;entry.fileName().toLongLong(&numeric);if(!numeric||entry.ownerId()!=getuid())continue;auto path=QFileInfo(entry.filePath()+"/exe").symLinkTarget();if(path.endsWith(" (deleted)"))path.chop(10);if(QDir::cleanPath(path)==exe)return true;
+ // binfmt interpreters expose their own executable through /proc/pid/exe.
+ // Check the guest executable mapping when running under Rosetta or QEMU.
+ auto interpreter=QFileInfo(path).fileName();if(interpreter=="rosetta"||interpreter.startsWith("qemu-")){
+  QFile maps(entry.filePath()+"/maps");if(!maps.open(QIODevice::ReadOnly))continue;
+  auto escaped=QFile::encodeName(exe);escaped.replace("\\","\\134");escaped.replace(" ","\\040");escaped.replace("\t","\\011");escaped.replace("\n","\\012");
+  for(const auto &line:maps.readAll().split('\n')){auto fields=line.simplified().split(' ');if(fields.size()>=6&&fields[1].contains('x')&&fields[5]==escaped)return true;}
+ }
+}return false;
 #else
  Q_UNUSED(exe);return true;
 #endif
