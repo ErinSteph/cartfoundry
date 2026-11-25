@@ -24,8 +24,8 @@ versioned documentation and the automatic updater. Extract the complete download
 | Linux x86_64 | [CartFoundry for Linux](https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-linux-x86_64.zip) | glibc 2.35, X11/XWayland (Ubuntu 22.04+) |
 | Windows x86_64 | [CartFoundry for Windows](https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-windows-x86_64.zip) | Windows 10/11, 64-bit |
 
-Downloads become available when the [release build](https://github.com/ErinSteph/cartfoundry/actions/workflows/release.yml)
-passes on all four platforms and publishes [v0.9.1](https://github.com/ErinSteph/cartfoundry/releases/tag/v0.9.1).
+The [0.9.1 release page](https://github.com/ErinSteph/cartfoundry/releases/tag/v0.9.1)
+contains all four verified packages and their SHA-256 checksum files.
 Each native runner tests ROM compilation, mGBA integration and updater replacement,
 relaunch and rollback. Packaging also checks the bundled compiler and editor startup.
 This verifies Windows on the CI runner; broader hardware testing remains welcome.
