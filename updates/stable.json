@@ -1,7 +1,28 @@
 {
   "schema": 1,
   "product": "CartFoundry",
-  "version": "0.9.0",
-  "notes": "ROM banking, lossless graphics compression and built-in application updates.",
-  "platforms": {}
+  "version": "0.9.1",
+  "notes": "Includes ROM size improvements, reusable animations, button events, pause menus, versioned help, MIDI import/export and automatic updates.",
+  "platforms": {
+    "macos-arm64": {
+      "url": "https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-macos-arm64.zip",
+      "size": 39569941,
+      "sha256": "81cbef39af7dc3a26ac59fd26821e95ddcab044b3e11e8edf528a28e468d2135"
+    },
+    "macos-x86_64": {
+      "url": "https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-macos-x86_64.zip",
+      "size": 41509877,
+      "sha256": "055e2bbe1c3336d5d26a67e84d54910f60967f88f321c03883f919450a09ae3f"
+    },
+    "linux-x86_64": {
+      "url": "https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-linux-x86_64.zip",
+      "size": 65498698,
+      "sha256": "f62cfee82c6ebd4f76b877ed7065b9e5ee4c7e0b426ab6d24b406040a7f25d7e"
+    },
+    "windows-x86_64": {
+      "url": "https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-windows-x86_64.zip",
+      "size": 51265673,
+      "sha256": "e4475f774827fc45373ce8abf9f7bfdce8a023a50f53fb86549e6fa564d73f37"
+    }
+  }
 }
