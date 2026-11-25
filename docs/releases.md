@@ -36,3 +36,12 @@ The Mac script accepts QT_PREFIX, GBDK_ROOT and DIST_DIR environment variables;
 provide architecture-matched GBDK tools for an Intel build on Apple Silicon.
 Linux packaging requires patchelf, unzip and the Ubuntu Qt development packages.
 These are developer requirements; installed users need no compiler setup.
+
+To publish an already successful release-branch build, run **Publish verified
+desktop packages** from the repository's Actions page, on `main`, and enter its
+Desktop packages run ID. It checks the completed run, source repository, branch,
+workflow, version and all four archive hashes before creating the release at that
+build's exact source commit. This promotes the tested artifacts without rebuilding
+them. The updater feed changes only after all download URLs respond successfully.
+The tag is created with the workflow token, so this promotion does not start a
+second tag build. Directly pushing a version tag still runs the full build pipeline.
