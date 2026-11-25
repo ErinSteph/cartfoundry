@@ -1,0 +1,127 @@
+name: Desktop packages
+on:
+  push:
+    branches: [main, 'codex/release-*']
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-15
+            platform: macos-arm64
+            arch: arm64
+          - os: macos-15-intel
+            platform: macos-x86_64
+            arch: x86_64
+          - os: ubuntu-22.04
+            platform: linux-x86_64
+          - os: windows-2022
+            platform: windows-x86_64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Qt on macOS and Windows
+        if: runner.os != 'Linux'
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.12.1'
+          modules: qtmultimedia
+          cache: true
+      - name: Install Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build qt6-base-dev qt6-multimedia-dev qt6-tools-dev-tools qt6-qpa-plugins libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libpulse0 libasound2 xvfb xauth patchelf unzip zlib1g-dev libpng-dev
+      - name: Fetch pinned compiler and emulator
+        shell: bash
+        run: |
+          cmake -DGBDK_PLATFORM=${{ matrix.platform }} -P scripts/fetch-gbdk.cmake
+          cmake -P scripts/fetch-mgba.cmake
+      - name: Configure macOS
+        if: runner.os == 'macOS'
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }} -DCMAKE_OSX_DEPLOYMENT_TARGET=14.4
+      - name: Configure Linux
+        if: runner.os == 'Linux'
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+      - name: Configure Windows
+        if: runner.os == 'Windows'
+        run: cmake -S . -B build -A x64
+      - name: Build
+        run: cmake --build build --config Release --parallel 3
+      - name: Test shared runtime, compiler, MIDI, help and updater
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: ctest --test-dir build -C Release --output-on-failure --parallel 2
+      - name: Package macOS
+        if: runner.os == 'macOS'
+        run: QT_PREFIX="$QT_ROOT_DIR" sh scripts/package-macos.sh build
+      - name: Package Linux
+        if: runner.os == 'Linux'
+        run: python scripts/package-linux.py --build build --output dist
+      - name: Package Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./scripts/package-windows.ps1 -BuildDir build -Configuration Release -Architecture x86_64
+      - name: Verify installed macOS package
+        if: runner.os == 'macOS'
+        run: python scripts/verify-package.py dist/CartFoundry.app
+      - name: Verify installed Linux package
+        if: runner.os == 'Linux'
+        run: xvfb-run -a python scripts/verify-package.py dist/CartFoundry
+      - name: Verify installed Windows package
+        if: runner.os == 'Windows'
+        run: python scripts/verify-package.py dist/CartFoundry
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.platform }}
+          path: |
+            dist/CartFoundry-*.zip
+            dist/CartFoundry-*.sha256
+            dist/stable.json
+          if-no-files-found: error
+      - name: Preserve failing test logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ matrix.platform }}
+          path: build/Testing/Temporary/
+  publish:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist/platforms
+      - name: Assemble verified updater metadata
+        run: python3 scripts/assemble-release.py dist/platforms dist/release --tag '${{ github.ref_name }}'
+      - name: Publish downloadable applications
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/release/CartFoundry-*.zip dist/release/CartFoundry-*.sha256 dist/release/stable.json --verify-tag --title "CartFoundry $GITHUB_REF_NAME" --generate-notes
+      - name: Publish updater feed after release assets exist
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 scripts/assemble-release.py dist/platforms dist/release --tag "$GITHUB_REF_NAME" --verify-urls
+          git fetch origin main
+          git checkout main
+          cp dist/release/stable.json updates/stable.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add updates/stable.json
+          git commit -m "Publish updater feed for $GITHUB_REF_NAME"
+          git push origin main

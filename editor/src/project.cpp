@@ -1,4 +1,5 @@
 #include "project.h"
+#include "menu_model.h"
 #include "game_script.h"
 #include <QFile>
 #include <QJsonArray>
@@ -147,6 +148,7 @@ QStringList Project::validate() const {
         ids.insert(p.id);
         const QString prefix = p.title.isEmpty() ? p.id : p.title;
         if ((p.showTitle&&(p.title.trimmed().isEmpty()||p.title.size()>textLayout(p).columns)) || !ascii(p.title)) errors << prefix + ": title must fit the textbox width and use printable ASCII.";
+        if(encodeGameText(*this,p.text).size()>511||p.title.size()>511||p.footer.size()>511)errors<<prefix+": dialogue text fields must fit the 511-character runtime buffer.";
         if (!ascii(p.text, true)) errors << prefix + ": text supports printable ASCII and newlines.";
         const auto layout = textLayout(p);
         if (p.textbox.x() < 0 || p.textbox.y() < 0 || p.textbox.width() < 6 || p.textbox.height() < 7 || p.textbox.right() >= 20 || p.textbox.bottom() >= 18)
@@ -155,7 +157,7 @@ QStringList Project::validate() const {
         for(auto c:p.textPalette)if(c>32767)errors<<prefix+": text colours must be RGB555.";
         if(p.showFooter&&!p.footer.isEmpty()&&p.footer.size()>layout.columns)errors<<prefix+": footer exceeds textbox width.";
         if (layout.bodyRows < 1) errors << prefix + ": textbox is too short for its choices.";
-        CFGameState worst{};for(auto &v:worst.variables)v=-32768;const auto lines = renderGameText(*this,worst,p.text,qMax(1,layout.columns)).split('\n');
+        CFGameState worst{};fillWorstText(*this,worst);const auto lines = renderGameText(*this,worst,p.text,qMax(1,layout.columns)).split('\n');
         if (lines.size() > layout.bodyRows) errors << prefix + QString(": text needs %1 lines; the textbox fits %2.").arg(lines.size()).arg(qMax(0, layout.bodyRows));
         for (const auto &line : lines) if (line.size() > layout.columns) { errors << prefix + ": a word exceeds the textbox width."; break; }
         if (p.choices.size() > 3) errors << prefix + ": use at most 3 choices.";
@@ -194,21 +196,22 @@ QStringList Project::validate() const {
         if (ts) {
             for (int tile : w.tiles) if (tile < 0 || tile >= ts->tileCount()) { errors << "Map contains a tile outside its tileset."; break; }
             QSet<QByteArray> unique; auto data = ts->tileData();
-            for (int i = 0; i < ts->tileCount(); ++i) unique.insert(data.mid(i * 16, 16));
+            QSet<int> usedTiles;for(int tile:w.effectiveTiles())usedTiles.insert(tile);for(auto &event:w.terrainEvents)usedTiles.insert(event.tile);
+            for (int tile:usedTiles) if(tile>=0&&tile<ts->tileCount()) unique.insert(data.mid(tile * 16, 16));
             if (unique.size() > 128) errors << "Tileset exceeds 128 unique 8x8 tiles after deduplication.";
-            bytes += unique.size() * 16;
+            bytes += 6; // Graphics are banked; only the resource descriptor is resident.
         }
         BehaviorSpec playerBehavior;QString scriptError;
         if(!parseBehavior(w.playerScript,playerBehavior,scriptError)||playerBehavior.code.kind!=CF_BEHAVIOR_PLAYER)errors<<w.name+": player script needs top_down behavior. "+scriptError;
         if(!playerBehavior.prompt.isEmpty())errors<<w.name+": on_touch belongs on an enemy/character script, not the player.";
-        auto validateAnimations=[&](const BehaviorSpec &b,const RasterAsset *sprite,const QString &label){if(!sprite)return;for(auto name:{b.animation,b.moveAnimation,b.idleAnimation,b.actionAnimation})if(!name.isEmpty()&&sprite->animationIndex(name)<0)errors<<label+": animation not found: "+name;};
+        auto validateAnimations=[&](const BehaviorSpec &b,const RasterAsset *sprite,const QString &label){if(!sprite)return;QStringList clipNames{b.animation,b.moveAnimation,b.idleAnimation,b.actionAnimation};for(int d=0;d<4;++d)clipNames<<b.moveDir[d]<<b.idleDir[d];for(auto name:clipNames)if(!name.isEmpty()&&sprite->animationIndex(name)<0)errors<<label+": animation not found: "+name;};
         validateAnimations(playerBehavior,sp,w.name+" player");
         int hardwareSprites=sp?sp->frameTileCount():0;QSet<QString>actorIds;
         if(w.actors.size()>4)errors<<"Use at most 4 actors per area.";
         for(const auto &actor:w.actors){
             const auto *sprite=asset(actor.sprite);BehaviorSpec behavior;
             if(actor.id.isEmpty()||actorIds.contains(actor.id))errors<<"Actor IDs must be unique within an area.";actorIds.insert(actor.id);
-            if(!sprite||sprite->kind!="sprite")errors<<actor.name+": choose an actor sprite.";else{hardwareSprites+=sprite->frameTileCount();bytes+=sprite->tileCount()*16;}
+            if(!sprite||sprite->kind!="sprite")errors<<actor.name+": choose an actor sprite.";else{hardwareSprites+=sprite->frameTileCount();bytes+=sprite->frameCount()*6;}
             if(actor.x<0||actor.y<0||actor.x>=w.width||actor.y>=w.height)errors<<actor.name+": actor spawn is outside its area.";
             else if(w.collision.size()==w.width*w.height&&w.effectiveCollision()[actor.y*w.width+actor.x])errors<<actor.name+": actor spawn is on a solid tile.";
             if(!parseBehavior(actor.script,behavior,scriptError)||behavior.code.kind==CF_BEHAVIOR_PLAYER)errors<<actor.name+": "+(scriptError.isEmpty()?"choose an idle, patrol or chase behavior.":scriptError);
@@ -217,8 +220,8 @@ QStringList Project::validate() const {
             bytes+=32;
         }
         if(hardwareSprites>40)errors<<w.name+": player and actors exceed 40 hardware sprites. Use smaller sprites or fewer actors.";
-        if (sp) bytes += sp->tileCount() * 16;
-        bytes += w.width * w.height * 2 + w.interactions.size() * 4;
+        if (sp) bytes += sp->frameCount() * 6;
+        bytes += 12 + w.interactions.size() * 4; // Banked map/collision descriptors.
     }
     if (bytes > 18000) errors << "Project exceeds the current 18 KB fixed gameplay-data budget; simplify maps or dialogue.";
     errors.append(validateSystems());

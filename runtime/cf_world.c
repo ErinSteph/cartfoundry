@@ -1,3 +1,4 @@
+#include "cf_collision.h"
 #include "cf_world.h"
 void cf_world_camera(CFWorldState *s, uint8_t width, uint8_t height) {
     int16_t max_x = (int16_t)width * 8 - 160, max_y = (int16_t)height * 8 - 144;
@@ -11,7 +12,7 @@ static uint8_t passable(int16_t x, int16_t y, uint8_t w, uint8_t h, const uint8_
     uint8_t left, right, top, bottom;
     if (x < 0 || y < 0 || x + 7 >= (int16_t)w * 8 || y + 7 >= (int16_t)h * 8) return 0;
     left = x >> 3; right = (x + 7) >> 3; top = y >> 3; bottom = (y + 7) >> 3;
-    return !(solid[(uint16_t)top * w + left] || solid[(uint16_t)top * w + right] || solid[(uint16_t)bottom * w + left] || solid[(uint16_t)bottom * w + right]);
+    return !(cf_collision_at(solid,(uint16_t)top * w + left) || cf_collision_at(solid,(uint16_t)top * w + right) || cf_collision_at(solid,(uint16_t)bottom * w + left) || cf_collision_at(solid,(uint16_t)bottom * w + right));
 }
 uint8_t cf_world_move(CFWorldState *s, uint8_t w, uint8_t h, const uint8_t *solid, int8_t dx, int8_t dy) {
     uint8_t moved = 0;

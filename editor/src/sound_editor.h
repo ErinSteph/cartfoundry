@@ -20,7 +20,7 @@ private:
  QTabBar *channels;QTableWidget *wave;QWidget *pulseBox,*sweepBox,*waveBox,*noiseBox,*envelopeBox;
  PianoRoll *notes;QScrollArea *rollScroll;QLabel *status;QWidget *detail;QTimer *clock;QElapsedTimer elapsed;
  double debt=0;qint64 previous=0;int selected=-1,channel=0,viewedChannel=-1;bool filling=false,notifying=false,looping=false;
- void notify();void inspect();void commit();void play(bool loop);void stop();void add(bool effect);void demo();void addNote();void noteInspector();void editNote();
+ void notify();void inspect();void commit();void play(bool loop);void stop();void add(bool effect);void demo();void addNote();void importMidiFile();void exportMidiFile();void noteInspector();void editNote();
  SoundTrack track()const;void setTrack(const SoundTrack &);void statusText();
 };
 }

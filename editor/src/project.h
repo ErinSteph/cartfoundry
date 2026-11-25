@@ -24,6 +24,12 @@ struct Actor {
     int health=3;QString onInteract,onHit,onDefeat,libraryId;
     QJsonObject toJson() const;
 };
+struct TextField {QString id,initial;int limit=12;};
+struct Keyboard {QString id,name="Enter name",characters="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 -";int columns=10,x=0,y=6;};
+struct SaveConfig {
+ bool enabled=false,variables=true,text=true,storages=true,timers=true,random=true,position=true;
+ int slotCount=3;QString id;QStringList excludedVariables,excludedText,excludedStorages;
+};
 struct Variable {QString id;int initial=0;};
 struct Item {QString id,name,description,icon;int stackLimit=10;bool consumable=false;QString useScript;};
 struct Storage {QString id,name;int capacity=8;QMap<QString,int> contents;};
@@ -78,6 +84,11 @@ struct Project {
     QString target = "gbc";
     Controls controls;
     QVector<Variable> variables;
+    QVector<TextField> textFields;QVector<Keyboard> keyboards;SaveConfig saveConfig;QString pauseMenu;
+    int textIndex(const QString &)const;int keyboardIndex(const QString &)const;
+    QJsonObject menuJson()const;
+    static bool readMenus(const QJsonObject &,Project &,QString &);
+    QStringList validateMenus()const;
     QVector<Item> items;
     QVector<Storage> storages{{"inventory","Inventory",8,{}}};
     QVector<GameScript> scripts;
@@ -102,6 +113,14 @@ struct Project {
     QVector<World> runtimeAreas() const;
     QString areaScene(const QString &) const;
     int sceneIndex(const QString &) const;
+    // Deletes scenes[index] and keeps the project consistent: the start scene moves on if needed, a World scene's
+    // maps move to another World scene (refused when there is none), and a pause menu pointing at it is cleared.
+    // Never deletes the last scene. Scripts that still say "scene <id>" are left alone; see sceneMentions().
+    bool removeScene(int index, QString *error = nullptr);
+    // How many times `id` still appears in the project's saved data (scripts, actions, settings).
+    int sceneMentions(const QString &id) const;
+    // Same count for any id (scripts, dialogues, ...): whole-word occurrences in the saved project data.
+    int idMentions(const QString &id) const;
     bool hasWorldScenes() const;
     void migrateScenes();
     Project isolatedArea(int index) const;
@@ -115,6 +134,7 @@ struct Project {
     int indexOf(const QString &) const;
     static Project blank();
     static Project scenesExample();
+    static Project menusExample();
     static Project example();
     static Project overworldExample();
     static Project pokemonExample();

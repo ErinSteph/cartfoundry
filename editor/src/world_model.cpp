@@ -1,5 +1,7 @@
 #include "project.h"
 #include <QJsonArray>
+#include <QJsonDocument>
+#include <QRegularExpression>
 #include <QSet>
 namespace cf {
 QByteArray World::effectiveCollision()const{auto data=collision;for(auto &o:objects)if(o.solid&&o.x>=0&&o.y>=0&&o.x<width&&o.y<height&&o.y*width+o.x<data.size())data[o.y*width+o.x]=1;return data;}
@@ -69,6 +71,27 @@ bool World::fromJson(const QJsonObject &o, World &out, QString &error) {
 QVector<World> Project::allAreas() const { auto result=areas;result.prepend(world);return result; }
 int Project::sceneIndex(const QString &id)const{for(int i=0;i<scenes.size();++i)if(scenes[i].id==id)return i;return -1;}
 QString Project::areaScene(const QString &id)const{for(auto &w:allAreas())if(w.id==id)for(auto &m:maps)if(m.id==w.mapId)return m.scene;return {};}
+bool Project::removeScene(int index,QString *error){
+    auto fail=[&](const QString &message){if(error)*error=message;return false;};
+    if(index<0||index>=scenes.size())return fail("There is no such scene.");
+    if(scenes.size()<2)return fail("A project needs at least one scene, so the last one can't be deleted.");
+    const QString id=scenes[index].id;QString heir;bool ownsMaps=false;
+    for(const auto &m:maps)if(m.scene==id)ownsMaps=true;
+    if(ownsMaps){for(const auto &s:scenes)if(s.id!=id&&s.kind=="world"){heir=s.id;break;}
+        if(heir.isEmpty())return fail("This is the only World scene and it holds the game's maps. Add or convert another World scene first.");}
+    scenes.removeAt(index);
+    for(auto &m:maps)if(m.scene==id)m.scene=heir;
+    if(defaultScene==id)defaultScene=scenes.first().id;
+    if(pauseMenu==id)pauseMenu.clear();
+    return true;
+}
+int Project::sceneMentions(const QString &id)const{return idMentions(id);}
+int Project::idMentions(const QString &id)const{
+    if(id.isEmpty())return 0;
+    const QString text=QString::fromUtf8(QJsonDocument(toJson()).toJson(QJsonDocument::Compact));
+    QRegularExpression token("(?<![A-Za-z0-9_])"+QRegularExpression::escape(id)+"(?![A-Za-z0-9_])");
+    int count=0;auto it=token.globalMatch(text);while(it.hasNext()){it.next();++count;}return count;
+}
 bool Project::hasWorldScenes()const{for(auto &s:scenes)if(s.kind=="world")return true;return false;}
 QVector<World> Project::runtimeAreas()const{QVector<World> result;for(auto &w:allAreas()){int index=sceneIndex(areaScene(w.id));if(index>=0&&scenes[index].kind=="world")result<<w;}return result;}
 void Project::migrateScenes(){if(scenes.isEmpty())scenes<<Scene{"scene_main","Main Scene"};defaultScene=world.enabled?areaScene(world.id):scenes[0].id;if(sceneIndex(defaultScene)<0)defaultScene=scenes[0].id;for(auto &s:scenes){s.kind="screen";s.onSceneEnter.clear();s.startArea.clear();if(world.enabled)for(auto &w:allAreas())if(areaScene(w.id)==s.id){s.kind="world";s.startArea=w.id;break;}}if(!world.enabled&&indexOf(entry)>=0)scenes[sceneIndex(defaultScene)].onSceneEnter="dialogue "+entry;else if(!world.onStart.trimmed().isEmpty()){scenes[sceneIndex(defaultScene)].onSceneEnter=world.onStart;world.onStart.clear();}}
@@ -84,7 +107,7 @@ Project Project::isolatedArea(int index) const {
     for(auto &a:p.world.actors){required.insert(a.sprite);BehaviorSpec behavior;QString error;if(parseBehavior(a.script,behavior,error)&&!behavior.prompt.isEmpty())roots<<behavior.prompt;}
     p.prompts=hasEvents(*this)?prompts:reachablePrompts(p,roots);p.npcs.clear();if(p.prompts.isEmpty()){Prompt n;n.id="area_test";n.title="AREA TEST";n.text="Explore this area.";p.prompts<<n;}p.entry=p.prompts[0].id;
     for(auto &item:p.items)if(!item.icon.isEmpty())required.insert(item.icon);
-    for(auto &s:p.scenes){s.kind="screen";s.startArea.clear();s.elements.clear();s.onSceneEnter.clear();s.onBack.clear();}p.defaultScene=p.areaScene(p.world.id);if(p.sceneIndex(p.defaultScene)<0)p.defaultScene=p.scenes[0].id;auto &testScene=p.scenes[p.sceneIndex(p.defaultScene)];testScene.kind="world";testScene.startArea=p.world.id;
+    for(auto &s:p.scenes){if(s.kind=="screen"){for(auto &e:s.elements)if(e.type=="image")required.insert(e.image);continue;}s.kind="screen";s.startArea.clear();s.elements.clear();s.onSceneEnter.clear();s.onBack.clear();}p.defaultScene=p.areaScene(p.world.id);if(p.sceneIndex(p.defaultScene)<0)p.defaultScene=p.scenes[0].id;auto &testScene=p.scenes[p.sceneIndex(p.defaultScene)];testScene.kind="world";testScene.startArea=p.world.id;
     QVector<RasterAsset> assets;for(auto &a:p.assets)if(required.contains(a.id))assets<<a;p.assets=assets;return p;
 }
 Project Project::overworldExample() {

@@ -2,7 +2,7 @@
 #include "project.h"
 #include <QWidget>
 #include <functional>
-class QComboBox;class QListWidget;class QFormLayout;class QLabel;
+class QComboBox;class QListWidget;class QFormLayout;class QLabel;class QPushButton;
 namespace cf {
 class ScreenCanvas:public QWidget {
 public:
@@ -20,7 +20,7 @@ public:
     std::function<void(const Project&)> onEdit,onTest;
 private:
     Project project;int active=0,selected=-1;bool filling=false,editing=false;
-    QComboBox *scenes;QListWidget *elements;QFormLayout *form;ScreenCanvas *canvas;QLabel *info;
+    QComboBox *scenes;QPushButton *deleteScene=nullptr;QListWidget *elements;QFormLayout *form;ScreenCanvas *canvas;QLabel *info;
     void list();void inspect();void edit(const std::function<void(Project&)> &,bool refill=false);void add(QString type);
 };
 }

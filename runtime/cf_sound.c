@@ -1,5 +1,5 @@
 #ifdef __TARGET_gb
-#pragma bank 3
+#pragma bank 2
 #endif
 #include "cf_sound.h"
 #ifdef __TARGET_gb

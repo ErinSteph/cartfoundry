@@ -33,6 +33,8 @@ struct RasterAsset {
     QVector<int> colorOrder(bool dmg) const;
     int tileCount() const { return width / 8 * (height / 8); }
 };
+QJsonObject animationList(const RasterAsset &);
+bool applyAnimationList(const QJsonObject &,RasterAsset &,QString &error);
 struct ImportOptions {
     int width = 16, height = 16; // output size per frame
     int columns=1,rows=1;
@@ -45,6 +47,7 @@ struct ImportOptions {
     QColor background = Qt::white;
     int tolerance = 24;
 };
+ImportOptions guessSpriteSheet(const QImage &, const QString &filename = {});
 int usedColorCount(const QImage &, bool transparent);
 RasterAsset convertImage(const QImage &, const ImportOptions &, int *usedColors = nullptr);
 QImage textScreenImage(const QStringList &, const QRect &, bool dmg,const QVector<quint16> &palette={});

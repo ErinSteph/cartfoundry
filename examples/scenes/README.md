@@ -28,6 +28,11 @@ editable by hand; the file uses the same scene, element and event fields as the 
 7. **Preview** runs the selected scene immediately using the shared game logic.
    **Test Scene** builds a ROM starting at that scene; **Build & Play** starts at
    the project's Default Scene. These tests use unsaved edits too.
+8. **Delete scene…** removes the selected scene after a confirmation that lists
+   what will change (a new start scene, maps moving to another World scene, a
+   cleared pause menu, and any scripts that still mention the scene). The last
+   scene, and the last World scene while it holds maps, cannot be deleted.
+   **Edit → Undo project change** brings a deleted scene back.
 
 Screen controls: Up/Down selects an enabled button, A activates it, B runs onBack.
 World controls: arrows move, A interacts, B attacks/closes dialogue, Select opens

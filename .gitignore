@@ -14,6 +14,9 @@
 /third_party/mgba/
 *.gb
 
+# Local scratch copies and developer tools
+/.update-backup*/
+/aqtinstall.log
 __pycache__/
 *.pyc
 *.user

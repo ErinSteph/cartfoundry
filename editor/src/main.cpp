@@ -1,9 +1,20 @@
 #include "window.h"
+#include "builder.h"
+#include "startup_splash.h"
 #include <QApplication>
+#include <QCommandLineParser>
+#include <QElapsedTimer>
 #include <QFileInfo>
+#include <QScreen>
+#include <QSplashScreen>
+#include <QTimer>
 int main(int argc, char **argv) {
     QApplication::setAttribute(Qt::AA_DontUseNativeDialogs);
     QApplication app(argc, argv); app.setApplicationName("CartFoundry"); app.setOrganizationName("CartFoundry");
+    app.setApplicationVersion(CF_APP_VERSION);
+    QCommandLineParser parser;parser.addHelpOption();parser.addVersionOption();parser.addPositionalArgument("project","Project to open.");
+    QCommandLineOption updateJob("update-job","Updater startup receipt.","plan");updateJob.setFlags(QCommandLineOption::HiddenFromHelp);parser.addOption(updateJob);parser.process(app);
+    auto files=parser.positionalArguments();if(files.size()>1)parser.showHelp(2);auto receipt=parser.value(updateJob);
     app.setStyle("Fusion");
     app.setStyleSheet(R"(
         QWidget { background: #19232f; color: #e6eaf0; font-size: 13px; }
@@ -31,6 +42,17 @@ int main(int argc, char **argv) {
         QStatusBar { color: #a9b7c7; }
         QToolTip { color: #fff; background: #39495b; border: 1px solid #7c8a9b; }
     )");
-    cf::Window window; if (argc > 1 && QFileInfo::exists(QString::fromLocal8Bit(argv[1]))) window.openProject(QString::fromLocal8Bit(argv[1]));
-    window.show(); return app.exec();
+    // Start-up splash: the Emerald Softlab logo on the editor's dark blue for about two seconds.
+    // It is skipped silently if images/em_2_glow.png is missing.
+    constexpr int splashMilliseconds = 2000;
+    QElapsedTimer splashClock; QSplashScreen *splash = nullptr;
+    const qreal dpr = app.primaryScreen() ? app.primaryScreen()->devicePixelRatio() : 1.0;
+    const QPixmap splashArt = cf::startupSplashPixmap(cf::resourceRoot() + "/images/em_2_glow.png", QSize(600, 580), dpr, QSize(520, 500));
+    if (!splashArt.isNull()) { splash = new QSplashScreen(splashArt, Qt::WindowStaysOnTopHint); splash->show(); app.processEvents(); splashClock.start(); }
+    cf::Window window; if (!files.isEmpty() && QFileInfo::exists(files.first())) window.openProject(files.first());
+    if (!splash) { window.show(); QTimer::singleShot(0,&window,[&window,receipt]{window.startUpdater(receipt);}); return app.exec(); }
+    // The window finished loading while the splash was up; wait out whatever is left of the two seconds.
+    const int remaining = qMax(0, splashMilliseconds - int(splashClock.elapsed()));
+    QTimer::singleShot(remaining, &app, [&window, splash, receipt] { window.show(); splash->finish(&window); delete splash; window.startUpdater(receipt); });
+    return app.exec();
 }

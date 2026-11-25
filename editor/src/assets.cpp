@@ -57,6 +57,14 @@ bool RasterAsset::fromJson(const QJsonObject &o, RasterAsset &a, QString &error)
 }
 QRect RasterAsset::frameRect(int index) const {if(columns<1||rows<1||index<0||index>=frameCount())return {};return QRect(index%columns*frameWidth(),index/columns*frameHeight(),frameWidth(),frameHeight());}
 QImage RasterAsset::frameImage(int frame,bool dmg) const {auto rect=frameRect(frame);return rect.isEmpty()?QImage():image(dmg).copy(rect);}
+QJsonObject animationList(const RasterAsset &a){return {{"format","CartFoundry animations"},{"version",1},{"columns",a.columns},{"rows",a.rows},{"frameWidth",a.frameWidth()},{"frameHeight",a.frameHeight()},{"animations",a.toJson()["animations"]}};}
+bool applyAnimationList(const QJsonObject &o,RasterAsset &a,QString &error){
+    if(o["format"]!="CartFoundry animations"||o["version"]!=1){error="Unsupported animation-list format.";return false;}
+    for(auto pair:{qMakePair("columns",a.columns),qMakePair("rows",a.rows),qMakePair("frameWidth",a.frameWidth()),qMakePair("frameHeight",a.frameHeight())})if(o[pair.first]!=pair.second){error="This list requires the same grid and frame dimensions as the selected sprite sheet.";return false;}
+    if(a.kind!="sprite"||!o["animations"].isArray()){error="Select a sprite sheet and a valid animation list.";return false;}
+    for(auto value:o["animations"].toArray()){auto clip=value.toObject();for(auto key:{"first","last","duration"})if(!clip[key].isDouble()||clip[key].toDouble()!=clip[key].toInt(-1)){error="Invalid animation range or duration.";return false;}if(!clip["loop"].isBool()){error="Invalid animation loop flag.";return false;}}
+    auto candidate=a.toJson();candidate["animations"]=o["animations"];RasterAsset checked;if(!RasterAsset::fromJson(candidate,checked,error))return false;a.animations=checked.animations;return true;
+}
 int RasterAsset::animationIndex(const QString &name) const {for(int i=0;i<animations.size();++i)if(animations[i].name==name)return i;return -1;}
 QVector<CFAnimation> RasterAsset::clips() const {QVector<CFAnimation> result;for(const auto &a:animations)result<<CFAnimation{uint8_t(a.first),uint8_t(a.last),uint16_t(a.duration),uint8_t(a.loop),uint8_t((a.reverse?1:0)|(a.flipH?2:0)|(a.flipV?4:0))};if(result.isEmpty())result<<CFAnimation{0,0,1,1};return result;}
 QVector<int> RasterAsset::colorOrder(bool dmg) const {
@@ -87,6 +95,22 @@ QByteArray RasterAsset::tileData(bool dmg) const {
         }
     }
     return bytes;
+}
+ImportOptions guessSpriteSheet(const QImage &source,const QString &filename) {
+    ImportOptions best;best.fit=ImportOptions::Preserve;
+    best.width=qBound(8,((source.width()+7)/8)*8,32);best.height=qBound(8,((source.height()+7)/8)*8,32);
+    if(source.isNull())return best;
+    auto fits=[&](int w,int h){return w>=8&&w<=32&&h>=8&&h<=32&&w%8==0&&h%8==0&&source.width()%w==0&&source.height()%h==0&&source.width()/w<=8&&source.height()/h<=8;};
+    auto use=[&](int w,int h){best.width=w;best.height=h;best.columns=source.width()/w;best.rows=source.height()/h;};
+    QRegularExpression hint("(?:^|[^0-9])([0-9]{1,3})[xX]([0-9]{1,3})(?:[^0-9]|$)");auto match=hint.match(filename);
+    if(match.hasMatch()){int w=match.captured(1).toInt(),h=match.captured(2).toInt();if(fits(w,h)){use(w,h);return best;}if(w>=1&&w<=8&&h>=1&&h<=8&&source.width()%w==0&&source.height()%h==0&&fits(source.width()/w,source.height()/h)){use(source.width()/w,source.height()/h);return best;}}
+    if(source.width()<=32&&source.height()<=32)return best; // Preserve static assets as one frame.
+    int score=std::numeric_limits<int>::max();
+    for(int w=8;w<=32;w+=8)for(int h=8;h<=32;h+=8)if(fits(w,h)){
+        int candidate=qAbs(w-16)+qAbs(h-16)+qAbs(w-h);
+        if(candidate<score){score=candidate;use(w,h);}
+    }
+    return best;
 }
 int usedColorCount(const QImage &image, bool transparent) {
     QSet<quint16> colors;

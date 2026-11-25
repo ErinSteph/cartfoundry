@@ -53,6 +53,7 @@ private:
     int activeScene=-1,screenCursor=-1;bool screenMode=false;void chooseButton(int);void normalizeButtons();
     Project project;CFWorldState state{};CFState flow{};bool dialog=false;QSet<int> held;
     GameSession session;CFStepState stepState{};QVector<CFStepRule> stepRules;QVector<QVector<CFInstruction>> stepCode;QByteArray solids;QVector<int> health;int menu=-1,menuSide=0,menuChoice=0;bool menuReadOnly=false;
+    void syncPosition();void modalRequests();
     void tick();void interact(bool combat=false);void requests();void menuInput(int);
 };
 class WorldEditor : public QWidget {

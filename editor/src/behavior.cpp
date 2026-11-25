@@ -13,6 +13,11 @@ bool parseBehavior(const QString &script,BehaviorSpec &out,QString &error){
         else if(key=="animation" || key=="on_move" || key=="on_idle" || key=="on_interact"){
             QString name=value=="none"?QString():value;if(key=="animation")spec.animation=name;if(key=="on_move")spec.moveAnimation=name;if(key=="on_idle")spec.idleAnimation=name;if(key=="on_interact")spec.actionAnimation=name;
         }
+        else if(key=="movement_sprites"){if(value!="single"&&value!="directional")return fail("movement_sprites must be single or directional.");spec.directional=value=="directional";}
+        else if(key.startsWith("on_move_")||key.startsWith("on_idle_")){
+            int d=QStringList{"up","down","left","right"}.indexOf(key.section('_',2));if(d<0)return fail("directions are up, down, left and right: "+key);
+            QString name=value=="none"?QString():value;if(key.startsWith("on_move_"))spec.moveDir[d]=name;else spec.idleDir[d]=name;
+        }
         else if(key=="flip_h"||key=="flip_v"||key=="mirror_facing"){if(value!="yes"&&value!="no")return fail("use yes or no.");if(value=="yes")spec.code.flags|=key=="flip_h"?1:key=="flip_v"?2:4;}
         else if(key=="on_touch"){if(value!="none")spec.prompt=value;}
         else{bool ok;int n=value.toInt(&ok);int max=key=="speed"?2:key=="every"?8:255;
@@ -21,11 +26,14 @@ bool parseBehavior(const QString &script,BehaviorSpec &out,QString &error){
             if(key=="speed")spec.code.speed=n;if(key=="every")spec.code.interval=n;if(key=="range")spec.code.range=n;if(key=="sight")spec.code.sight=n;
         }
     }
-    if(!kind){error="Add a behavior command.";return false;}out=spec;error.clear();return true;
+    if(!kind){error="Add a behavior command.";return false;}
+    if(!spec.directional)for(int d=0;d<4;++d)if(!spec.moveDir[d].isEmpty()||!spec.idleDir[d].isEmpty()){error="Directional animations (on_move_up, on_idle_left, ...) need: movement_sprites directional";return false;}out=spec;error.clear();return true;
 }
 CFAnimationBindings animationBindings(const BehaviorSpec &b,const RasterAsset &a){
     auto index=[&](const QString &name,int fallback){int i=a.animationIndex(name);return uint8_t(name.isEmpty()?fallback:i<0?255:i);};
-    return {index(b.animation,0),index(b.moveAnimation,255),index(b.idleAnimation,255),index(b.actionAnimation,255)};
+    CFAnimationBindings v{index(b.animation,0),index(b.moveAnimation,255),index(b.idleAnimation,255),index(b.actionAnimation,255),uint8_t(b.directional?1:0),{255,255,255,255},{255,255,255,255}};
+    if(b.directional)for(int d=0;d<4;++d){v.move_dir[d]=index(b.moveDir[d],255);v.idle_dir[d]=index(b.idleDir[d],255);}
+    return v;
 }
 QString behaviorTemplate(const QString &kind){
     if(kind=="top_down")return "# Player movement\nbehavior top_down\nspeed 1\nevery 1\n";

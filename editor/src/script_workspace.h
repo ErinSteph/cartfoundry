@@ -2,7 +2,7 @@
 #include "project.h"
 #include <QWidget>
 #include <functional>
-class QComboBox;class QListWidget;class QPlainTextEdit;class QLabel;
+class QComboBox;class QListWidget;class QPlainTextEdit;class QLabel;class QPushButton;
 namespace cf {
 class ScriptWorkspace:public QWidget {
 public:
@@ -11,7 +11,7 @@ public:
     std::function<void(const Project &)> onEdit;
 private:
     struct Binding {QString type,name,id,event;std::function<QString(const Project&)> read;std::function<void(Project&,QString)> write;};
-    Project project;QVector<Binding> bindings;QComboBox *types,*events,*referenceTypes;QListWidget *elements,*references;QPlainTextEdit *source,*json;QLabel *status;bool filling=false,editing=false;
+    Project project;QVector<Binding> bindings;QComboBox *types,*events,*referenceTypes;QListWidget *elements,*references;QPlainTextEdit *source,*json;QPushButton *deleteScript=nullptr;QLabel *status;bool filling=false,editing=false;
     void list();void select();void refs();void populateBindings();
 };
 }

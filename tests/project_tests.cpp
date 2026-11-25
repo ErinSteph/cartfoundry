@@ -1,3 +1,4 @@
+#include "cf_resource.h"
 #include "rom_test_helpers.h"
 #include <QtTest>
 #include <QTemporaryDir>
@@ -7,6 +8,8 @@
 class ProjectTests : public QObject {
     Q_OBJECT
 private slots:
+    void reusableAnimationLists(){auto p=cf::Project::overworldExample();auto a=*p.asset(p.world.player);a.animations={{"walk",0,a.frameCount()-1,qMax(6,a.frameCount()*6),true,true,true,false}};auto preset=cf::animationList(a);QVERIFY(!preset.contains("pixels"));QVERIFY(!preset.contains("palette"));auto target=a;target.id="other";target.name="Other";target.pixels.fill(2);target.animations.clear();const auto pixels=target.pixels;const auto palette=target.palette;QString error;QVERIFY2(cf::applyAnimationList(preset,target,error),qPrintable(error));QCOMPARE(target.pixels,pixels);QCOMPARE(target.palette,palette);QCOMPARE(target.id,QString("other"));QCOMPARE(target.animations[0].name,QString("walk"));QVERIFY(target.animations[0].reverse&&target.animations[0].flipH);auto before=target.toJson();auto bad=preset;bad["columns"]=99;QVERIFY(!cf::applyAnimationList(bad,target,error));QCOMPARE(target.toJson(),before);bad=preset;auto clips=bad["animations"].toArray();auto clip=clips[0].toObject();clip["last"]=999;clips[0]=clip;bad["animations"]=clips;QVERIFY(!cf::applyAnimationList(bad,target,error));QCOMPARE(target.toJson(),before);}
+
     void roundTrip() {
         auto p = cf::Project::example(); QVERIFY2(p.validate().isEmpty(), qPrintable(p.validate().join('\n')));
         QTemporaryDir temp; QString error; const QString file = temp.filePath("with spaces.cartfoundry");
@@ -53,6 +56,39 @@ private slots:
         QImage source(32,32,QImage::Format_ARGB32);source.fill(Qt::transparent);for(int y=0;y<32;++y)for(int x=0;x<32;++x)if(x<16||y<16)source.setPixelColor(x,y,x<16?(y<16?Qt::red:Qt::blue):Qt::green);
         cf::ImportOptions options;options.width=8;options.height=8;options.columns=2;options.rows=2;auto imported=cf::convertImage(source,options);QCOMPARE(imported.frameCount(),4);QCOMPARE(imported.frameWidth(),8);QCOMPARE(imported.width,16);QCOMPARE(imported.animations[0].last,3);QCOMPARE(imported.frameImage(3).pixelColor(0,0).alpha(),0);
         auto p=cf::Project::overworldExample();p.world.playerScript+="on_move missing_clip\n";QVERIFY(!p.validate().isEmpty());
+    }
+    void resourceCompression(){
+        for(int size:{1,63,64,65,128,360,4096})for(int pattern=0;pattern<3;++pattern){
+            QByteArray raw(size,0);quint32 random=12345;
+            for(int i=0;i<size;++i){random=random*1664525u+1013904223u;raw[i]=pattern==0?char(0):pattern==1?char(i/13):char(random>>24);}
+            auto encoded=cf::encodeResource(raw);QVERIFY(encoded.data.size()<=raw.size());
+            if(pattern==0&&size>=64)QCOMPARE(encoded.codec,1);
+            CFResource resource{0,quint8(encoded.codec),quint16(size),reinterpret_cast<const uint8_t *>(encoded.data.constData())};cf_resource_invalidate();
+            QByteArray output(size,char(255));cf_resource_copy(&resource,0,reinterpret_cast<uint8_t *>(output.data()),size);QCOMPARE(output,raw);
+            for(int i=size-1;i>=0;--i)QCOMPARE(cf_resource_read(&resource,i),quint8(raw[i]));
+            if(size>64){output.fill(char(255));cf_resource_copy(&resource,61,reinterpret_cast<uint8_t *>(output.data()),size);QCOMPARE(output.left(size-61),raw.mid(61));QCOMPARE(quint8(output[size-61]),quint8(255));}
+        }
+    }
+    void spriteFrameDeduplication(){
+        auto p=cf::Project::overworldExample();
+        auto header=cf::generateHeader(p);
+        QSet<QByteArray> frames;
+        for(auto &area:p.runtimeAreas()){
+            auto collect=[&](const QString &id){auto *asset=p.asset(id);auto bytes=asset->tileData(p.target=="gb");int size=asset->frameTileCount()*16;
+                for(int offset=0;offset<bytes.size();offset+=size)frames.insert(bytes.mid(offset,size));};
+            collect(area.player);for(auto &actor:area.actors)collect(actor.sprite);
+        }
+        QCOMPARE(header.count("static const uint8_t cf_sprite_frame_"),frames.size());
+        QVERIFY(header.contains("static const CFSpriteFrame cf_area_0_sprite[]"));
+    }
+    void guessSpriteFrames(){
+        QImage sheet(64,32,QImage::Format_ARGB32);sheet.fill(Qt::red);
+        auto o=cf::guessSpriteSheet(sheet);QCOMPARE(o.width,16);QCOMPARE(o.height,16);QCOMPARE(o.columns,4);QCOMPARE(o.rows,2);QCOMPARE(cf::convertImage(sheet,o).image().size(),sheet.size());
+        o=cf::guessSpriteSheet(sheet,"hero_32x16");QCOMPARE(o.width,32);QCOMPARE(o.height,16);QCOMPARE(o.columns,2);
+        o=cf::guessSpriteSheet(sheet,"hero_2x2");QCOMPARE(o.width,32);QCOMPARE(o.height,16);
+        o=cf::guessSpriteSheet(QImage(24,32,QImage::Format_ARGB32));QCOMPARE(o.columns,1);QCOMPARE(o.rows,1);QCOMPARE(o.width,24);QCOMPARE(o.height,32);
+        o=cf::guessSpriteSheet(QImage(192,128,QImage::Format_ARGB32));QVERIFY(o.columns<=8);QVERIFY(o.rows<=8);QCOMPARE(o.width*o.columns,192);QCOMPARE(o.height*o.rows,128);
+        o=cf::guessSpriteSheet(QImage(31,17,QImage::Format_ARGB32));QCOMPARE(o.columns,1);QCOMPARE(o.rows,1);QCOMPARE(o.width,32);QCOMPARE(o.height,24);
     }
     void minimalImageImport() {
         // Every console colour must survive decode/encode without cumulative darkening.

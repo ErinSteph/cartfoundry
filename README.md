@@ -14,13 +14,32 @@ and mGBA emulator core.
 
 ## Download
 
-The current packaged build is **0.8.1**, for **macOS Apple Silicon (arm64)**.
-See [release notes](releases/README.md) and [SHA-256 checksums](releases/SHA256SUMS).
-Windows is a source portability target, not a tested binary release.
+Release **0.9.1** packages include Qt, the Game Boy compiler, mGBA, offline
+versioned documentation and the automatic updater. Extract the complete download.
+
+| Platform | Download | Minimum system |
+| --- | --- | --- |
+| Apple Silicon Mac | [CartFoundry for Apple Silicon](https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-macos-arm64.zip) | macOS 14.4 |
+| Intel Mac | [CartFoundry for Intel](https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-macos-x86_64.zip) | macOS 14.4 |
+| Linux x86_64 | [CartFoundry for Linux](https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-linux-x86_64.zip) | glibc 2.35, X11/XWayland (Ubuntu 22.04+) |
+| Windows x86_64 | [CartFoundry for Windows](https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-windows-x86_64.zip) | Windows 10/11, 64-bit |
+
+Downloads become available when the [release build](https://github.com/ErinSteph/cartfoundry/actions/workflows/release.yml)
+passes on all four platforms and publishes [v0.9.1](https://github.com/ErinSteph/cartfoundry/releases/tag/v0.9.1).
+Each native runner tests ROM compilation, mGBA integration and updater replacement,
+relaunch and rollback. Packaging also checks the bundled compiler and editor startup.
+This verifies Windows on the CI runner; broader hardware testing remains welcome.
+Mac builds are ad-hoc signed rather than Apple-notarized; Windows builds are unsigned.
+
+Move `CartFoundry.app` to Applications on macOS. On Linux or Windows, keep the
+extracted `CartFoundry` folder together and run its executable. The folder must be
+writable for automatic updates. Older clients without an updater need one manual install.
+See [application updates](docs/application-updates.md) and [release packaging](docs/releases.md).
 
 ## Try it
 
-Download [CartFoundry 0.8.1 for macOS Apple Silicon](releases/CartFoundry-0.8.1-macOS-arm64.zip), unzip it, and open `CartFoundry.app`. **File → New Pokemon Example** opens Pocket Meadow,
+Open `CartFoundry.app` after building or packaging it.
+**File → New Pokemon Example** opens Pocket Meadow,
 a small adventure with grass encounters, battles, catching, healing and a party PC.
 **Help → Pokemon example guide** contains the complete editor recipe, including
 all variables, items, scripts, prompts and artwork. See [the guide](examples/pokemon/README.md).
@@ -32,10 +51,14 @@ Garden in two chapters. The original branching conversation is under
 
 - **File → Project Settings** chooses the Default Scene, target and platform splash
   duration. Startup is explicit: splash → default scene → its `onSceneEnter`.
-- **Scenes & screen builder:** author menu screens from text, images, panels and
+- **Scenes & menu builder:** author menu screens from text, images, panels and
   buttons. Drag/resize on the tile grid, edit actions and conditions, then Preview
   or Test Scene. **File → New Scenes & Screens Example** demonstrates the flow;
   see [the scene guide](examples/scenes/README.md).
+- **Menus, keyboards & saves:** add pause/save/load presets and configure text
+  fields, naming keyboards and saved data with **Text, keyboard & save builders…**.
+  **File → New Menus & Saves Example** demonstrates the flow; see
+  [the menu and save guide](examples/menu-saves/README.md).
 - **Scripts:** choose an element type, element and event; edit source with event
   forms and a reference browser. Double-click references to insert their IDs or
   commands. A second tab shows the live read-only project JSON.
@@ -56,20 +79,31 @@ Garden in two chapters. The original branching conversation is under
 - Switch **Game Boy / Game Boy Color** with the toolbar or **Target** menu.
   Monochrome previews/exports use four shades; colour assets remain intact.
 - **Play overworld** previews the selected area immediately with shared movement
-  and collision code. Click the viewport: arrows/WASD move, Z/Enter interacts,
-  X/Escape attacks or closes; Backspace opens inventory. This is an editor simulation, without a compiler step.
+  and collision code. Click the viewport: arrows/WASD move, Z interacts,
+  X/Escape attacks or closes; Backspace opens inventory. Enter opens the configured
+  pause menu, or resets position when no pause menu is assigned (default controls). This is an editor simulation, without a compiler step.
 - **Build & Play This Area** compiles an isolated test ROM into the built-in
   emulator. Area exits are disabled for this test. **Build & Play** runs the
   complete project. Neither requires saving changes first.
 - The **ROM emulator** tab uses mGBA 0.10.5. Click its screen: arrows move, Z=A,
   X=B, Enter=Start, Backspace=Select. It has on-screen controls, pause and reset,
-  and can load existing GB/GBC/GBA ROMs. Audio output is currently muted.
+  and can load existing GB/GBC/GBA ROMs. Audio output is enabled.
 - **Save** stores a self-contained `.cartfoundry` file. **Build ROM…** exports
-  `.gb` or `.gbc`. On a handheld, A interacts, B attacks/closes, Select opens inventory and Start resets position.
+  `.gb` or `.gbc`. On a handheld, A interacts, B attacks/closes, Select opens inventory and Start opens the configured pause menu or resets position when none is assigned
+  (default controls).
+
+## Application updates
+
+From **0.9.0**, packaged installs check GitHub for newer versions on launch and
+only offer available packages for their OS and architecture. Choose **Update**,
+**Later**, or **Don't ask automatically**; **Help → Check for Updates…** is always
+available. Approved updates replace the complete app after it closes, with a
+rollback copy. See [update behaviour and publishing](docs/application-updates.md).
+Older builds need one manual installation to gain the updater.
 
 ## Develop
 
-Install a C++17 compiler, CMake 3.21+ and Qt 6 Core/Gui/Widgets/Concurrent/Test/Multimedia.
+Install a C++17 compiler, CMake 3.21+ and Qt 6 Core/Gui/Widgets/Concurrent/Test/Multimedia/Network.
 Install `qtbase` and `qtmultimedia` on Homebrew. Bootstrap the pinned third-party tools:
 
 ```sh
@@ -105,9 +139,12 @@ This milestone supports animated sprite sheets and one four-colour tileset per
 area. The **Sound & music** tab composes four-channel songs and effects, with
 a piano roll, pulse envelopes/sweep, editable wave RAM, noise drums and stereo controls. Scripted sound loops and one-shots play in the preview and ROM
 emulator (`sound loop pulse`, `sound play chime`, `sound stop`); use **+ Event → Sound**.
-Imported music, game saves, text pagination
-remain future work. Eight named areas are supported with MBC5 banked event and
-screen resources; runtime/gameplay tables still have fixed-bank limits. See THIRD_PARTY.md for supporting licenses.
+The piano roll supports zoom and Shift for fine timing edits.
+Imported music and text pagination remain future work. Eight named areas are supported with MBC5 banked event and
+screen resources. Maps and graphics use lossless block compression and banked
+resources; menu records and text are banked too. Unused sound, save and keyboard
+runtime code is omitted at build time. Some gameplay metadata still has fixed-bank
+limits. See THIRD_PARTY.md for supporting licenses.
 
 ## Controls and scripts
 
@@ -127,6 +164,8 @@ a general programming language. Combat uses forward rays, with configurable rang
 Use **Sprite animations → Import sprite sheet…**. Set the sheet's width and height
 in frames and the output pixel size of each frame. Source cells are scaled
 individually and share one palette, preserving frame boundaries and transparency.
+Import guesses the initial frame grid from filename hints and image dimensions;
+the grid remains editable, and resizing requires an explicit scale mode.
 
 Select the sheet and add named animations. Pick inclusive first/last frame
 numbers, the **total animation duration** in seconds, and whether to loop. The
@@ -151,6 +190,10 @@ on_interact wave
 actions finish before returning to the normal clip. Looping actions can be
 interrupted by movement. Dialogue pauses animation along with world simulation.
 Existing sprites remain single-frame assets until you add a grid/animations.
+Set **Movement sprites → Directional** to bind moving and idle clips for each
+facing direction (`movement_sprites directional`, `on_move_up`, `on_idle_up`,
+and corresponding down/left/right commands). Unassigned directions fall back
+to the ordinary move/idle bindings, then the default animation.
 
 Each frame is 8–32 pixels per side in multiples of eight. Sheets support up to
 8×8 frames and 32 named clips. Duration is quantized to 60 Hz ticks, with at least
@@ -177,8 +220,14 @@ NPC templates contain sprites, behaviours, health and event scripts. **Place NPC
 copies a template into the selected area; placed instances remain independently
 editable in the hierarchy. B attacks the first target along the facing ray and
 deals one damage. Walls block rays; solid interactive objects can still be hit.
-Health resets on area entry. Variables and storage survive area transitions but
-are currently session state, without cartridge save persistence.
+Health resets on area entry. Variables and storage survive area transitions.
+Enable saves in **Scenes & menu builder → Text, keyboard & save builders…** to
+persist selected variables, text fields, storages, timers, RNG state and player
+position. ROMs support up to three battery-backed save slots with recovery copies;
+the embedded emulator stores a `.sav` alongside the ROM. Native preview saves
+use separate application-data files. Save-schema changes can invalidate older
+slots; actor health, actor motion and audio playback are transient. See the
+[menu and save guide](examples/menu-saves/README.md).
 
 Dialogue choices have an **Enabled when** condition and **On choose** script;
 prompts and areas have entry scripts, and NPCs have interact/hit/defeat scripts.
@@ -241,3 +290,37 @@ UI/function mapping, semantics, references and remaining engine limits.
 The **Sound & music → + Demo song** button loads *Foundry After Hours*: an eight-bar
 150 BPM song using both pulse channels, wave bass, and noise percussion. The
 [sound studio example](examples/sound-studio/README.md) includes a playable project.
+
+### 0.9.0 additions
+
+Dialogue strings, prompt records, choice rules, and enter-program tables now live
+in resource banks. This fixes the reported Pokémon project failing when a save
+menu was added: fixed-bank space, rather than sprite pixels or total ROM size,
+was the limit. Graphics remain losslessly compressed and deduplicated.
+
+Sprite animations can export/import `.cfanimations` lists for sheets with the
+same grid and frame dimensions. About shows the version and eslab.click.
+Register direct input events in an area's On start script:
+
+```text
+on_press start
+  menu pause_menu
+end
+```
+
+Replace `pause_menu` with your menu scene ID. Normal conditions and script calls
+work inside a handler. See [authoring controls](docs/editor-authoring.md#button-press-events).
+The 0.9.0 macOS package includes the updater; publishing its GitHub release ZIP
+and metadata is a separate release step. Windows implementation is not yet
+verified on Windows.
+
+Open **Help → Documentation book…** (F1) for an offline handbook with whole-book
+search, worked script examples, linked reference chapters and navigation history.
+
+### 0.9.1: Standard MIDI exchange
+
+Sound & music now imports type 0/1 `.mid`/`.midi` files with a conversion review
+and exports standard type 1 MIDI. Timing, notes, tempo, velocity and stereo are
+converted within the editor’s four-channel and pattern limits. MIDI does not
+preserve Game Boy instrument settings. The bundled documentation edition is 0.9.1;
+the 0.9.0 snapshot is retained.

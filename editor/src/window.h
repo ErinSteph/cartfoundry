@@ -17,7 +17,7 @@ class QSpinBox;
 class QTabWidget;
 class QCheckBox;
 namespace cf {
-class ScreenBuilder;class ScriptWorkspace;
+class Updater;class ScreenBuilder;class ScriptWorkspace;
 class GraphView;
 class WorldEditor;
 class EmulatorWidget;
@@ -30,10 +30,12 @@ class Window : public QMainWindow {
 public:
     Window();
     bool openProject(const QString &path);
+    void startUpdater(const QString &job={});
 protected:
     void closeEvent(QCloseEvent *) override;
 private:
     ScreenBuilder *screens;ScriptWorkspace *scriptWorkspace;void projectSettings();
+    Updater *updater;
     Project project;
     GameSession session;
     DataEditor *dataEditor;PixelEditor *pixels;QCheckBox *modal;QComboBox *portrait;QLineEdit *promptId;
@@ -42,6 +44,7 @@ private:
     QVector<Project> undo, redo;
     bool filling = false, building = false, runAfterBuild = false;
     EmulatorWidget *emulator;
+    int previewScene=-1,previewCursor=-1;void previewChoose(int);
     int previewPrompt = 0, previewChoice = 0, previewMenu=-1, previewSide=0, previewItem=0;bool previewReadOnly=false;
     GraphView *graph;
     QListWidget *promptList;

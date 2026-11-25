@@ -54,11 +54,15 @@ per area are supported. Collision and interaction layers are independent.
 Tileset graphics are deduplicated to at most 128 unique tiles per area. Text uses
 its own tile range and GBC palette 7; terrain and the player each use a palette.
 ROMs use MBC5. Event bytecode and splash/screen bitmaps are allocated to 16 KiB
-banks. The gameplay interpreter lives in bank 3; its game data and public helper
-functions remain resident in bank 0. The renderer/map data live in fixed bank 1.
+banks. Sprite frames also use resource banks (see Sprite resource banking below).
+The gameplay interpreter lives in bank 3; its game data and public helper
+functions remain resident in bank 0. World simulation/rendering uses bank 1;
+larger interface drawing routines use bank 2 alongside optional sound/save code.
 The builder checks section endpoints and rejects any fixed-bank overflow. Large
-projects can still hit fixed gameplay-data limits; maps and general assets do not
-yet have arbitrary banking or SRAM save support.
+projects can still hit fixed gameplay-data limits; area/actor descriptors,
+animation bindings and dialogue metadata remain resident. Map layers, collision,
+terrain graphics, screen elements and screen text use resource banks. Optional battery-backed SRAM saves support up to three
+journalled slots; see the menu/save authoring guide.
 
 ## Testing
 
@@ -258,6 +262,16 @@ reversal is a playback flag. Pixel data stays frame-major and unchanged.
 Behavior source adds `flip_h yes/no`, `flip_v yes/no`, `mirror_facing yes/no`.
 Character and clip transforms combine with XOR.
 
+Behavior source also accepts `movement_sprites single|directional` (default
+`single`, so existing projects are unchanged). In `directional` mode the
+commands `on_move_up|down|left|right` and `on_idle_up|down|left|right` each
+name a clip. A direction left as `none` falls back to `on_move`/`on_idle`, then
+to `animation`. The direction is the last facing direction, so an idle
+character keeps facing the way it last moved. The directional commands are an
+error unless `movement_sprites directional` is set. `on_interact` stays a single
+clip. To reuse one side-view clip for both sides, set `mirror_facing yes`, point
+`on_move_left`/`on_idle_left` at the same clip as the right-facing slot.
+
 `systems` adds rngSeed (0–65535, default 44257) and up to eight timers with
 `id,name,source,interval,repeat,autostart,pauseDialogue`. Intervals are 1–65535
 nominal 60 Hz ticks. Timer callbacks compile as ordinary bounded events.
@@ -321,3 +335,52 @@ wave RAM); compact clip descriptors stay fixed. The shared `cf_sound.c` loads
 instrument data safely across ROM banks, sequences all four lanes, and handles
 looping/gating/modulation state. End-user playback does not load external media
 or tools. Preview synthesis and actual mGBA audio are separate output backends.
+
+### Sprite resource banking
+
+ROM sprite frames live in resource banks, separate from the main renderer and
+world code. Identical frame bytes are shared across player/actor sheets and areas;
+frame references preserve authored frame numbers. Each reference stores a bank
+and address. Only the current frame is copied through a bounded 256-byte buffer
+into sprite VRAM. Sheet graphics count toward total ROM capacity; resident frame
+references count toward the fixed gameplay-data budget. Per-frame OAM limits are
+unchanged. Tilesets emit only tiles used by the effective map or terrain rules,
+with identical tile patterns shared within each area.
+
+Interface drawing and optional sound/save code share bank 2; event/game code uses bank 3. Resource banks
+start at bank 4. This leaves more room for event and keyboard runtime code without
+putting graphics back into the runtime code bank. Fixed metadata and main-code
+bank limits still apply.
+
+### Lossless resources and feature selection
+
+Maps, terrain graphics, sprite frames, portraits, platform splashes, screen
+bitmaps and screen text use immutable `CFResource` descriptors. A resource is
+stored raw or as independent 64-byte PackBits blocks, whichever uses fewer bytes
+including the block-offset directory. Each packet encodes either a repeated byte
+or a literal sequence. Random access decodes at most one block into a shared
+64-byte cache; the ROM never allocates a full decompressed map. Collision cells
+are first packed into bits (eight cells per byte), then use the same resource
+codec. Movement, actor behaviour and raycasting still run their shared C logic;
+only the collision accessor differs between preview byte arrays and ROM resources.
+
+Screen/menu element records live in resource banks and are copied one record at
+a time. Encoded screen text has a 511-byte source limit and a bounded decode
+buffer. Cursor movement still updates only marker cells in the active BG map.
+Cross-bank element actions declare their event symbols explicitly. Resource
+reads and decoding execute in resident code and restore the caller's bank before
+returning; interface drawing uses banked calls to bank 2.
+
+The ROM builder omits sound code and voice state when there are neither sound assets nor
+compiled sound commands (built-in sounds count as sound use),
+omits save serialization when cartridge saves are disabled, and omits keyboard
+input/render code when no keyboard layouts are declared. Projects with no world
+scenes also omit movement, actor, animation and raycast code. Native previews retain
+all features. Build logs report stored resource bytes and included/omitted runtime
+features. These optimisations preserve project files, artwork and the explicit
+save-record format; they do not relax per-frame OAM or VRAM limits.
+
+Animation lists (`.cfanimations`) are separate reusable files with
+`format: "CartFoundry animations"`, `version: 1`, `columns`, `rows`, `frameWidth`,
+`frameHeight`, and the asset-format `animations` array. They contain no image or
+palette data. All four geometry values must match the destination sprite sheet.
