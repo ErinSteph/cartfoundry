@@ -43,3 +43,10 @@ uses the public core API and leaves the emulator source unmodified.
 runtime/cf_font.h contains the ASCII glyph subset of GBDK 4.5.0's f_ibm_sh.s.
 It is used by our renderer and previews; GBDK's upstream notices and applicable
 library license/linking exception remain in the bundled toolchain.
+
+Windows packages also contain Microsoft's application-local Visual C++ runtime
+DLLs from the Visual Studio redistribution directory; notices and exact file
+versions are under `resources/licenses/msvc`. Qt's Windows multimedia backend
+bundles FFmpeg 7.1 shared libraries under LGPL 2.1 or later; the license,
+corresponding source link and original build configuration are retained under
+`resources/licenses/ffmpeg`.

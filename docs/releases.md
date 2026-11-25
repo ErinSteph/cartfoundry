@@ -45,3 +45,10 @@ build's exact source commit. This promotes the tested artifacts without rebuildi
 them. The updater feed changes only after all download URLs respond successfully.
 The tag is created with the workflow token, so this promotion does not start a
 second tag build. Directly pushing a version tag still runs the full build pipeline.
+
+Windows packages explicitly copy the Visual C++ redistributable DLLs beside the
+application. `check-windows-runtime.py` scans PE imports before the package smoke
+test, so the runner's preinstalled runtime cannot hide missing app-local DLLs.
+The runtime refresh workflow can add these libraries to an existing tested
+Windows artifact, rerun package checks and update the published checksum/feed
+without recompiling unchanged application code.

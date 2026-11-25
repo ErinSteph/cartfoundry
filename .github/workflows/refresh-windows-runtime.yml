@@ -1,0 +1,88 @@
+name: Refresh Windows runtime bundle
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Successful Desktop packages run containing the Windows build
+        required: true
+        default: '45712875826'
+        type: string
+permissions:
+  contents: write
+  actions: read
+jobs:
+  package:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.run_id }}
+          name: windows-x86_64
+          path: build/original
+      - name: Verify and extract the tested application
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib, json, pathlib, zipfile
+          root = pathlib.Path('build/original')
+          feed = json.loads((root/'stable.json').read_text())
+          item = feed['platforms']['windows-x86_64']
+          archive = root/item['url'].rsplit('/', 1)[1]
+          assert feed['version'] == '0.9.1'
+          assert archive.stat().st_size == item['size']
+          assert hashlib.sha256(archive.read_bytes()).hexdigest() == item['sha256']
+          with zipfile.ZipFile(archive) as z:
+              z.extractall('dist')
+          PY
+      - name: Bundle the redistributable DLLs and notices
+        shell: pwsh
+        run: |
+          Copy-Item -Recurse -Force licenses/ffmpeg, licenses/msvc dist/CartFoundry/resources/licenses/
+          ./scripts/bundle-windows-runtime.ps1 -Root dist/CartFoundry
+          python scripts/check-windows-runtime.py dist/CartFoundry
+          if ($LASTEXITCODE -ne 0) { throw 'Missing runtime DLLs' }
+      - name: Verify bundled compiler and GUI with app-local runtime
+        run: python scripts/verify-package.py dist/CartFoundry
+      - name: Create and validate the corrected archive
+        shell: pwsh
+        run: |
+          python scripts/make-update.py archive --root dist/CartFoundry --output dist/repaired
+          if ($LASTEXITCODE -ne 0) { throw 'Archive failed' }
+          ./dist/CartFoundry/cf-update-helper.exe --verify-archive dist/repaired/CartFoundry-0.9.1-windows-x86_64.zip
+          if ($LASTEXITCODE -ne 0) { throw 'Archive validation failed' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-x86_64-complete-runtime
+          path: dist/repaired/*
+      - name: Publish corrected Windows package and updater hashes
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload v0.9.1 dist/repaired/CartFoundry-0.9.1-windows-x86_64.zip dist/repaired/CartFoundry-0.9.1-windows-x86_64.zip.sha256 --clobber
+          git pull --ff-only origin main
+          python - <<'PY'
+          import json, pathlib, urllib.request
+          path = pathlib.Path('updates/stable.json')
+          feed = json.loads(path.read_text())
+          repaired = json.loads(pathlib.Path('dist/repaired/stable.json').read_text())
+          assert feed['version'] == repaired['version'] == '0.9.1'
+          item = repaired['platforms']['windows-x86_64']
+          with urllib.request.urlopen(urllib.request.Request(item['url'], method='HEAD'), timeout=60) as response:
+              assert response.status == 200
+              assert int(response.headers['Content-Length']) == item['size']
+          feed['platforms']['windows-x86_64'] = item
+          path.write_text(json.dumps(feed, indent=2)+'\n')
+          pathlib.Path('dist/repaired/stable.json').write_text(path.read_text())
+          PY
+          gh release upload v0.9.1 dist/repaired/stable.json --clobber
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add updates/stable.json
+          git commit -m 'Include app-local Windows runtime in the 0.9.1 update package'
+          git push origin main

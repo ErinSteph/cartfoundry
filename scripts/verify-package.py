@@ -6,12 +6,15 @@ import os
 from pathlib import Path
 import subprocess
 import tempfile
+import sys
 import time
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('root', type=Path)
 args = parser.parse_args()
 root = args.root.resolve()
+if os.name == 'nt':
+    subprocess.run([sys.executable, str(Path(__file__).with_name('check-windows-runtime.py')), str(root)], check=True)
 mac = root.suffix == '.app'
 windows = os.name == 'nt'
 resources = root / ('Contents/Resources' if mac else 'resources')

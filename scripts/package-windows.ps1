@@ -23,6 +23,9 @@ if ($LASTEXITCODE -ne 0) { throw "mGBA source archive failed" }
 Copy-Item THIRD_PARTY.md "dist/CartFoundry/resources/"
 windeployqt --release --no-translations "dist/CartFoundry/CartFoundry.exe"
 if ($LASTEXITCODE -ne 0) { throw "Qt deployment failed" }
+& "$PSScriptRoot/bundle-windows-runtime.ps1" -Root "dist/CartFoundry" -Architecture $Architecture
+python scripts/check-windows-runtime.py dist/CartFoundry
+if ($LASTEXITCODE -ne 0) { throw "Incomplete compiler runtime deployment" }
 Write-Output "Packaged: dist/CartFoundry"
 
 python scripts/make-update.py stamp --root dist/CartFoundry --platform "windows-$Architecture"
