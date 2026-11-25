@@ -37,6 +37,7 @@ jobs:
           subprocess.run(['git', 'fetch', 'origin', sha, '--depth=1'], check=True)
           cmake = subprocess.check_output(['git', 'show', sha + ':CMakeLists.txt'], text=True)
           version = re.search(r'project\(CartFoundry VERSION (\d+\.\d+\.\d+)', cmake).group(1)
+          subprocess.run(['git', 'diff', '--exit-code', sha, 'HEAD', '--', 'CMakeLists.txt', 'editor', 'runtime', 'images', 'examples', 'docs/versions/' + version], check=True)
           current = open('CMakeLists.txt').read()
           assert 'project(CartFoundry VERSION ' + version + ' ' in current
           with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
