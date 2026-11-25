@@ -55,6 +55,7 @@ def main():
     libdir.mkdir()
     queue = deque(path for path in root.rglob('*') if not path.is_symlink() and elf(path))
     checked = set()
+    dependency_sources = set()
     while queue:
         binary = queue.popleft()
         if binary in checked:
@@ -69,8 +70,21 @@ def main():
                 continue
             destination = libdir / match[1]
             if not destination.exists():
+                dependency_sources.add(Path(match[2]).resolve())
                 shutil.copy2(Path(match[2]).resolve(), destination)
                 queue.append(destination)
+    # Carry distribution copyright/license notices for every bundled dependency.
+    notices = resources / 'licenses/linux-dependencies'
+    notices.mkdir()
+    for dependency in sorted(dependency_sources):
+        owners = subprocess.run(['dpkg-query', '-S', str(dependency)], text=True, capture_output=True)
+        if owners.returncode:
+            owners = subprocess.run(['dpkg-query', '-S', '*' + dependency.name], text=True, capture_output=True)
+        for line in owners.stdout.splitlines():
+            package = line.split(': ', 1)[0].split(':', 1)[0]
+            copyright_file = Path('/usr/share/doc') / package / 'copyright'
+            if copyright_file.is_file():
+                shutil.copy2(copyright_file, notices / (package + '.txt'))
     # Each executable/library can resolve the bundle without environment setup.
     for binary in checked:
         relative = os.path.relpath(libdir, binary.parent)

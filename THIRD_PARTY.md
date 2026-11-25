@@ -3,7 +3,7 @@
 CartFoundry owns its editor, project format, code generation, preview and C runtime.
 It currently uses these supporting components:
 
-- Qt 6: Core, Gui, Widgets, Concurrent, Multimedia (and Test for developer tests), dynamically
+- Qt 6: Core, Gui, Widgets, Concurrent, Network, Multimedia (and Test for developer tests), dynamically
   linked. Qt is available under LGPLv3/GPLv3 or commercial terms. The package uses
   the open-source distribution; keep libraries replaceable and retain the applicable
   license notices. Official sources: https://code.qt.io/qt/qtbase.git and
@@ -17,9 +17,15 @@ It currently uses these supporting components:
 GBDK archives are pinned by SHA-256 in scripts/fetch-gbdk.cmake. No tools are
 fetched at application runtime. Qt is bundled by the platform deployment tools.
 
-This is a local developer prototype. Before distributing releases, include the
-applicable Qt license texts and matching library source/relinking information,
-review upstream notices and complete signing/notarization for each platform.
+Packages retain Qt license texts under `resources/licenses/qt` (inside
+`Contents/Resources` on macOS). Libraries remain dynamically linked and replaceable.
+Release builds use Qt 6.12.1 on macOS, Qt 6.8.3 on Windows, and Ubuntu 22.04's Qt
+6.2.4 on Linux. Matching Qt sources are available from the official repositories
+above under the corresponding version tags, or Ubuntu's qt6-base/qt6-multimedia
+source packages. Linux packages also include distribution copyright notices for
+bundled shared libraries and Info-ZIP unzip under `resources/licenses`.
+Mac applications are ad-hoc signed; releases are not Apple-notarized or signed
+with a Windows publisher certificate.
 
 ## Embedded emulator
 
