@@ -46,16 +46,24 @@ def main():
     plugins = Path(run(qmake, '-query', 'QT_INSTALL_PLUGINS').strip())
     for category in ('platforms', 'imageformats', 'multimedia', 'audio', 'tls', 'xcbglintegrations', 'platforminputcontexts'):
         if (plugins / category).exists():
-            shutil.copytree(plugins / category, root / 'plugins' / category)
+            destination = root / 'plugins' / category
+            destination.mkdir(parents=True)
+            for plugin in (plugins / category).glob('*.so'):
+                if category == 'platforms' and plugin.name not in ('libqxcb.so', 'libqoffscreen.so'):
+                    continue
+                shutil.copy2(plugin, destination / plugin.name)
     (root / 'qt.conf').write_text('[Paths]\nPlugins=plugins\n')
     # Keep glibc and the dynamic loader supplied by the host. Ship all other
     # dependencies, including those pulled in by Qt plugins and compiler tools.
     system = re.compile(r'^(ld-linux|lib(c|m|pthread|dl|rt|util|resolv|nss_[^.]+)\.so)')
     libdir = root / 'lib'
     libdir.mkdir()
+    # Qt Network loads OpenSSL at runtime, so ldd alone does not discover it.
+    for name in ('libssl.so.3', 'libcrypto.so.3'):
+        shutil.copy2(Path('/usr/lib/x86_64-linux-gnu') / name, libdir / name)
     queue = deque(path for path in root.rglob('*') if not path.is_symlink() and elf(path))
     checked = set()
-    dependency_sources = set()
+    dependency_sources = {Path('/usr/lib/x86_64-linux-gnu') / name for name in ('libssl.so.3', 'libcrypto.so.3')}
     while queue:
         binary = queue.popleft()
         if binary in checked:

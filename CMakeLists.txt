@@ -112,3 +112,8 @@ set_tests_properties(documentation-book PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=
 add_executable(cf-midi-tests tests/midi_tests.cpp)
 target_link_libraries(cf-midi-tests PRIVATE cf_midi cf_emulation Qt6::Test)
 add_test(NAME midi-import-export COMMAND cf-midi-tests)
+
+# ROM-heavy Qt test functions can exceed five minutes on emulated/development
+# machines. Retain a finite timeout while allowing the complete integration run.
+get_property(CF_TEST_NAMES DIRECTORY PROPERTY TESTS)
+set_property(TEST ${CF_TEST_NAMES} APPEND PROPERTY ENVIRONMENT "QTEST_FUNCTION_TIMEOUT=900000")
