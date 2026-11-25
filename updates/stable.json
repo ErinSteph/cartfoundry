@@ -21,8 +21,8 @@
     },
     "windows-x86_64": {
       "url": "https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-windows-x86_64.zip",
-      "size": 51265673,
-      "sha256": "e4475f774827fc45373ce8abf9f7bfdce8a023a50f53fb86549e6fa564d73f37"
+      "size": 51072799,
+      "sha256": "3394932b201e90a38c1566735ac99d8a2b47f97f1cba4756b82df866c6617b5c"
     }
   }
 }
