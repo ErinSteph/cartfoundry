@@ -38,7 +38,8 @@ See [application updates](docs/application-updates.md) and [release packaging](d
 
 ## Try it
 
-Open `CartFoundry.app` after building or packaging it.
+Open `CartFoundry.app` on macOS, `CartFoundry.exe` on Windows, or the
+`CartFoundry` executable on Linux. Keep the supporting files alongside it.
 **File → New Pokemon Example** opens Pocket Meadow,
 a small adventure with grass encounters, battles, catching, healing and a party PC.
 **Help → Pokemon example guide** contains the complete editor recipe, including

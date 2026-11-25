@@ -98,7 +98,6 @@ def main():
         relative = os.path.relpath(libdir, binary.parent)
         rpath = '$ORIGIN' if relative == '.' else '$ORIGIN/' + relative
         subprocess.run(['patchelf', '--set-rpath', rpath, str(binary)], check=True)
-    (root / 'CartFoundry.desktop').write_text('[Desktop Entry]\nType=Application\nName=CartFoundry\nExec=CartFoundry\nIcon=CartFoundry\nCategories=Development;Game;\nTerminal=false\n')
     shutil.copy2(SOURCE / 'images/cf_icon.png', root / 'CartFoundry.png')
     (root / 'README.txt').write_text('CartFoundry for Linux x86_64\n\nExtract the complete folder and open CartFoundry.\nRequires Linux with glibc 2.35 or newer (Ubuntu 22.04 or newer), X11 or XWayland.\nQt, compiler tools and documentation are included. Keep the folder writable for automatic updates.\n')
     subprocess.run([sys.executable, str(SOURCE / 'scripts/make-update.py'), 'stamp', '--root', str(root), '--platform', 'linux-x86_64'], check=True)
