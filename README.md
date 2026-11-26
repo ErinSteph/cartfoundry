@@ -15,14 +15,14 @@ and mGBA emulator core.
 ## Download
 
 Release **0.9.1** packages include Qt, the Game Boy compiler, mGBA, offline
-versioned documentation and the automatic updater. Extract the complete download.
+versioned documentation and the automatic updater.
 
 | Platform | Download | Minimum system |
 | --- | --- | --- |
-| Apple Silicon Mac | [CartFoundry for Apple Silicon](https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-macos-arm64.zip) | macOS 14.4 |
-| Intel Mac | [CartFoundry for Intel](https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-macos-x86_64.zip) | macOS 14.4 |
+| Apple Silicon Mac | [CartFoundry for Apple Silicon](https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-macos-arm64.dmg) | macOS 14.4 |
+| Intel Mac | [CartFoundry for Intel](https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-macos-x86_64.dmg) | macOS 14.4 |
 | Linux x86_64 | [CartFoundry for Linux](https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-linux-x86_64.zip) | glibc 2.35, X11/XWayland (Ubuntu 22.04+) |
-| Windows x86_64 | [CartFoundry for Windows](https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-windows-x86_64.zip) | Windows 10/11, 64-bit |
+| Windows x86_64 | [CartFoundry for Windows](https://github.com/ErinSteph/cartfoundry/releases/download/v0.9.1/CartFoundry-0.9.1-windows-x86_64-setup.exe) | Windows 10/11, 64-bit |
 
 The [0.9.1 release page](https://github.com/ErinSteph/cartfoundry/releases/tag/v0.9.1)
 contains all four verified packages and their SHA-256 checksum files.
@@ -31,9 +31,15 @@ relaunch and rollback. Packaging also checks the bundled compiler and editor sta
 This verifies Windows on the CI runner; broader hardware testing remains welcome.
 Mac builds are ad-hoc signed rather than Apple-notarized; Windows builds are unsigned.
 
-Move `CartFoundry.app` to Applications on macOS. On Linux or Windows, keep the
-extracted `CartFoundry` folder together and run its executable. The folder must be
-writable for automatic updates. Older clients without an updater need one manual install.
+**Mac:** open the `.dmg` and drag CartFoundry onto Applications.
+**Windows:** run the setup `.exe`, then open CartFoundry from Start. The installer
+includes all libraries and compiler tools, installs for your user without admin
+rights, and adds an entry to Windows' installed apps for uninstalling.
+**Linux:** extract the complete folder and run `CartFoundry`.
+
+Automatic updates use separate ZIP payloads containing the same compiled app;
+the installers keep working with that updater. Portable ZIP downloads are also
+available on the release page. Older clients without an updater need one manual install.
 See [application updates](docs/application-updates.md) and [release packaging](docs/releases.md).
 
 ## Try it
