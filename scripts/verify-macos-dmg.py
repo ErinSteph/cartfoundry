@@ -10,7 +10,7 @@ import tempfile
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('image', type=Path)
 args = parser.parse_args()
-with tempfile.TemporaryDirectory(prefix='cartfoundry-dmg-') as work:
+with tempfile.TemporaryDirectory(prefix='cf-dmg-', dir='/tmp') as work:
     mount = Path(work)/'mount'
     result = subprocess.check_output(['/usr/bin/hdiutil', 'attach', '-readonly', '-nobrowse', '-mountpoint', str(mount), '-plist', str(args.image.resolve())])
     try:
