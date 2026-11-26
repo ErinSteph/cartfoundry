@@ -87,11 +87,27 @@ jobs:
       - name: Verify installed Windows package
         if: runner.os == 'Windows'
         run: python scripts/verify-package.py dist/CartFoundry
+      - name: Build and verify Mac drag-to-Applications image
+        if: runner.os == 'macOS'
+        run: |
+          python -m pip install dmgbuild==1.6.5
+          python scripts/package-macos-dmg.py dist/CartFoundry.app --output dist
+          CF_RELEASE_VERSION=$(python -c "import json; print(json.load(open('dist/stable.json'))['version'])")
+          python scripts/verify-macos-dmg.py "dist/CartFoundry-$CF_RELEASE_VERSION-${{ matrix.platform }}.dmg"
+      - name: Build and verify Windows installer
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          ./scripts/package-windows-installer.ps1 -PackageRoot dist/CartFoundry -OutputRoot dist
+          $Version = (Get-Content dist/stable.json -Raw | ConvertFrom-Json).version
+          ./scripts/verify-windows-installer.ps1 -Installer "dist/CartFoundry-$Version-windows-x86_64-setup.exe" -Payload dist/CartFoundry
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.platform }}
           path: |
             dist/CartFoundry-*.zip
+            dist/CartFoundry-*.dmg
+            dist/CartFoundry-*-setup.exe
             dist/CartFoundry-*.sha256
             dist/stable.json
           if-no-files-found: error
@@ -118,7 +134,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" dist/release/CartFoundry-*.zip dist/release/CartFoundry-*.sha256 dist/release/stable.json --verify-tag --title "CartFoundry $GITHUB_REF_NAME" --generate-notes
+          gh release create "$GITHUB_REF_NAME" dist/release/* --verify-tag --title "CartFoundry $GITHUB_REF_NAME" --generate-notes
       - name: Publish updater feed after release assets exist
         env:
           GH_TOKEN: ${{ github.token }}

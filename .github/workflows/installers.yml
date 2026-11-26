@@ -1,0 +1,65 @@
+name: Publish friendly installers
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: friendly-installers
+  cancel-in-progress: false
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-15
+            platform: macos-arm64
+          - os: macos-15-intel
+            platform: macos-x86_64
+          - os: windows-2022
+            platform: windows-x86_64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch the checksum-verified published app
+        id: payload
+        run: python scripts/fetch-release-package.py ${{ matrix.platform }} --output build/payload
+      - name: Make Mac disk image
+        if: runner.os == 'macOS'
+        run: |
+          python -m pip install dmgbuild==1.6.5
+          python scripts/package-macos-dmg.py build/payload/CartFoundry.app --output dist/installers
+          python scripts/verify-macos-dmg.py dist/installers/CartFoundry-${{ steps.payload.outputs.version }}-${{ matrix.platform }}.dmg
+      - name: Make Windows setup executable
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          ./scripts/package-windows-installer.ps1 -PackageRoot build/payload/CartFoundry -OutputRoot dist/installers
+          ./scripts/verify-windows-installer.ps1 -Installer dist/installers/CartFoundry-${{ steps.payload.outputs.version }}-windows-x86_64-setup.exe -Payload build/payload/CartFoundry
+      - uses: actions/upload-artifact@v4
+        with:
+          name: installer-${{ matrix.platform }}
+          path: dist/installers/*
+          if-no-files-found: error
+  publish:
+    needs: package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist/installers
+          merge-multiple: true
+      - name: Publish verified installers beside the updater ZIPs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          CF_RELEASE_VERSION=$(python3 -c "import json; print(json.load(open('updates/stable.json'))['version'])")
+          gh release upload "v$CF_RELEASE_VERSION" dist/installers/*.dmg dist/installers/*-setup.exe dist/installers/*.sha256 --clobber
+          python3 scripts/verify-installer-downloads.py

@@ -116,3 +116,14 @@ so publishing metadata accidentally before an asset does not offer a broken link
 The ZIP tool preserves permissions and stores symlink targets uncompressed.
 Use the generated archives for updates rather than arbitrary third-party ZIPs.
 `cf-update-helper --verify-archive <zip>` performs a read-only archive check.
+
+## Installers and updater payloads
+
+Normal downloads use Mac disk images and a Windows setup executable. Automatic
+updates still use the same app inside platform-specific ZIP files; the feed
+continues to point exclusively to ZIP assets. A separate app executable is not
+needed for the installer.
+
+The Windows installer chooses a writable per-user program folder and keeps its
+uninstaller outside that replaceable folder. Start menu shortcuts continue to
+point to the same executable after an update.

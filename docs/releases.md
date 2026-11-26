@@ -52,3 +52,37 @@ test, so the runner's preinstalled runtime cannot hide missing app-local DLLs.
 The runtime refresh workflow can add these libraries to an existing tested
 Windows artifact, rerun package checks and update the published checksum/feed
 without recompiling unchanged application code.
+
+## Friendly installation downloads
+
+The same compiled app is distributed in two packaging formats. Users install the
+Mac `.dmg` by dragging CartFoundry to its Applications shortcut, or run the Windows
+`-setup.exe` and launch CartFoundry from Start. The updater continues to download
+the existing checksum-verified `.zip` payload; older clients remain compatible.
+
+`scripts/package-macos-dmg.py` uses dmgbuild 1.6.5 on the build machine. It writes
+Finder layout metadata directly, without opening or controlling Finder. The
+image contains the signed app and an Applications shortcut. Its verifier mounts
+it read-only, copies the app into a temporary Applications folder, verifies its
+signature, builds a ROM and launches that copy.
+
+`scripts/package-windows-installer.ps1` uses Inno Setup 6 on the build machine.
+It produces one setup executable containing all program files and runtime DLLs.
+Installation is per-user under `%LOCALAPPDATA%\Programs\CartFoundry`, without an
+administrator prompt, and creates a Start menu shortcut and uninstall entry.
+Uninstaller files are kept in `%LOCALAPPDATA%\CartFoundry\Installer`, outside the
+app folder that automatic updates replace. Keep this location and AppId stable.
+Uninstall removes installed program files while preserving user-created projects.
+
+The Windows installer check performs a real silent installation on a disposable
+native runner, exports a ROM and launches the installed app, replaces its whole
+app directory, checks shortcuts/uninstall support again, and uninstalls while
+checking that a user-created project survives.
+
+For an existing release, run **Publish friendly installers** on `main`. It fetches
+the published ZIPs using the stable feed's sizes and SHA-256 hashes, creates and
+tests both Mac images and the Windows installer, and uploads their own checksum
+files to that release. It never changes the updater feed or its ZIP assets.
+Future Desktop packages builds create and verify these installers automatically.
+Signing status is unchanged: Mac apps are ad-hoc signed and Windows installers
+are unsigned; these wrappers do not provide notarization or a publisher certificate.
